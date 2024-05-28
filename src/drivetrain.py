@@ -10,6 +10,7 @@ import wpimath.geometry
 import wpimath.kinematics
 import swervemodule
 import phoenix6
+
 kMaxSpeed = 3.0  # 3 meters per second
 kMaxAngularSpeed = math.pi  # 1/2 rotation per second
 
@@ -21,10 +22,10 @@ class Drivetrain:
 
     def __init__(self) -> None:
         # change these idk
-        self.frontLeftLocation = wpimath.geometry.Translation2d(0.381, 0.381)
-        self.frontRightLocation = wpimath.geometry.Translation2d(0.381, -0.381)
-        self.backLeftLocation = wpimath.geometry.Translation2d(-0.381, 0.381)
-        self.backRightLocation = wpimath.geometry.Translation2d(-0.381, -0.381)
+        self.frontLeftLocation = wpimath.geometry.Translation2d(0.318, 0.318)
+        self.frontRightLocation = wpimath.geometry.Translation2d(0.318, -0.318)
+        self.backLeftLocation = wpimath.geometry.Translation2d(-0.318, 0.318)
+        self.backRightLocation = wpimath.geometry.Translation2d(-0.318, -0.318)
 
         self.frontLeft = swervemodule.SwerveModule(11, 12, 13)
         self.frontRight = swervemodule.SwerveModule(21, 22, 23)
@@ -41,9 +42,6 @@ class Drivetrain:
         )
 
         self.gyro.reset()
-
-    
-
 
     def drive(
         self,

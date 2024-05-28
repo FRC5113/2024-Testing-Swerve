@@ -17,8 +17,6 @@ class MyRobot(wpilib.TimedRobot):
         self.yspeedLimiter = wpimath.filter.SlewRateLimiter(3)
         self.rotLimiter = wpimath.filter.SlewRateLimiter(3)
 
-        
-
     def autonomousPeriodic(self) -> None:
         self.driveWithJoystick(False)
 

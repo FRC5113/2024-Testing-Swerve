@@ -17,6 +17,7 @@ kWheelRadius = 0.0508
 kModuleMaxAngularVelocity = math.pi
 kModuleMaxAngularAcceleration = math.tau
 
+
 class WPI_TalonFX(phoenix6.hardware.TalonFX, MotorController):
     """Wrapper for the phoenix6 TalonFX that implements
     the wpilib MotorController interface, making it possible
@@ -61,9 +62,13 @@ class WPI_TalonFX(phoenix6.hardware.TalonFX, MotorController):
 
     def setInverted(self, isInverted: bool):
         if isInverted:
-            self.config.motor_output.inverted = phoenix6.signals.InvertedValue.CLOCKWISE_POSITIVE
+            self.config.motor_output.inverted = (
+                phoenix6.signals.InvertedValue.CLOCKWISE_POSITIVE
+            )
         else:
-            self.config.motor_output.inverted = phoenix6.signals.InvertedValue.COUNTER_CLOCKWISE_POSITIVE
+            self.config.motor_output.inverted = (
+                phoenix6.signals.InvertedValue.COUNTER_CLOCKWISE_POSITIVE
+            )
         self.configurator.apply(self.config)
 
     def setVoltage(self, volts: float):
@@ -74,6 +79,7 @@ class WPI_TalonFX(phoenix6.hardware.TalonFX, MotorController):
     def stopMotor(self):
         self.set(0)
 
+
 class SwerveModule:
     def __init__(
         self,
@@ -81,14 +87,11 @@ class SwerveModule:
         turningMotorChannel: int,
         turningEncoderChannel: int,
     ) -> None:
-        """Constructs a SwerveModule with a drive motor, turning motor, drive encoder and turning encoder.
+        """Constructs a SwerveModule with a drive motor, turning motor, and turning encoder.
 
-        :param driveMotorChannel:      PWM output for the drive motor.
-        :param turningMotorChannel:    PWM output for the turning motor.
-        :param driveEncoderChannelA:   DIO input for the drive encoder channel A
-        :param driveEncoderChannelB:   DIO input for the drive encoder channel B
-        :param turningEncoderChannelA: DIO input for the turning encoder channel A
-        :param turningEncoderChannelB: DIO input for the turning encoder channel B
+        :param driveMotorChannel:      CAN ID for the drive motor.
+        :param turningMotorChannel:    CAN ID for the turning motor.
+        :param turningEncoderChannel:  CAN ID for the turning encoder
         """
         self.driveMotor = WPI_TalonFX(driveMotorChannel)
         self.turningMotor = WPI_TalonFX(turningMotorChannel)
@@ -123,7 +126,9 @@ class SwerveModule:
         """
         return wpimath.kinematics.SwerveModuleState(
             self.driveMotor.get_velocity().value,
-            wpimath.geometry.Rotation2d(self.turningEncoder.get_position().value * 2 * math.pi),
+            wpimath.geometry.Rotation2d(
+                self.turningEncoder.get_position().value * 2 * math.pi
+            ),
         )
 
     def getPosition(self) -> wpimath.kinematics.SwerveModulePosition:
@@ -133,7 +138,9 @@ class SwerveModule:
         """
         return wpimath.kinematics.SwerveModulePosition(
             self.driveMotor.get_velocity().value,
-            wpimath.geometry.Rotation2d(self.turningEncoder.get_position().value * 2 * math.pi),
+            wpimath.geometry.Rotation2d(
+                self.turningEncoder.get_position().value * 2 * math.pi
+            ),
         )
 
     def setDesiredState(
@@ -144,7 +151,9 @@ class SwerveModule:
         :param desiredState: Desired state with speed and angle.
         """
 
-        encoderRotation = wpimath.geometry.Rotation2d(self.turningEncoder.get_position().value * 2 * math.pi)
+        encoderRotation = wpimath.geometry.Rotation2d(
+            self.turningEncoder.get_position().value * 2 * math.pi
+        )
 
         # Optimize the reference state to avoid spinning further than 90 degrees
         state = wpimath.kinematics.SwerveModuleState.optimize(
@@ -165,7 +174,8 @@ class SwerveModule:
 
         # Calculate the turning motor output from the turning PID controller.
         turnOutput = self.turningPIDController.calculate(
-            self.turningEncoder.get_position().value * 2 * math.pi, state.angle.radians()
+            self.turningEncoder.get_position().value * 2 * math.pi,
+            state.angle.radians(),
         )
 
         turnFeedforward = self.turnFeedforward.calculate(
@@ -174,3 +184,7 @@ class SwerveModule:
 
         self.driveMotor.setVoltage(driveOutput + driveFeedforward)
         self.turningMotor.setVoltage(turnOutput + turnFeedforward)
+
+        print(
+            f"y: {encoderRotation}, r: {state.angle.radians()}, u: {turnOutput}, ff: {turnFeedforward},"
+        )
