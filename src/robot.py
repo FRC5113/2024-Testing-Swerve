@@ -18,11 +18,11 @@ class MyRobot(wpilib.TimedRobot):
         self.rotLimiter = wpimath.filter.SlewRateLimiter(3)
 
     def autonomousPeriodic(self) -> None:
-        self.driveWithJoystick(False)
+        self.driveWithJoystick(True)
         self.swerve.updateOdometry()
 
     def teleopPeriodic(self) -> None:
-        self.driveWithJoystick(False)
+        self.driveWithJoystick(True)
         if self.controller.getStartButtonPressed:
             self.swerve.updateOdometry
 
