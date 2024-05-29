@@ -17,12 +17,15 @@ class MyRobot(wpilib.TimedRobot):
         self.yspeedLimiter = wpimath.filter.SlewRateLimiter(3)
         self.rotLimiter = wpimath.filter.SlewRateLimiter(3)
 
+        
+
     def autonomousPeriodic(self) -> None:
         self.driveWithJoystick(False)
+        self.swerve.updateOdometry()
 
     def teleopPeriodic(self) -> None:
         self.driveWithJoystick(True)
-
+        
     def driveWithJoystick(self, fieldRelative: bool) -> None:
         # Get the x speed. We are inverting this because Xbox controllers return
         # negative values when we push forward.
