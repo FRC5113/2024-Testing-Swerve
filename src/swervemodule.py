@@ -14,8 +14,8 @@ import wpimath.trajectory
 import phoenix6
 
 kWheelRadius = 0.0508
-kModuleMaxAngularVelocity = math.pi
-kModuleMaxAngularAcceleration = math.tau
+kModuleMaxAngularVelocity = 10
+kModuleMaxAngularAcceleration = 20
 
 
 class WPI_TalonFX(phoenix6.hardware.TalonFX, MotorController):
@@ -98,11 +98,11 @@ class SwerveModule:
         self.turningEncoder = phoenix6.hardware.CANcoder(turningEncoderChannel)
 
         # Gains are for example purposes only - must be determined for your own robot!
-        self.drivePIDController = wpimath.controller.PIDController(1, 0, 0)
+        self.drivePIDController = wpimath.controller.PIDController(0, 0, 0)
 
         # Gains are for example purposes only - must be determined for your own robot!
         self.turningPIDController = wpimath.controller.ProfiledPIDController(
-            1,
+            0.5,
             0,
             0,
             wpimath.trajectory.TrapezoidProfile.Constraints(
@@ -112,8 +112,8 @@ class SwerveModule:
         )
 
         # Gains are for example purposes only - must be determined for your own robot!
-        self.driveFeedforward = wpimath.controller.SimpleMotorFeedforwardMeters(1, 3)
-        self.turnFeedforward = wpimath.controller.SimpleMotorFeedforwardMeters(1, 0.5)
+        self.driveFeedforward = wpimath.controller.SimpleMotorFeedforwardMeters(0.0, 0.5)
+        self.turnFeedforward = wpimath.controller.SimpleMotorFeedforwardMeters(0.12, 0.5)
 
         # Limit the PID Controller's input range between -pi and pi and set the input
         # to be continuous.
@@ -159,6 +159,7 @@ class SwerveModule:
         state = wpimath.kinematics.SwerveModuleState.optimize(
             desiredState, encoderRotation
         )
+        # state = desiredState
 
         # Scale speed by cosine of angle error. This scales down movement perpendicular to the desired
         # direction of travel that can occur when modules change directions. This results in smoother
@@ -183,8 +184,9 @@ class SwerveModule:
         )
 
         self.driveMotor.setVoltage(driveOutput + driveFeedforward)
-        self.turningMotor.setVoltage(turnOutput + turnFeedforward)
-
-        print(
-            f"y: {encoderRotation}, r: {state.angle.radians()}, u: {turnOutput}, ff: {turnFeedforward},"
-        )
+        self.turningMotor.setVoltage(-turnOutput - turnFeedforward)
+        if self.turningEncoder.device_id == 13:
+            print((self.turningEncoder.get_position().value % 1) * 2 * math.pi) 
+            print(
+                f"y: {encoderRotation.radians()}, r: {state.angle.radians()}, u: {turnOutput}, ff: {turnFeedforward},"
+            )

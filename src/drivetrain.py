@@ -21,7 +21,6 @@ class Drivetrain:
     """
 
     def __init__(self) -> None:
-        # change these idk
         self.frontLeftLocation = wpimath.geometry.Translation2d(0.318, 0.318)
         self.frontRightLocation = wpimath.geometry.Translation2d(0.318, -0.318)
         self.backLeftLocation = wpimath.geometry.Translation2d(-0.318, 0.318)
