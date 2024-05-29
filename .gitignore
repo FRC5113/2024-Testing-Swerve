@@ -161,3 +161,9 @@ cython_debug/
 
 # ctre
 ctre_sim/
+
+#sim
+simgui-ds.json
+simgui-window.json
+simgui.json
+networktables.json

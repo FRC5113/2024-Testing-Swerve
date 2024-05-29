@@ -40,6 +40,17 @@ class Drivetrain:
             self.backRightLocation,
         )
 
+        self.odometry = wpimath.kinematics.SwerveDrive4Odometry(
+            self.kinematics,
+            self.gyro.getRotation2d(),
+            (
+                self.frontLeft.getPosition(),
+                self.frontRight.getPosition(),
+                self.backLeft.getPosition(),
+                self.backRight.getPosition(),
+            ),
+        )
+
         self.gyro.reset()
 
     def drive(
@@ -77,3 +88,16 @@ class Drivetrain:
         self.frontRight.setDesiredState(swerveModuleStates[1])
         self.backLeft.setDesiredState(swerveModuleStates[2])
         self.backRight.setDesiredState(swerveModuleStates[3])
+
+
+    def updateOdometry(self) -> None:
+        """Updates the field relative position of the robot."""
+        self.odometry.update(
+            self.gyro.getRotation2d(),
+            (
+                self.frontLeft.getPosition(),
+                self.frontRight.getPosition(),
+                self.backLeft.getPosition(),
+                self.backRight.getPosition(),
+            ),
+        )

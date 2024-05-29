@@ -185,8 +185,10 @@ class SwerveModule:
 
         self.driveMotor.setVoltage(driveOutput + driveFeedforward)
         self.turningMotor.setVoltage(-turnOutput - turnFeedforward)
+       #puts pid stuff in terminal
         if self.turningEncoder.device_id == 13:
             print((self.turningEncoder.get_position().value % 1) * 2 * math.pi) 
             print(
                 f"y: {encoderRotation.radians()}, r: {state.angle.radians()}, u: {turnOutput}, ff: {turnFeedforward},"
             )
+            
