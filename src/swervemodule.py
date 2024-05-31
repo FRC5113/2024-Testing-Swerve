@@ -14,8 +14,6 @@ import wpimath.trajectory
 import phoenix6
 
 kWheelRadius = 0.0508
-kModuleMaxAngularVelocity = 10
-kModuleMaxAngularAcceleration = 20
 
 
 class WPI_TalonFX(phoenix6.hardware.TalonFX, MotorController):
@@ -105,10 +103,7 @@ class SwerveModule:
             0,
             0,
             0,
-            wpimath.trajectory.TrapezoidProfile.Constraints(
-                kModuleMaxAngularVelocity,
-                kModuleMaxAngularAcceleration,
-            ),
+            wpimath.trajectory.TrapezoidProfile.Constraints(0,0),
         )
 
         # Gains are for example purposes only - must be determined for your own robot!
@@ -141,6 +136,20 @@ class SwerveModule:
         Preferences.initDouble("turning_kV", 0.5)
         self.turnFeedforward = wpimath.controller.SimpleMotorFeedforwardMeters(
             self.driveFeedforward.kS, Preferences.getDouble("turning_kV")
+        )
+        Preferences.initDouble("turning_maxV", 10)
+        self.turningPIDController.setConstraints(
+            wpimath.trajectory.TrapezoidProfile.Constraints(
+                Preferences.getDouble("turning_maxV"),
+                self.turningPIDController.getConstraints().maxAcceleration
+            )
+        )
+        Preferences.initDouble("turning_maxA", 20)
+        self.turningPIDController.setConstraints(
+            wpimath.trajectory.TrapezoidProfile.Constraints(
+                self.turningPIDController.getConstraints().maxVelocity,
+                Preferences.getDouble("turning_maxA")
+            )
         )
 
     def getState(self) -> wpimath.kinematics.SwerveModuleState:
@@ -191,7 +200,7 @@ class SwerveModule:
         # Scale speed by cosine of angle error. This scales down movement perpendicular to the desired
         # direction of travel that can occur when modules change directions. This results in smoother
         # driving.
-        state.speed *= (state.angle - encoderRotation).cos()
+        # state.speed *= (state.angle - encoderRotation).cos() * 0.5 + 0.5
 
         # Calculate the drive output from the drive PID controller.
         driveFeedback = self.drivePIDController.calculate(
