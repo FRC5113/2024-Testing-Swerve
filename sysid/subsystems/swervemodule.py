@@ -103,7 +103,7 @@ class SwerveModule:
         # Gains are for example purposes only - must be determined for your own robot!
         self.turningPIDController = wpimath.controller.ProfiledPIDController(
             0,
-            0,
+            0.5,
             0,
             wpimath.trajectory.TrapezoidProfile.Constraints(
                 kModuleMaxAngularVelocity,
@@ -113,38 +113,14 @@ class SwerveModule:
 
         # Gains are for example purposes only - must be determined for your own robot!
         self.driveFeedforward = wpimath.controller.SimpleMotorFeedforwardMeters(0, 0)
-        self.turnFeedforward = wpimath.controller.SimpleMotorFeedforwardMeters(0, 0)
-        self.speedScale = 0
-        self.collectPreferences()
+        self.turnFeedforward = wpimath.controller.SimpleMotorFeedforwardMeters(
+            0.12, 0.5
+        )
+        self.voltage = 0
 
         # Limit the PID Controller's input range between -pi and pi and set the input
         # to be continuous.
         self.turningPIDController.enableContinuousInput(-math.pi, math.pi)
-
-    def collectPreferences(self) -> None:
-        # very lazy, but should work
-        Preferences.initDouble("drive_kP", 0.0)
-        self.drivePIDController.setP(Preferences.getDouble("drive_kP"))
-        Preferences.initDouble("drive_kS", 0.0)
-        self.driveFeedforward = wpimath.controller.SimpleMotorFeedforwardMeters(
-            Preferences.getDouble("drive_kS"), self.driveFeedforward.kV
-        )
-        Preferences.initDouble("drive_kV", 0.5)
-        self.driveFeedforward = wpimath.controller.SimpleMotorFeedforwardMeters(
-            self.driveFeedforward.kS, Preferences.getDouble("drive_kV")
-        )
-        Preferences.initDouble("turning_kP", 0.5)
-        self.turningPIDController.setP(Preferences.getDouble("turning_kP"))
-        Preferences.initDouble("turning_kS", 0.12)
-        self.turnFeedforward = wpimath.controller.SimpleMotorFeedforwardMeters(
-            Preferences.getDouble("turning_kS"), self.turnFeedforward.kV
-        )
-        Preferences.initDouble("turning_kV", 0.5)
-        self.turnFeedforward = wpimath.controller.SimpleMotorFeedforwardMeters(
-            self.driveFeedforward.kS, Preferences.getDouble("turning_kV")
-        )
-        Preferences.initDouble("speed_scale", 1.0)
-        self.speedScale = Preferences.getDouble("speed_scale")
 
     def getState(self) -> wpimath.kinematics.SwerveModuleState:
         """Returns the current state of the module.
@@ -170,6 +146,15 @@ class SwerveModule:
             ),
         )
 
+    def getDriveVoltage(self) -> float:
+        return self.voltage
+
+    def getDrivePosition(self) -> float:
+        return self.driveMotor.get_position().value
+
+    def getDriveVelocity(self) -> float:
+        return self.driveMotor.get_velocity().value
+
     def setDesiredState(
         self, desiredState: wpimath.kinematics.SwerveModuleState
     ) -> None:
@@ -177,9 +162,7 @@ class SwerveModule:
 
         :param desiredState: Desired state with speed and angle.
         """
-
-        # update controllers with new values from networktables
-        self.collectPreferences()
+        # treats speed as voltage for sysid purposes
 
         encoderRotation = wpimath.geometry.Rotation2d(
             self.turningEncoder.get_position().value * 2 * math.pi
@@ -189,21 +172,8 @@ class SwerveModule:
         state = wpimath.kinematics.SwerveModuleState.optimize(
             desiredState, encoderRotation
         )
+        self.voltage = state.speed
         # state = desiredState
-
-        # Scale speed by cosine of angle error. This scales down movement perpendicular to the desired
-        # direction of travel that can occur when modules change directions. This results in smoother
-        # driving.
-        state.speed *= (state.angle - encoderRotation).cos() * self.speedScale + (
-            1 - self.speedScale
-        )
-
-        # Calculate the drive output from the drive PID controller.
-        driveFeedback = self.drivePIDController.calculate(
-            self.driveMotor.get_velocity().value, state.speed
-        )
-
-        driveFeedforward = self.driveFeedforward.calculate(state.speed)
 
         # Calculate the turning motor output (in rad/s) from the turning PID controller.
         turnFeedback = self.turningPIDController.calculate(
@@ -214,10 +184,10 @@ class SwerveModule:
         # convert the supplied velocity from the PID controller to a voltage with the feedforward
         turnOutput = self.turnFeedforward.calculate(turnFeedback)
 
-        self.driveMotor.setVoltage(driveFeedback + driveFeedforward)
+        self.driveMotor.setVoltage(state.speed)
         self.turningMotor.setVoltage(-turnOutput)
         # puts pid stuff in terminal
-        if self.turningEncoder.device_id == 13:
-            print(
-                f"y: {encoderRotation.radians()}, r: {state.angle.radians()}, e: {encoderRotation.radians() - state.angle.radians()}, u: {turnFeedback}, ff: {turnOutput},"
-            )
+        # if self.turningEncoder.device_id == 13:
+        #     print(
+        #         f"y: {encoderRotation.radians()}, r: {state.angle.radians()}, e: {encoderRotation.radians() - state.angle.radians()}, u: {turnFeedback}, ff: {turnOutput},"
+        #     )

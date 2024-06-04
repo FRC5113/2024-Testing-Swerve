@@ -1,0 +1,1914 @@
+Timestamp,Name,Value
+6.869161,"NT:/Preferences/drive_kP",0
+6.869161,"NT:/Preferences/drive_kS",0.12
+6.869161,"NT:/Preferences/drive_kV",0.6
+6.869161,"NT:/Preferences/turning_kP",18
+6.869161,"NT:/Preferences/turning_kS",0.16
+6.869161,"NT:/Preferences/turning_kV",0.375
+6.869161,"NT:/Preferences/turning_maxV",30
+6.869161,"NT:/Preferences/turning_maxA",300
+6.869161,"NT:/Preferences/speed_scale",1
+6.869161,"NT:/Preferences/slew_rate",5
+6.878919,"NT:/FMSInfo/.type","FMSInfo"
+6.878974,"NT:/FMSInfo/GameSpecificMessage",""
+6.878993,"NT:/FMSInfo/EventName",""
+6.87903,"NT:/FMSInfo/MatchNumber",0
+6.879049,"NT:/FMSInfo/ReplayNumber",0
+6.879086,"NT:/FMSInfo/MatchType",0
+6.879178,"NT:/FMSInfo/IsRedAlliance",false
+6.879141,"NT:/FMSInfo/StationNumber",1
+26.582135,"NT:/FMSInfo/FMSControlData",33
+6.880774,"NT:/LiveWindow/.status/LW Enabled",false
+31.86805,"NTConnection","{""connected"":true,""remote_id"":""shuffleboard@1"",""remote_ip"":""10.51.13.237"",""remote_port"":57859,""protocol_version"":1025}"
+31.86805,"NTConnection","{""connected"":true,""remote_id"":""elastic@2"",""remote_ip"":""10.51.13.237"",""remote_port"":57857,""protocol_version"":1025}"
+31.86831,"voltage-drive-left-Drive",0.019904000000000366
+31.869664,"position-drive-left-Drive",-12.79931640625
+31.870295,"velocity-drive-left-Drive",0
+31.870443,"voltage-drive-right-Drive",0.019904000000000366
+31.874413,"position-drive-right-Drive",-14.95947265625
+31.875025,"velocity-drive-right-Drive",0
+31.875099,"sysid-test-state-Drive","quasistatic-forward"
+31.900123,"voltage-drive-left-Drive",0.07356899999999911
+31.900531,"position-drive-left-Drive",-12.79931640625
+31.905373,"velocity-drive-left-Drive",0
+31.905559,"voltage-drive-right-Drive",0.07356899999999911
+31.906096,"position-drive-right-Drive",-14.95947265625
+31.906634,"velocity-drive-right-Drive",0
+31.90669,"sysid-test-state-Drive","quasistatic-forward"
+31.930601,"voltage-drive-left-Drive",0.1016350000000017
+31.932011,"position-drive-left-Drive",-12.79931640625
+31.933495,"velocity-drive-left-Drive",0
+31.933921,"voltage-drive-right-Drive",0.1016350000000017
+31.936778,"position-drive-right-Drive",-14.95947265625
+31.938132,"velocity-drive-right-Drive",0
+31.938707,"sysid-test-state-Drive","quasistatic-forward"
+31.958203,"voltage-drive-left-Drive",0.13662100000000166
+31.958574,"position-drive-left-Drive",-12.79931640625
+31.958927,"velocity-drive-left-Drive",0
+31.959168,"voltage-drive-right-Drive",0.13662100000000166
+31.959539,"position-drive-right-Drive",-14.95947265625
+31.960003,"velocity-drive-right-Drive",0
+31.960058,"sysid-test-state-Drive","quasistatic-forward"
+31.970984,"voltage-drive-left-Drive",0.15504100000000065
+31.971392,"position-drive-left-Drive",-12.79931640625
+31.971745,"velocity-drive-left-Drive",0
+31.971986,"voltage-drive-right-Drive",0.15504100000000065
+31.972524,"position-drive-right-Drive",-14.95947265625
+31.972914,"velocity-drive-right-Drive",0
+31.973081,"sysid-test-state-Drive","quasistatic-forward"
+31.984674,"voltage-drive-left-Drive",0.16670900000000088
+31.985194,"position-drive-left-Drive",-12.79736328125
+31.985806,"velocity-drive-left-Drive",0.298828125
+31.985917,"voltage-drive-right-Drive",0.16670900000000088
+31.986399,"position-drive-right-Drive",-14.955078125
+31.986882,"velocity-drive-right-Drive",0.505859375
+31.986937,"sysid-test-state-Drive","quasistatic-forward"
+31.997103,"voltage-drive-left-Drive",0.1808620000000012
+31.997511,"position-drive-left-Drive",-12.79296875
+31.99803,"velocity-drive-left-Drive",0.212890625
+31.99816,"voltage-drive-right-Drive",0.1808620000000012
+31.998513,"position-drive-right-Drive",-14.955078125
+31.998846,"velocity-drive-right-Drive",0.505859375
+31.999013,"sysid-test-state-Drive","quasistatic-forward"
+32.010199,"voltage-drive-left-Drive",0.19280900000000045
+32.010737,"position-drive-left-Drive",-12.79296875
+32.011108,"velocity-drive-left-Drive",0.212890625
+32.011219,"voltage-drive-right-Drive",0.19280900000000045
+32.011535,"position-drive-right-Drive",-14.94287109375
+32.01185,"velocity-drive-right-Drive",0.619140625
+32.011906,"sysid-test-state-Drive","quasistatic-forward"
+32.022665,"voltage-drive-left-Drive",0.20603500000000352
+32.02337,"position-drive-left-Drive",-12.78173828125
+32.023815,"velocity-drive-left-Drive",0.732421875
+32.023945,"voltage-drive-right-Drive",0.20603500000000352
+32.024279,"position-drive-right-Drive",-14.92529296875
+32.025113,"velocity-drive-right-Drive",0.8828125
+32.025169,"sysid-test-state-Drive","quasistatic-forward"
+32.034852,"voltage-drive-left-Drive",0.21937200000000345
+32.035334,"position-drive-left-Drive",-12.78173828125
+32.035965,"velocity-drive-left-Drive",1.07421875
+32.036095,"voltage-drive-right-Drive",0.21937200000000345
+32.036522,"position-drive-right-Drive",-14.92529296875
+32.037059,"velocity-drive-right-Drive",0.8828125
+32.037134,"sysid-test-state-Drive","quasistatic-forward"
+32.048709,"voltage-drive-left-Drive",0.23118900000000409
+32.049117,"position-drive-left-Drive",-12.76171875
+32.049469,"velocity-drive-left-Drive",1.07421875
+32.049711,"voltage-drive-right-Drive",0.23118900000000409
+32.050063,"position-drive-right-Drive",-14.91650390625
+32.050378,"velocity-drive-right-Drive",0.462890625
+32.050434,"sysid-test-state-Drive","quasistatic-forward"
+32.060377,"voltage-drive-left-Drive",0.24450700000000225
+32.061026,"position-drive-left-Drive",-12.73583984375
+32.062566,"velocity-drive-left-Drive",1.337890625
+32.062863,"voltage-drive-right-Drive",0.24450700000000225
+32.063252,"position-drive-right-Drive",-14.9091796875
+32.063753,"velocity-drive-right-Drive",0.4765625
+32.063809,"sysid-test-state-Drive","quasistatic-forward"
+32.075699,"voltage-drive-left-Drive",0.25997800000000026
+32.076052,"position-drive-left-Drive",-12.72216796875
+32.076367,"velocity-drive-left-Drive",0.53515625
+32.076627,"voltage-drive-right-Drive",0.25997800000000026
+32.076998,"position-drive-right-Drive",-14.9091796875
+32.077332,"velocity-drive-right-Drive",0.4765625
+32.077387,"sysid-test-state-Drive","quasistatic-forward"
+32.094453,"voltage-drive-left-Drive",0.28028999999999726
+32.094861,"position-drive-left-Drive",-12.72216796875
+32.095306,"velocity-drive-left-Drive",0.900390625
+32.095492,"voltage-drive-right-Drive",0.28028999999999726
+32.095844,"position-drive-right-Drive",-14.89501953125
+32.096178,"velocity-drive-right-Drive",0.73828125
+32.096234,"sysid-test-state-Drive","quasistatic-forward"
+32.113782,"voltage-drive-left-Drive",0.30004599999999826
+32.114283,"position-drive-left-Drive",-12.70556640625
+32.114636,"velocity-drive-left-Drive",0.900390625
+32.114821,"voltage-drive-right-Drive",0.30004599999999826
+32.115155,"position-drive-right-Drive",-14.87548828125
+32.115563,"velocity-drive-right-Drive",1.01953125
+32.115619,"sysid-test-state-Drive","quasistatic-forward"
+32.133946,"voltage-drive-left-Drive",0.3201539999999987
+32.134447,"position-drive-left-Drive",-12.6806640625
+32.134799,"velocity-drive-left-Drive",1.373046875
+32.134911,"voltage-drive-right-Drive",0.3201539999999987
+32.135541,"position-drive-right-Drive",-14.85498046875
+32.136061,"velocity-drive-right-Drive",1.107421875
+32.136116,"sysid-test-state-Drive","quasistatic-forward"
+32.154054,"voltage-drive-left-Drive",0.34033700000000167
+32.154425,"position-drive-left-Drive",-12.65673828125
+32.154908,"velocity-drive-left-Drive",1.197265625
+32.155019,"voltage-drive-right-Drive",0.34033700000000167
+32.15552,"position-drive-right-Drive",-14.828125
+32.155872,"velocity-drive-right-Drive",1.388671875
+32.155909,"sysid-test-state-Drive","quasistatic-forward"
+32.174292,"voltage-drive-left-Drive",0.3599070000000033
+32.174645,"position-drive-left-Drive",-12.6279296875
+32.175127,"velocity-drive-left-Drive",1.7421875
+32.17535,"voltage-drive-right-Drive",0.3599070000000033
+32.175776,"position-drive-right-Drive",-14.794921875
+32.17611,"velocity-drive-right-Drive",1.783203125
+32.176147,"sysid-test-state-Drive","quasistatic-forward"
+32.194271,"voltage-drive-left-Drive",0.3800890000000017
+32.194623,"position-drive-left-Drive",-12.59423828125
+32.195105,"velocity-drive-left-Drive",1.83984375
+32.19531,"voltage-drive-right-Drive",0.3800890000000017
+32.195643,"position-drive-right-Drive",-14.76171875
+32.196014,"velocity-drive-right-Drive",2.017578125
+32.19607,"sysid-test-state-Drive","quasistatic-forward"
+32.21373,"voltage-drive-left-Drive",0.3999750000000013
+32.214101,"position-drive-left-Drive",-12.56103515625
+32.214435,"velocity-drive-left-Drive",1.83984375
+32.214527,"voltage-drive-right-Drive",0.3999750000000013
+32.214843,"position-drive-right-Drive",-14.72216796875
+32.215344,"velocity-drive-right-Drive",1.91796875
+32.215418,"sysid-test-state-Drive","quasistatic-forward"
+32.234042,"voltage-drive-left-Drive",0.4198979999999999
+32.234394,"position-drive-left-Drive",-12.52001953125
+32.234728,"velocity-drive-left-Drive",2.029296875
+32.23484,"voltage-drive-right-Drive",0.4198979999999999
+32.235173,"position-drive-right-Drive",-14.68115234375
+32.235693,"velocity-drive-right-Drive",2.33203125
+32.235749,"sysid-test-state-Drive","quasistatic-forward"
+32.254503,"voltage-drive-left-Drive",0.44007999999999825
+32.254874,"position-drive-left-Drive",-12.47998046875
+32.255393,"velocity-drive-left-Drive",2.294921875
+32.255541,"voltage-drive-right-Drive",0.44007999999999825
+32.256005,"position-drive-right-Drive",-14.6357421875
+32.256358,"velocity-drive-right-Drive",2.38671875
+32.256413,"sysid-test-state-Drive","quasistatic-forward"
+32.273887,"voltage-drive-left-Drive",0.45991000000000426
+32.27424,"position-drive-left-Drive",-12.43310546875
+32.274574,"velocity-drive-left-Drive",2.37890625
+32.274704,"voltage-drive-right-Drive",0.45991000000000426
+32.275019,"position-drive-right-Drive",-14.58642578125
+32.275464,"velocity-drive-right-Drive",2.712890625
+32.27552,"sysid-test-state-Drive","quasistatic-forward"
+32.295183,"voltage-drive-left-Drive",0.47996300000000147
+32.295646,"position-drive-left-Drive",-12.3798828125
+32.29598,"velocity-drive-left-Drive",2.841796875
+32.296092,"voltage-drive-right-Drive",0.47996300000000147
+32.296518,"position-drive-right-Drive",-14.533203125
+32.296926,"velocity-drive-right-Drive",2.857421875
+32.296982,"sysid-test-state-Drive","quasistatic-forward"
+32.319576,"voltage-drive-left-Drive",0.5010539999999999
+32.319947,"position-drive-left-Drive",-12.27001953125
+32.320281,"velocity-drive-left-Drive",3.10546875
+32.320392,"voltage-drive-right-Drive",0.5010539999999999
+32.320726,"position-drive-right-Drive",-14.4150390625
+32.32106,"velocity-drive-right-Drive",3.046875
+32.321116,"sysid-test-state-Drive","quasistatic-forward"
+32.333637,"voltage-drive-left-Drive",0.5198819999999991
+32.334008,"position-drive-left-Drive",-12.27001953125
+32.334323,"velocity-drive-left-Drive",3.10546875
+32.334435,"voltage-drive-right-Drive",0.5198819999999991
+32.341539,"position-drive-right-Drive",-14.35009765625
+32.34204,"velocity-drive-right-Drive",3.103515625
+32.342114,"sysid-test-state-Drive","quasistatic-forward"
+32.353615,"voltage-drive-left-Drive",0.5398979999999973
+32.353968,"position-drive-left-Drive",-12.20849609375
+32.354302,"velocity-drive-left-Drive",3.189453125
+32.354431,"voltage-drive-right-Drive",0.5398979999999973
+32.354784,"position-drive-right-Drive",-14.35009765625
+32.355099,"velocity-drive-right-Drive",3.103515625
+32.355155,"sysid-test-state-Drive","quasistatic-forward"
+32.373649,"voltage-drive-left-Drive",0.5599500000000042
+32.37402,"position-drive-left-Drive",-12.14306640625
+32.374354,"velocity-drive-left-Drive",3.427734375
+32.374447,"voltage-drive-right-Drive",0.5599500000000042
+32.374781,"position-drive-right-Drive",-14.28076171875
+32.375115,"velocity-drive-right-Drive",3.53125
+32.37517,"sysid-test-state-Drive","quasistatic-forward"
+32.39359,"voltage-drive-left-Drive",0.5799470000000007
+32.393999,"position-drive-left-Drive",-12.07275390625
+32.394407,"velocity-drive-left-Drive",3.49609375
+32.394537,"voltage-drive-right-Drive",0.5799470000000007
+32.394889,"position-drive-right-Drive",-14.20751953125
+32.401845,"velocity-drive-right-Drive",3.802734375
+32.401938,"sysid-test-state-Drive","quasistatic-forward"
+32.413921,"voltage-drive-left-Drive",0.5999069999999982
+32.414274,"position-drive-left-Drive",-12.001953125
+32.414626,"velocity-drive-left-Drive",3.751953125
+32.414756,"voltage-drive-right-Drive",0.5999069999999982
+32.415127,"position-drive-right-Drive",-14.13037109375
+32.415609,"velocity-drive-right-Drive",3.970703125
+32.415665,"sysid-test-state-Drive","quasistatic-forward"
+32.437239,"voltage-drive-left-Drive",0.620200999999998
+32.437739,"position-drive-left-Drive",-11.84912109375
+32.438222,"velocity-drive-left-Drive",4.0859375
+32.438407,"voltage-drive-right-Drive",0.620200999999998
+32.438723,"position-drive-right-Drive",-14.05029296875
+32.439057,"velocity-drive-right-Drive",4.046875
+32.439112,"sysid-test-state-Drive","quasistatic-forward"
+32.453822,"voltage-drive-left-Drive",0.6399379999999972
+32.454212,"position-drive-left-Drive",-11.84912109375
+32.454546,"velocity-drive-left-Drive",4.0859375
+32.454657,"voltage-drive-right-Drive",0.6399379999999972
+32.454972,"position-drive-right-Drive",-13.9658203125
+32.455547,"velocity-drive-right-Drive",4.31640625
+32.455603,"sysid-test-state-Drive","quasistatic-forward"
+32.473856,"voltage-drive-left-Drive",0.6598980000000019
+32.474209,"position-drive-left-Drive",-11.765625
+32.474561,"velocity-drive-left-Drive",4.0078125
+32.474673,"voltage-drive-right-Drive",0.6598980000000019
+32.475006,"position-drive-right-Drive",-13.873046875
+32.475452,"velocity-drive-right-Drive",4.72265625
+32.475507,"sysid-test-state-Drive","quasistatic-forward"
+32.494707,"voltage-drive-left-Drive",0.680099000000002
+32.495078,"position-drive-left-Drive",-11.58837890625
+32.495504,"velocity-drive-left-Drive",4.646484375
+32.495634,"voltage-drive-right-Drive",0.680099000000002
+32.495986,"position-drive-right-Drive",-13.787109375
+32.49632,"velocity-drive-right-Drive",4.85546875
+32.496376,"sysid-test-state-Drive","quasistatic-forward"
+32.513924,"voltage-drive-left-Drive",0.6999099999999991
+32.514295,"position-drive-left-Drive",-11.58837890625
+32.514629,"velocity-drive-left-Drive",4.646484375
+32.514741,"voltage-drive-right-Drive",0.6999099999999991
+32.515056,"position-drive-right-Drive",-13.6943359375
+32.515483,"velocity-drive-right-Drive",4.513671875
+32.515538,"sysid-test-state-Drive","quasistatic-forward"
+32.534144,"voltage-drive-left-Drive",0.7199630000000035
+32.534496,"position-drive-left-Drive",-11.49560546875
+32.534849,"velocity-drive-left-Drive",4.654296875
+32.53496,"voltage-drive-right-Drive",0.7199630000000035
+32.535535,"position-drive-right-Drive",-13.595703125
+32.535999,"velocity-drive-right-Drive",4.990234375
+32.536054,"sysid-test-state-Drive","quasistatic-forward"
+32.554326,"voltage-drive-left-Drive",0.7399969999999989
+32.554716,"position-drive-left-Drive",-11.40087890625
+32.555068,"velocity-drive-left-Drive",5.095703125
+32.55518,"voltage-drive-right-Drive",0.7399969999999989
+32.55568,"position-drive-right-Drive",-13.49267578125
+32.556033,"velocity-drive-right-Drive",5.3125
+32.55607,"sysid-test-state-Drive","quasistatic-forward"
+32.573785,"voltage-drive-left-Drive",0.7599010000000028
+32.574156,"position-drive-left-Drive",-11.2998046875
+32.574509,"velocity-drive-left-Drive",5.095703125
+32.57462,"voltage-drive-right-Drive",0.7599010000000028
+32.574954,"position-drive-right-Drive",-13.38720703125
+32.575362,"velocity-drive-right-Drive",5.46484375
+32.575418,"sysid-test-state-Drive","quasistatic-forward"
+32.593968,"voltage-drive-left-Drive",0.7798979999999993
+32.594394,"position-drive-left-Drive",-11.19580078125
+32.594728,"velocity-drive-left-Drive",5.43359375
+32.594858,"voltage-drive-right-Drive",0.7798979999999993
+32.595192,"position-drive-right-Drive",-13.27783203125
+32.595619,"velocity-drive-right-Drive",5.5390625
+32.595656,"sysid-test-state-Drive","quasistatic-forward"
+32.613686,"voltage-drive-left-Drive",0.7998939999999983
+32.614057,"position-drive-left-Drive",-11.08837890625
+32.614391,"velocity-drive-left-Drive",5.513671875
+32.614502,"voltage-drive-right-Drive",0.7998939999999983
+32.614966,"position-drive-right-Drive",-13.166015625
+32.615374,"velocity-drive-right-Drive",5.701171875
+32.61543,"sysid-test-state-Drive","quasistatic-forward"
+32.634184,"voltage-drive-left-Drive",0.8199659999999973
+32.634518,"position-drive-left-Drive",-10.97998046875
+32.634889,"velocity-drive-left-Drive",5.419921875
+32.635,"voltage-drive-right-Drive",0.8199659999999973
+32.635445,"position-drive-right-Drive",-13.05224609375
+32.635798,"velocity-drive-right-Drive",5.81640625
+32.635835,"sysid-test-state-Drive","quasistatic-forward"
+32.653866,"voltage-drive-left-Drive",0.8399439999999991
+32.654218,"position-drive-left-Drive",-10.86474609375
+32.654552,"velocity-drive-left-Drive",5.990234375
+32.654663,"voltage-drive-right-Drive",0.8399439999999991
+32.654979,"position-drive-right-Drive",-12.931640625
+32.655479,"velocity-drive-right-Drive",6.341796875
+32.655535,"sysid-test-state-Drive","quasistatic-forward"
+32.674085,"voltage-drive-left-Drive",0.8601630000000036
+32.674437,"position-drive-left-Drive",-10.74658203125
+32.674771,"velocity-drive-left-Drive",5.990234375
+32.674883,"voltage-drive-right-Drive",0.8601630000000036
+32.675309,"position-drive-right-Drive",-12.80859375
+32.67568,"velocity-drive-right-Drive",6.365234375
+32.675736,"sysid-test-state-Drive","quasistatic-forward"
+32.69488,"voltage-drive-left-Drive",0.8801420000000029
+32.695306,"position-drive-left-Drive",-10.62451171875
+32.695677,"velocity-drive-left-Drive",6.251953125
+32.695807,"voltage-drive-right-Drive",0.8801420000000029
+32.696141,"position-drive-right-Drive",-12.68115234375
+32.696475,"velocity-drive-right-Drive",6.4453125
+32.696531,"sysid-test-state-Drive","quasistatic-forward"
+32.714005,"voltage-drive-left-Drive",0.899989999999999
+32.714357,"position-drive-left-Drive",-10.4990234375
+32.714691,"velocity-drive-left-Drive",6.4609375
+32.714802,"voltage-drive-right-Drive",0.899989999999999
+32.715118,"position-drive-right-Drive",-12.55029296875
+32.715563,"velocity-drive-right-Drive",6.7421875
+32.715618,"sysid-test-state-Drive","quasistatic-forward"
+32.734094,"voltage-drive-left-Drive",0.9198940000000029
+32.734447,"position-drive-left-Drive",-10.36962890625
+32.734799,"velocity-drive-left-Drive",6.587890625
+32.73491,"voltage-drive-right-Drive",0.9198940000000029
+32.735448,"position-drive-right-Drive",-12.4140625
+32.735819,"velocity-drive-right-Drive",6.80078125
+32.735875,"sysid-test-state-Drive","quasistatic-forward"
+32.754611,"voltage-drive-left-Drive",0.940411000000001
+32.754963,"position-drive-left-Drive",-10.2392578125
+32.755408,"velocity-drive-left-Drive",6.849609375
+32.75552,"voltage-drive-right-Drive",0.940411000000001
+32.755872,"position-drive-right-Drive",-12.27783203125
+32.756187,"velocity-drive-right-Drive",7.140625
+32.756243,"sysid-test-state-Drive","quasistatic-forward"
+32.773884,"voltage-drive-left-Drive",0.959888000000003
+32.774255,"position-drive-left-Drive",-10.103515625
+32.774589,"velocity-drive-left-Drive",6.845703125
+32.7747,"voltage-drive-right-Drive",0.959888000000003
+32.775016,"position-drive-right-Drive",-12.13525390625
+32.775461,"velocity-drive-right-Drive",7.380859375
+32.775516,"sysid-test-state-Drive","quasistatic-forward"
+32.793751,"voltage-drive-left-Drive",0.9799040000000012
+32.794104,"position-drive-left-Drive",-9.96533203125
+32.794437,"velocity-drive-left-Drive",6.8984375
+32.794549,"voltage-drive-right-Drive",0.9799040000000012
+32.794883,"position-drive-right-Drive",-11.98828125
+32.795309,"velocity-drive-right-Drive",7.64453125
+32.795365,"sysid-test-state-Drive","quasistatic-forward"
+32.813878,"voltage-drive-left-Drive",1.0000490000000006
+32.81423,"position-drive-left-Drive",-9.82373046875
+32.814564,"velocity-drive-left-Drive",6.970703125
+32.814675,"voltage-drive-right-Drive",1.0000490000000006
+32.814991,"position-drive-right-Drive",-11.8388671875
+32.815399,"velocity-drive-right-Drive",7.75390625
+32.815455,"sysid-test-state-Drive","quasistatic-forward"
+32.833763,"voltage-drive-left-Drive",1.0200089999999982
+32.834116,"position-drive-left-Drive",-9.67578125
+32.83445,"velocity-drive-left-Drive",7.6484375
+32.834561,"voltage-drive-right-Drive",1.0200089999999982
+32.834876,"position-drive-right-Drive",-11.685546875
+32.83521,"velocity-drive-right-Drive",7.708984375
+32.83534,"sysid-test-state-Drive","quasistatic-forward"
+32.856432,"voltage-drive-left-Drive",1.0421200000000006
+32.856803,"position-drive-left-Drive",-9.373046875
+32.857155,"velocity-drive-left-Drive",7.9140625
+32.857285,"voltage-drive-right-Drive",1.0421200000000006
+32.857582,"position-drive-right-Drive",-11.52783203125
+32.858045,"velocity-drive-right-Drive",8.03515625
+32.858101,"sysid-test-state-Drive","quasistatic-forward"
+32.874147,"voltage-drive-left-Drive",1.0601140000000022
+32.874536,"position-drive-left-Drive",-9.373046875
+32.874852,"velocity-drive-left-Drive",7.9140625
+32.874963,"voltage-drive-right-Drive",1.0601140000000022
+32.87539,"position-drive-right-Drive",-11.3642578125
+32.875816,"velocity-drive-right-Drive",8.380859375
+32.875872,"sysid-test-state-Drive","quasistatic-forward"
+32.894793,"voltage-drive-left-Drive",1.0802960000000006
+32.895145,"position-drive-left-Drive",-9.21630859375
+32.895609,"velocity-drive-left-Drive",8.103515625
+32.895739,"voltage-drive-right-Drive",1.0802960000000006
+32.896054,"position-drive-right-Drive",-11.1982421875
+32.896388,"velocity-drive-right-Drive",8.365234375
+32.896444,"sysid-test-state-Drive","quasistatic-forward"
+32.914011,"voltage-drive-left-Drive",1.100238000000001
+32.914363,"position-drive-left-Drive",-9.05517578125
+32.914697,"velocity-drive-left-Drive",8.19140625
+32.914808,"voltage-drive-right-Drive",1.100238000000001
+32.915124,"position-drive-right-Drive",-11.029296875
+32.915569,"velocity-drive-right-Drive",8.59765625
+32.915625,"sysid-test-state-Drive","quasistatic-forward"
+32.934156,"voltage-drive-left-Drive",1.1199189999999994
+32.934508,"position-drive-left-Drive",-8.8896484375
+32.934861,"velocity-drive-left-Drive",8.75390625
+32.934972,"voltage-drive-right-Drive",1.1199189999999994
+32.935399,"position-drive-right-Drive",-10.85595703125
+32.935751,"velocity-drive-right-Drive",9.048828125
+32.935807,"sysid-test-state-Drive","quasistatic-forward"
+32.955655,"voltage-drive-left-Drive",1.1400460000000017
+32.956064,"position-drive-left-Drive",-8.71875
+32.956416,"velocity-drive-left-Drive",8.75390625
+32.956527,"voltage-drive-right-Drive",1.1400460000000017
+32.956861,"position-drive-right-Drive",-10.6767578125
+32.957195,"velocity-drive-right-Drive",9.0625
+32.957251,"sysid-test-state-Drive","quasistatic-forward"
+32.974354,"voltage-drive-left-Drive",1.1599869999999974
+32.974725,"position-drive-left-Drive",-8.54345703125
+32.97504,"velocity-drive-left-Drive",8.9765625
+32.975152,"voltage-drive-right-Drive",1.1599869999999974
+32.975578,"position-drive-right-Drive",-10.494140625
+32.975931,"velocity-drive-right-Drive",9.423828125
+32.975986,"sysid-test-state-Drive","quasistatic-forward"
+32.994073,"voltage-drive-left-Drive",1.1800030000000028
+32.994555,"position-drive-left-Drive",-8.3681640625
+32.994926,"velocity-drive-left-Drive",8.9765625
+32.995037,"voltage-drive-right-Drive",1.1800030000000028
+32.995445,"position-drive-right-Drive",-10.30859375
+32.995779,"velocity-drive-right-Drive",9.38671875
+32.995835,"sysid-test-state-Drive","quasistatic-forward"
+33.014255,"voltage-drive-left-Drive",1.1999990000000018
+33.0147,"position-drive-left-Drive",-8.1865234375
+33.015424,"velocity-drive-left-Drive",9.32421875
+33.015553,"voltage-drive-right-Drive",1.1999990000000018
+33.015906,"position-drive-right-Drive",-10.12158203125
+33.01624,"velocity-drive-right-Drive",9.474609375
+33.016295,"sysid-test-state-Drive","quasistatic-forward"
+33.034103,"voltage-drive-left-Drive",1.2199410000000022
+33.034586,"position-drive-left-Drive",-8.00244140625
+33.035012,"velocity-drive-left-Drive",9.3671875
+33.035124,"voltage-drive-right-Drive",1.2199410000000022
+33.03555,"position-drive-right-Drive",-9.9296875
+33.035884,"velocity-drive-right-Drive",9.80078125
+33.03594,"sysid-test-state-Drive","quasistatic-forward"
+33.054508,"voltage-drive-left-Drive",1.239993000000002
+33.054972,"position-drive-left-Drive",-7.61865234375
+33.055492,"velocity-drive-left-Drive",9.923828125
+33.055621,"voltage-drive-right-Drive",1.239993000000002
+33.055955,"position-drive-right-Drive",-9.73046875
+33.056363,"velocity-drive-right-Drive",10.064453125
+33.056401,"sysid-test-state-Drive","quasistatic-forward"
+33.073708,"voltage-drive-left-Drive",1.2598969999999987
+33.074116,"position-drive-left-Drive",-7.61865234375
+33.07445,"velocity-drive-left-Drive",9.923828125
+33.074561,"voltage-drive-right-Drive",1.2598969999999987
+33.075006,"position-drive-right-Drive",-9.52978515625
+33.075433,"velocity-drive-right-Drive",10.390625
+33.075488,"sysid-test-state-Drive","quasistatic-forward"
+33.094372,"voltage-drive-left-Drive",1.2804320000000011
+33.094725,"position-drive-left-Drive",-7.423828125
+33.09517,"velocity-drive-left-Drive",10.18359375
+33.095374,"voltage-drive-right-Drive",1.2804320000000011
+33.095745,"position-drive-right-Drive",-9.32373046875
+33.096153,"velocity-drive-right-Drive",10.30859375
+33.096209,"sysid-test-state-Drive","quasistatic-forward"
+33.113813,"voltage-drive-left-Drive",1.2999279999999978
+33.114202,"position-drive-left-Drive",-7.2265625
+33.114536,"velocity-drive-left-Drive",10.18359375
+33.114648,"voltage-drive-right-Drive",1.2999279999999978
+33.114981,"position-drive-right-Drive",-9.11767578125
+33.115408,"velocity-drive-right-Drive",10.53125
+33.115464,"sysid-test-state-Drive","quasistatic-forward"
+33.13368,"voltage-drive-left-Drive",1.3199440000000031
+33.134069,"position-drive-left-Drive",-7.02490234375
+33.134477,"velocity-drive-left-Drive",10.169921875
+33.134607,"voltage-drive-right-Drive",1.3199440000000031
+33.134941,"position-drive-right-Drive",-8.904296875
+33.135386,"velocity-drive-right-Drive",10.908203125
+33.135442,"sysid-test-state-Drive","quasistatic-forward"
+33.154029,"voltage-drive-left-Drive",1.3399219999999978
+33.154456,"position-drive-left-Drive",-6.8232421875
+33.154864,"velocity-drive-left-Drive",10.470703125
+33.155012,"voltage-drive-right-Drive",1.3399219999999978
+33.15555,"position-drive-right-Drive",-8.68896484375
+33.156088,"velocity-drive-right-Drive",10.904296875
+33.156144,"sysid-test-state-Drive","quasistatic-forward"
+33.173896,"voltage-drive-left-Drive",1.360085999999999
+33.174249,"position-drive-left-Drive",-6.60791015625
+33.174601,"velocity-drive-left-Drive",11.068359375
+33.174712,"voltage-drive-right-Drive",1.360085999999999
+33.175083,"position-drive-right-Drive",-8.46923828125
+33.175584,"velocity-drive-right-Drive",11.166015625
+33.17564,"sysid-test-state-Drive","quasistatic-forward"
+33.193745,"voltage-drive-left-Drive",1.3800640000000008
+33.194097,"position-drive-left-Drive",-6.39306640625
+33.194598,"velocity-drive-left-Drive",10.841796875
+33.194728,"voltage-drive-right-Drive",1.3800640000000008
+33.195062,"position-drive-right-Drive",-8.24560546875
+33.195748,"velocity-drive-right-Drive",11.333984375
+33.195822,"sysid-test-state-Drive","quasistatic-forward"
+33.213816,"voltage-drive-left-Drive",1.3999130000000015
+33.214168,"position-drive-left-Drive",-6.1728515625
+33.214502,"velocity-drive-left-Drive",11.171875
+33.214613,"voltage-drive-right-Drive",1.3999130000000015
+33.214947,"position-drive-right-Drive",-8.015625
+33.215374,"velocity-drive-right-Drive",11.7578125
+33.21543,"sysid-test-state-Drive","quasistatic-forward"
+33.233794,"voltage-drive-left-Drive",1.419984000000003
+33.234147,"position-drive-left-Drive",-5.94921875
+33.234481,"velocity-drive-left-Drive",11.330078125
+33.234592,"voltage-drive-right-Drive",1.419984000000003
+33.234926,"position-drive-right-Drive",-7.7841796875
+33.235352,"velocity-drive-right-Drive",11.890625
+33.235408,"sysid-test-state-Drive","quasistatic-forward"
+33.253995,"voltage-drive-left-Drive",1.4399249999999988
+33.254385,"position-drive-left-Drive",-5.7255859375
+33.25483,"velocity-drive-left-Drive",11.3984375
+33.25496,"voltage-drive-right-Drive",1.4399249999999988
+33.255423,"position-drive-right-Drive",-7.54931640625
+33.255776,"velocity-drive-right-Drive",12.05078125
+33.255832,"sysid-test-state-Drive","quasistatic-forward"
+33.273955,"voltage-drive-left-Drive",1.4599960000000003
+33.274307,"position-drive-left-Drive",-5.4931640625
+33.27466,"velocity-drive-left-Drive",11.560546875
+33.274864,"voltage-drive-right-Drive",1.4599960000000003
+33.275198,"position-drive-right-Drive",-7.306640625
+33.275643,"velocity-drive-right-Drive",12.359375
+33.27568,"sysid-test-state-Drive","quasistatic-forward"
+33.294212,"voltage-drive-left-Drive",1.480363999999998
+33.294564,"position-drive-left-Drive",-5.26171875
+33.294898,"velocity-drive-left-Drive",11.65234375
+33.295102,"voltage-drive-right-Drive",1.480363999999998
+33.295547,"position-drive-right-Drive",-7.06494140625
+33.295881,"velocity-drive-right-Drive",12.3671875
+33.295937,"sysid-test-state-Drive","quasistatic-forward"
+33.313986,"voltage-drive-left-Drive",1.500268000000002
+33.314338,"position-drive-left-Drive",-5.0234375
+33.314672,"velocity-drive-left-Drive",11.939453125
+33.314783,"voltage-drive-right-Drive",1.500268000000002
+33.315117,"position-drive-right-Drive",-6.81591796875
+33.3156,"velocity-drive-right-Drive",12.73046875
+33.315655,"sysid-test-state-Drive","quasistatic-forward"
+33.334001,"voltage-drive-left-Drive",1.5199310000000033
+33.334354,"position-drive-left-Drive",-4.7822265625
+33.334688,"velocity-drive-left-Drive",12.294921875
+33.334799,"voltage-drive-right-Drive",1.5199310000000033
+33.335114,"position-drive-right-Drive",-6.5654296875
+33.335689,"velocity-drive-right-Drive",12.81640625
+33.335764,"sysid-test-state-Drive","quasistatic-forward"
+33.354202,"voltage-drive-left-Drive",1.540113999999999
+33.354555,"position-drive-left-Drive",-4.5361328125
+33.354907,"velocity-drive-left-Drive",12.388671875
+33.355111,"voltage-drive-right-Drive",1.540113999999999
+33.355575,"position-drive-right-Drive",-6.310546875
+33.356094,"velocity-drive-right-Drive",12.880859375
+33.356169,"sysid-test-state-Drive","quasistatic-forward"
+33.373995,"voltage-drive-left-Drive",1.5600729999999992
+33.374366,"position-drive-left-Drive",-4.28564453125
+33.3747,"velocity-drive-left-Drive",12.712890625
+33.374793,"voltage-drive-right-Drive",1.5600729999999992
+33.375127,"position-drive-right-Drive",-6.0537109375
+33.375572,"velocity-drive-right-Drive",13.0703125
+33.375627,"sysid-test-state-Drive","quasistatic-forward"
+33.393862,"voltage-drive-left-Drive",1.5798850000000009
+33.394215,"position-drive-left-Drive",-4.033203125
+33.394548,"velocity-drive-left-Drive",13.046875
+33.39466,"voltage-drive-right-Drive",1.5798850000000009
+33.394975,"position-drive-right-Drive",-5.7900390625
+33.395587,"velocity-drive-right-Drive",13.3515625
+33.395643,"sysid-test-state-Drive","quasistatic-forward"
+33.41397,"voltage-drive-left-Drive",1.5998819999999974
+33.414323,"position-drive-left-Drive",-3.7734375
+33.414657,"velocity-drive-left-Drive",13.189453125
+33.414916,"voltage-drive-right-Drive",1.5998819999999974
+33.415343,"position-drive-right-Drive",-5.52587890625
+33.415695,"velocity-drive-right-Drive",13.4921875
+33.415733,"sysid-test-state-Drive","quasistatic-forward"
+33.433837,"voltage-drive-left-Drive",1.6199710000000032
+33.43419,"position-drive-left-Drive",-3.5107421875
+33.434542,"velocity-drive-left-Drive",13.17578125
+33.434654,"voltage-drive-right-Drive",1.6199710000000032
+33.434987,"position-drive-right-Drive",-5.25439453125
+33.435396,"velocity-drive-right-Drive",13.6953125
+33.435451,"sysid-test-state-Drive","quasistatic-forward"
+33.453779,"voltage-drive-left-Drive",1.6398940000000017
+33.454168,"position-drive-left-Drive",-3.24658203125
+33.454502,"velocity-drive-left-Drive",13.447265625
+33.454613,"voltage-drive-right-Drive",1.6398940000000017
+33.454947,"position-drive-right-Drive",-4.97900390625
+33.455392,"velocity-drive-right-Drive",14.01953125
+33.455448,"sysid-test-state-Drive","quasistatic-forward"
+33.47398,"voltage-drive-left-Drive",1.6599650000000032
+33.474332,"position-drive-left-Drive",-2.9775390625
+33.474666,"velocity-drive-left-Drive",13.453125
+33.474777,"voltage-drive-right-Drive",1.6599650000000032
+33.475111,"position-drive-right-Drive",-4.689453125
+33.475612,"velocity-drive-right-Drive",14.013671875
+33.475668,"sysid-test-state-Drive","quasistatic-forward"
+33.494032,"voltage-drive-left-Drive",1.6801289999999973
+33.494385,"position-drive-left-Drive",-2.70654296875
+33.494718,"velocity-drive-left-Drive",13.87890625
+33.49483,"voltage-drive-right-Drive",1.6801289999999973
+33.495145,"position-drive-right-Drive",-4.41943359375
+33.49559,"velocity-drive-right-Drive",14.478515625
+33.495646,"sysid-test-state-Drive","quasistatic-forward"
+33.513936,"voltage-drive-left-Drive",1.6999960000000023
+33.514307,"position-drive-left-Drive",-2.43115234375
+33.514641,"velocity-drive-left-Drive",13.73046875
+33.514752,"voltage-drive-right-Drive",1.6999960000000023
+33.515068,"position-drive-right-Drive",-4.13671875
+33.515494,"velocity-drive-right-Drive",14.310546875
+33.51555,"sysid-test-state-Drive","quasistatic-forward"
+33.534267,"voltage-drive-left-Drive",1.719899999999999
+33.53462,"position-drive-left-Drive",-2.15478515625
+33.534991,"velocity-drive-left-Drive",14.04296875
+33.535102,"voltage-drive-right-Drive",1.719899999999999
+33.535547,"position-drive-right-Drive",-3.84716796875
+33.535881,"velocity-drive-right-Drive",14.724609375
+33.535918,"sysid-test-state-Drive","quasistatic-forward"
+33.554153,"voltage-drive-left-Drive",1.7399530000000034
+33.554505,"position-drive-left-Drive",-1.87060546875
+33.554839,"velocity-drive-left-Drive",14.484375
+33.55495,"voltage-drive-right-Drive",1.7399530000000034
+33.555358,"position-drive-right-Drive",-3.55712890625
+33.555711,"velocity-drive-right-Drive",14.666015625
+33.555748,"sysid-test-state-Drive","quasistatic-forward"
+33.574224,"voltage-drive-left-Drive",1.75995
+33.574613,"position-drive-left-Drive",-1.58251953125
+33.574947,"velocity-drive-left-Drive",14.5390625
+33.575059,"voltage-drive-right-Drive",1.75995
+33.575485,"position-drive-right-Drive",-3.26171875
+33.575856,"velocity-drive-right-Drive",14.8828125
+33.575912,"sysid-test-state-Drive","quasistatic-forward"
+33.594425,"voltage-drive-left-Drive",1.7799280000000017
+33.594777,"position-drive-left-Drive",-1.29248046875
+33.595093,"velocity-drive-left-Drive",14.923828125
+33.595204,"voltage-drive-right-Drive",1.7799280000000017
+33.59563,"position-drive-right-Drive",-2.96435546875
+33.595964,"velocity-drive-right-Drive",15.24609375
+33.59602,"sysid-test-state-Drive","quasistatic-forward"
+33.613884,"voltage-drive-left-Drive",1.7999990000000032
+33.614236,"position-drive-left-Drive",-0.99853515625
+33.61457,"velocity-drive-left-Drive",14.923828125
+33.6147,"voltage-drive-right-Drive",1.7999990000000032
+33.615034,"position-drive-right-Drive",-2.6611328125
+33.615498,"velocity-drive-right-Drive",15.453125
+33.615535,"sysid-test-state-Drive","quasistatic-forward"
+33.633806,"voltage-drive-left-Drive",1.8199780000000025
+33.634159,"position-drive-left-Drive",-0.69873046875
+33.634493,"velocity-drive-left-Drive",15.248046875
+33.634604,"voltage-drive-right-Drive",1.8199780000000025
+33.634938,"position-drive-right-Drive",-2.353515625
+33.635476,"velocity-drive-right-Drive",15.7890625
+33.635532,"sysid-test-state-Drive","quasistatic-forward"
+33.654137,"voltage-drive-left-Drive",1.8399930000000033
+33.65449,"position-drive-left-Drive",-0.3994140625
+33.654842,"velocity-drive-left-Drive",15.248046875
+33.654953,"voltage-drive-right-Drive",1.8399930000000033
+33.655343,"position-drive-right-Drive",-2.04638671875
+33.655695,"velocity-drive-right-Drive",15.90625
+33.655751,"sysid-test-state-Drive","quasistatic-forward"
+33.674208,"voltage-drive-left-Drive",1.859933999999999
+33.674616,"position-drive-left-Drive",-0.099609375
+33.675006,"velocity-drive-left-Drive",15.15234375
+33.675136,"voltage-drive-right-Drive",1.859933999999999
+33.675637,"position-drive-right-Drive",-1.73291015625
+33.676008,"velocity-drive-right-Drive",15.73046875
+33.676063,"sysid-test-state-Drive","quasistatic-forward"
+33.694446,"voltage-drive-left-Drive",1.8799129999999984
+33.694799,"position-drive-left-Drive",0.21142578125
+33.695133,"velocity-drive-left-Drive",15.564453125
+33.695318,"voltage-drive-right-Drive",1.8799129999999984
+33.695671,"position-drive-right-Drive",-1.41357421875
+33.696246,"velocity-drive-right-Drive",16.158203125
+33.696301,"sysid-test-state-Drive","quasistatic-forward"
+33.714684,"voltage-drive-left-Drive",1.8999649999999981
+33.715037,"position-drive-left-Drive",0.5244140625
+33.715482,"velocity-drive-left-Drive",15.564453125
+33.715593,"voltage-drive-right-Drive",1.8999649999999981
+33.715927,"position-drive-right-Drive",-1.09423828125
+33.716243,"velocity-drive-right-Drive",15.93359375
+33.716298,"sysid-test-state-Drive","quasistatic-forward"
+33.73418,"voltage-drive-left-Drive",1.9201659999999983
+33.73457,"position-drive-left-Drive",0.83740234375
+33.734922,"velocity-drive-left-Drive",15.982421875
+33.735034,"voltage-drive-right-Drive",1.9201659999999983
+33.735442,"position-drive-right-Drive",-0.76708984375
+33.735776,"velocity-drive-right-Drive",16.564453125
+33.735831,"sysid-test-state-Drive","quasistatic-forward"
+33.754567,"voltage-drive-left-Drive",1.940144
+33.754919,"position-drive-left-Drive",1.15478515625
+33.755346,"velocity-drive-left-Drive",16.4609375
+33.755476,"voltage-drive-right-Drive",1.940144
+33.75581,"position-drive-right-Drive",-0.43505859375
+33.756144,"velocity-drive-right-Drive",17.060546875
+33.756199,"sysid-test-state-Drive","quasistatic-forward"
+33.774063,"voltage-drive-left-Drive",1.959973999999999
+33.774415,"position-drive-left-Drive",1.48095703125
+33.774749,"velocity-drive-left-Drive",16.4609375
+33.774861,"voltage-drive-right-Drive",1.959973999999999
+33.775194,"position-drive-right-Drive",-0.10546875
+33.775695,"velocity-drive-right-Drive",16.916015625
+33.775751,"sysid-test-state-Drive","quasistatic-forward"
+33.794282,"voltage-drive-left-Drive",1.9801380000000002
+33.794635,"position-drive-left-Drive",1.8056640625
+33.794969,"velocity-drive-left-Drive",16.51953125
+33.79508,"voltage-drive-right-Drive",1.9801380000000002
+33.795525,"position-drive-right-Drive",0.234375
+33.795859,"velocity-drive-right-Drive",17.119140625
+33.795915,"sysid-test-state-Drive","quasistatic-forward"
+33.814298,"voltage-drive-left-Drive",1.9999310000000001
+33.814669,"position-drive-left-Drive",2.1376953125
+33.815003,"velocity-drive-left-Drive",16.861328125
+33.815114,"voltage-drive-right-Drive",1.9999310000000001
+33.815522,"position-drive-right-Drive",0.572265625
+33.815893,"velocity-drive-right-Drive",16.982421875
+33.815949,"sysid-test-state-Drive","quasistatic-forward"
+33.834536,"voltage-drive-left-Drive",2.0199650000000027
+33.834888,"position-drive-left-Drive",2.47607421875
+33.835389,"velocity-drive-left-Drive",17.052734375
+33.835519,"voltage-drive-right-Drive",2.0199650000000027
+33.835853,"position-drive-right-Drive",0.91455078125
+33.836187,"velocity-drive-right-Drive",17.27734375
+33.836243,"sysid-test-state-Drive","quasistatic-forward"
+33.854403,"voltage-drive-left-Drive",2.0398880000000013
+33.854755,"position-drive-left-Drive",2.8125
+33.855089,"velocity-drive-left-Drive",17.1171875
+33.855201,"voltage-drive-right-Drive",2.0398880000000013
+33.855757,"position-drive-right-Drive",1.2626953125
+33.85611,"velocity-drive-right-Drive",17.36328125
+33.856147,"sysid-test-state-Drive","quasistatic-forward"
+33.874307,"voltage-drive-left-Drive",2.0600150000000035
+33.87466,"position-drive-left-Drive",3.15625
+33.874993,"velocity-drive-left-Drive",17.576171875
+33.875105,"voltage-drive-right-Drive",2.0600150000000035
+33.875569,"position-drive-right-Drive",1.6142578125
+33.875921,"velocity-drive-right-Drive",17.884765625
+33.875958,"sysid-test-state-Drive","quasistatic-forward"
+33.894805,"voltage-drive-left-Drive",2.0803820000000037
+33.895157,"position-drive-left-Drive",3.8505859375
+33.895658,"velocity-drive-left-Drive",17.623046875
+33.895788,"voltage-drive-right-Drive",2.0803820000000037
+33.896122,"position-drive-right-Drive",1.96728515625
+33.896437,"velocity-drive-right-Drive",17.93359375
+33.896493,"sysid-test-state-Drive","quasistatic-forward"
+33.914449,"voltage-drive-left-Drive",2.099916000000004
+33.914857,"position-drive-left-Drive",3.8505859375
+33.915191,"velocity-drive-left-Drive",17.623046875
+33.915377,"voltage-drive-right-Drive",2.099916000000004
+33.915748,"position-drive-right-Drive",2.32421875
+33.9161,"velocity-drive-right-Drive",18.130859375
+33.916156,"sysid-test-state-Drive","quasistatic-forward"
+33.934038,"voltage-drive-left-Drive",2.1199869999999983
+33.934502,"position-drive-left-Drive",4.20556640625
+33.934984,"velocity-drive-left-Drive",18.0234375
+33.935095,"voltage-drive-right-Drive",2.1199869999999983
+33.935541,"position-drive-right-Drive",2.68896484375
+33.935875,"velocity-drive-right-Drive",18.453125
+33.93593,"sysid-test-state-Drive","quasistatic-forward"
+33.954443,"voltage-drive-left-Drive",2.139984000000002
+33.954981,"position-drive-left-Drive",4.560546875
+33.955445,"velocity-drive-left-Drive",17.73828125
+33.955556,"voltage-drive-right-Drive",2.139984000000002
+33.95589,"position-drive-right-Drive",3.05322265625
+33.956242,"velocity-drive-right-Drive",18.583984375
+33.95628,"sysid-test-state-Drive","quasistatic-forward"
+33.974644,"voltage-drive-left-Drive",2.1601660000000003
+33.975163,"position-drive-left-Drive",4.921875
+33.975646,"velocity-drive-left-Drive",18.6796875
+33.975776,"voltage-drive-right-Drive",2.1601660000000003
+33.976091,"position-drive-right-Drive",3.41796875
+33.976425,"velocity-drive-right-Drive",18.546875
+33.976481,"sysid-test-state-Drive","quasistatic-forward"
+33.993695,"voltage-drive-left-Drive",2.1798850000000023
+33.994066,"position-drive-left-Drive",5.287109375
+33.994455,"velocity-drive-left-Drive",18.6796875
+33.994585,"voltage-drive-right-Drive",2.1798850000000023
+33.995179,"position-drive-right-Drive",3.78857421875
+33.995698,"velocity-drive-right-Drive",18.708984375
+33.995754,"sysid-test-state-Drive","quasistatic-forward"
+34.013655,"voltage-drive-left-Drive",2.199974000000001
+34.014007,"position-drive-left-Drive",5.65478515625
+34.01436,"velocity-drive-left-Drive",18.578125
+34.014471,"voltage-drive-right-Drive",2.199974000000001
+34.014879,"position-drive-right-Drive",4.1669921875
+34.015398,"velocity-drive-right-Drive",19.12109375
+34.015547,"sysid-test-state-Drive","quasistatic-forward"
+34.033633,"voltage-drive-left-Drive",2.2198969999999996
+34.034023,"position-drive-left-Drive",6.02587890625
+34.034375,"velocity-drive-left-Drive",18.826171875
+34.034486,"voltage-drive-right-Drive",2.2198969999999996
+34.034802,"position-drive-right-Drive",4.54443359375
+34.03521,"velocity-drive-right-Drive",19.26171875
+34.03534,"sysid-test-state-Drive","quasistatic-forward"
+34.053611,"voltage-drive-left-Drive",2.239894000000003
+34.053982,"position-drive-left-Drive",6.4033203125
+34.054335,"velocity-drive-left-Drive",19.146484375
+34.054446,"voltage-drive-right-Drive",2.239894000000003
+34.054817,"position-drive-right-Drive",4.9296875
+34.055188,"velocity-drive-right-Drive",19.4453125
+34.055318,"sysid-test-state-Drive","quasistatic-forward"
+34.073664,"voltage-drive-left-Drive",2.2600020000000036
+34.074054,"position-drive-left-Drive",6.77587890625
+34.074387,"velocity-drive-left-Drive",19.3046875
+34.074499,"voltage-drive-right-Drive",2.2600020000000036
+34.074833,"position-drive-right-Drive",5.31640625
+34.075148,"velocity-drive-right-Drive",19.458984375
+34.075204,"sysid-test-state-Drive","quasistatic-forward"
+34.094032,"voltage-drive-left-Drive",2.280072999999998
+34.094421,"position-drive-left-Drive",7.15966796875
+34.094774,"velocity-drive-left-Drive",19.458984375
+34.094885,"voltage-drive-right-Drive",2.280072999999998
+34.095219,"position-drive-right-Drive",5.70751953125
+34.095738,"velocity-drive-right-Drive",19.697265625
+34.095794,"sysid-test-state-Drive","quasistatic-forward"
+34.113769,"voltage-drive-left-Drive",2.3000330000000027
+34.114159,"position-drive-left-Drive",7.5439453125
+34.11453,"velocity-drive-left-Drive",19.1953125
+34.114659,"voltage-drive-right-Drive",2.3000330000000027
+34.114993,"position-drive-right-Drive",6.1015625
+34.115457,"velocity-drive-right-Drive",20.24609375
+34.115513,"sysid-test-state-Drive","quasistatic-forward"
+34.133914,"voltage-drive-left-Drive",2.3199000000000005
+34.134267,"position-drive-left-Drive",7.92919921875
+34.134619,"velocity-drive-left-Drive",19.65625
+34.134749,"voltage-drive-right-Drive",2.3199000000000005
+34.135083,"position-drive-right-Drive",6.50439453125
+34.135584,"velocity-drive-right-Drive",20.455078125
+34.13564,"sysid-test-state-Drive","quasistatic-forward"
+34.15367,"voltage-drive-left-Drive",2.3399150000000013
+34.154041,"position-drive-left-Drive",8.326171875
+34.154375,"velocity-drive-left-Drive",20.095703125
+34.154486,"voltage-drive-right-Drive",2.3399150000000013
+34.15482,"position-drive-right-Drive",6.90478515625
+34.155154,"velocity-drive-right-Drive",20.451171875
+34.15521,"sysid-test-state-Drive","quasistatic-forward"
+34.174242,"voltage-drive-left-Drive",2.3603580000000015
+34.174595,"position-drive-left-Drive",8.72021484375
+34.174947,"velocity-drive-left-Drive",20.076171875
+34.175058,"voltage-drive-right-Drive",2.3603580000000015
+34.175503,"position-drive-right-Drive",7.314453125
+34.175856,"velocity-drive-right-Drive",20.376953125
+34.175912,"sysid-test-state-Drive","quasistatic-forward"
+34.193924,"voltage-drive-left-Drive",2.380075999999999
+34.194295,"position-drive-left-Drive",9.12060546875
+34.194666,"velocity-drive-left-Drive",20.328125
+34.194777,"voltage-drive-right-Drive",2.380075999999999
+34.195129,"position-drive-right-Drive",7.71923828125
+34.195575,"velocity-drive-right-Drive",20.666015625
+34.19563,"sysid-test-state-Drive","quasistatic-forward"
+34.214013,"voltage-drive-left-Drive",2.400222000000003
+34.214366,"position-drive-left-Drive",9.52587890625
+34.214737,"velocity-drive-left-Drive",20.4296875
+34.214848,"voltage-drive-right-Drive",2.400222000000003
+34.215182,"position-drive-right-Drive",8.13330078125
+34.215646,"velocity-drive-right-Drive",21.076171875
+34.215701,"sysid-test-state-Drive","quasistatic-forward"
+34.23388,"voltage-drive-left-Drive",2.420089000000001
+34.234233,"position-drive-left-Drive",9.93603515625
+34.234567,"velocity-drive-left-Drive",20.71484375
+34.234678,"voltage-drive-right-Drive",2.420089000000001
+34.235012,"position-drive-right-Drive",8.55029296875
+34.235439,"velocity-drive-right-Drive",21.265625
+34.235494,"sysid-test-state-Drive","quasistatic-forward"
+34.253914,"voltage-drive-left-Drive",2.4399189999999997
+34.254285,"position-drive-left-Drive",10.34619140625
+34.254619,"velocity-drive-left-Drive",21.11328125
+34.254731,"voltage-drive-right-Drive",2.4399189999999997
+34.255064,"position-drive-right-Drive",8.96875
+34.255473,"velocity-drive-right-Drive",21.412109375
+34.255547,"sysid-test-state-Drive","quasistatic-forward"
+34.274449,"voltage-drive-left-Drive",2.4599340000000005
+34.274839,"position-drive-left-Drive",10.7626953125
+34.275191,"velocity-drive-left-Drive",20.923828125
+34.275432,"voltage-drive-right-Drive",2.4599340000000005
+34.275785,"position-drive-right-Drive",9.39404296875
+34.276137,"velocity-drive-right-Drive",21.44921875
+34.276193,"sysid-test-state-Drive","quasistatic-forward"
+34.294409,"voltage-drive-left-Drive",2.480413000000002
+34.294761,"position-drive-left-Drive",11.18017578125
+34.295095,"velocity-drive-left-Drive",21.263671875
+34.295207,"voltage-drive-right-Drive",2.480413000000002
+34.29567,"position-drive-right-Drive",9.81884765625
+34.296041,"velocity-drive-right-Drive",21.296875
+34.296097,"sysid-test-state-Drive","quasistatic-forward"
+34.314146,"voltage-drive-left-Drive",2.5000019999999985
+34.314517,"position-drive-left-Drive",11.60205078125
+34.314851,"velocity-drive-left-Drive",21.263671875
+34.314944,"voltage-drive-right-Drive",2.5000019999999985
+34.31537,"position-drive-right-Drive",10.24755859375
+34.315723,"velocity-drive-right-Drive",21.740234375
+34.315779,"sysid-test-state-Drive","quasistatic-forward"
+34.334106,"voltage-drive-left-Drive",2.5200920000000018
+34.33444,"position-drive-left-Drive",12.0283203125
+34.334774,"velocity-drive-left-Drive",21.486328125
+34.334885,"voltage-drive-right-Drive",2.5200920000000018
+34.335219,"position-drive-right-Drive",10.6796875
+34.335738,"velocity-drive-right-Drive",21.89453125
+34.335794,"sysid-test-state-Drive","quasistatic-forward"
+34.354121,"voltage-drive-left-Drive",2.539939999999998
+34.354492,"position-drive-left-Drive",12.4580078125
+34.354901,"velocity-drive-left-Drive",21.865234375
+34.35503,"voltage-drive-right-Drive",2.539939999999998
+34.35555,"position-drive-right-Drive",11.11572265625
+34.355939,"velocity-drive-right-Drive",22.318359375
+34.355995,"sysid-test-state-Drive","quasistatic-forward"
+34.374118,"voltage-drive-left-Drive",2.5599740000000004
+34.374452,"position-drive-left-Drive",12.8916015625
+34.374786,"velocity-drive-left-Drive",21.8828125
+34.374897,"voltage-drive-right-Drive",2.5599740000000004
+34.375194,"position-drive-right-Drive",11.55517578125
+34.375677,"velocity-drive-right-Drive",22.470703125
+34.375732,"sysid-test-state-Drive","quasistatic-forward"
+34.394041,"voltage-drive-left-Drive",2.579971000000004
+34.394375,"position-drive-left-Drive",13.32373046875
+34.394727,"velocity-drive-left-Drive",21.8203125
+34.394839,"voltage-drive-right-Drive",2.579971000000004
+34.39521,"position-drive-right-Drive",12.00048828125
+34.395655,"velocity-drive-right-Drive",22.25390625
+34.395711,"sysid-test-state-Drive","quasistatic-forward"
+34.414242,"voltage-drive-left-Drive",2.5999859999999977
+34.414613,"position-drive-left-Drive",13.7626953125
+34.414947,"velocity-drive-left-Drive",22.298828125
+34.415058,"voltage-drive-right-Drive",2.5999859999999977
+34.415503,"position-drive-right-Drive",12.44775390625
+34.415837,"velocity-drive-right-Drive",22.373046875
+34.415893,"sysid-test-state-Drive","quasistatic-forward"
+34.434053,"voltage-drive-left-Drive",2.619965000000004
+34.434424,"position-drive-left-Drive",14.20556640625
+34.434814,"velocity-drive-left-Drive",21.998046875
+34.434944,"voltage-drive-right-Drive",2.619965000000004
+34.435426,"position-drive-right-Drive",12.90087890625
+34.435816,"velocity-drive-right-Drive",22.943359375
+34.435871,"sysid-test-state-Drive","quasistatic-forward"
+34.453809,"voltage-drive-left-Drive",2.639906
+34.454162,"position-drive-left-Drive",14.64892578125
+34.454495,"velocity-drive-left-Drive",22.31640625
+34.454607,"voltage-drive-right-Drive",2.639906
+34.454922,"position-drive-right-Drive",13.353515625
+34.455367,"velocity-drive-right-Drive",23.15234375
+34.455423,"sysid-test-state-Drive","quasistatic-forward"
+34.474214,"voltage-drive-left-Drive",2.659921999999998
+34.474567,"position-drive-left-Drive",15.10009765625
+34.4749,"velocity-drive-left-Drive",22.693359375
+34.475012,"voltage-drive-right-Drive",2.659921999999998
+34.475513,"position-drive-right-Drive",13.81396484375
+34.475939,"velocity-drive-right-Drive",23.16796875
+34.475995,"sysid-test-state-Drive","quasistatic-forward"
+34.494749,"voltage-drive-left-Drive",2.680772000000001
+34.495101,"position-drive-left-Drive",15.55078125
+34.495621,"velocity-drive-left-Drive",22.607421875
+34.495751,"voltage-drive-right-Drive",2.680772000000001
+34.49614,"position-drive-right-Drive",14.2744140625
+34.496493,"velocity-drive-right-Drive",23.1328125
+34.496548,"sysid-test-state-Drive","quasistatic-forward"
+34.513948,"voltage-drive-left-Drive",2.6998970000000035
+34.514301,"position-drive-left-Drive",16.00830078125
+34.514635,"velocity-drive-left-Drive",22.95703125
+34.514727,"voltage-drive-right-Drive",2.6998970000000035
+34.51508,"position-drive-right-Drive",14.7373046875
+34.515506,"velocity-drive-right-Drive",23.322265625
+34.515562,"sysid-test-state-Drive","quasistatic-forward"
+34.533945,"voltage-drive-left-Drive",2.7200980000000037
+34.534279,"position-drive-left-Drive",16.4697265625
+34.534613,"velocity-drive-left-Drive",23.130859375
+34.534724,"voltage-drive-right-Drive",2.7200980000000037
+34.535058,"position-drive-right-Drive",15.2099609375
+34.535485,"velocity-drive-right-Drive",23.837890625
+34.53554,"sysid-test-state-Drive","quasistatic-forward"
+34.554257,"voltage-drive-left-Drive",2.740299000000004
+34.55461,"position-drive-left-Drive",16.93310546875
+34.554981,"velocity-drive-left-Drive",23.42578125
+34.555092,"voltage-drive-right-Drive",2.740299000000004
+34.555519,"position-drive-right-Drive",15.68359375
+34.555871,"velocity-drive-right-Drive",23.880859375
+34.555927,"sysid-test-state-Drive","quasistatic-forward"
+34.574384,"voltage-drive-left-Drive",2.7599059999999973
+34.574792,"position-drive-left-Drive",17.4033203125
+34.575126,"velocity-drive-left-Drive",24.05078125
+34.57533,"voltage-drive-right-Drive",2.7599059999999973
+34.575683,"position-drive-right-Drive",16.16162109375
+34.576054,"velocity-drive-right-Drive",24.05078125
+34.576109,"sysid-test-state-Drive","quasistatic-forward"
+34.594622,"voltage-drive-left-Drive",2.780088000000003
+34.595049,"position-drive-left-Drive",17.875
+34.595494,"velocity-drive-left-Drive",24.396484375
+34.595624,"voltage-drive-right-Drive",2.780088000000003
+34.595976,"position-drive-right-Drive",16.6376953125
+34.59631,"velocity-drive-right-Drive",24.431640625
+34.596366,"sysid-test-state-Drive","quasistatic-forward"
+34.614192,"voltage-drive-left-Drive",2.8001970000000007
+34.614563,"position-drive-left-Drive",18.35009765625
+34.614897,"velocity-drive-left-Drive",24.396484375
+34.615009,"voltage-drive-right-Drive",2.8001970000000007
+34.615435,"position-drive-right-Drive",17.1220703125
+34.615769,"velocity-drive-right-Drive",24.396484375
+34.615825,"sysid-test-state-Drive","quasistatic-forward"
+34.634059,"voltage-drive-left-Drive",2.819970999999999
+34.634412,"position-drive-left-Drive",18.82763671875
+34.634764,"velocity-drive-left-Drive",24.2109375
+34.634876,"voltage-drive-right-Drive",2.819970999999999
+34.635191,"position-drive-right-Drive",17.60791015625
+34.635618,"velocity-drive-right-Drive",24.693359375
+34.635673,"sysid-test-state-Drive","quasistatic-forward"
+34.654168,"voltage-drive-left-Drive",2.8398939999999975
+34.654557,"position-drive-left-Drive",19.314453125
+34.65491,"velocity-drive-left-Drive",24.712890625
+34.65504,"voltage-drive-right-Drive",2.8398939999999975
+34.655448,"position-drive-right-Drive",18.0966796875
+34.6558,"velocity-drive-right-Drive",24.8828125
+34.655856,"sysid-test-state-Drive","quasistatic-forward"
+34.674109,"voltage-drive-left-Drive",2.8599830000000033
+34.674461,"position-drive-left-Drive",19.80078125
+34.674851,"velocity-drive-left-Drive",24.732421875
+34.674999,"voltage-drive-right-Drive",2.8599830000000033
+34.675519,"position-drive-right-Drive",18.5888671875
+34.675908,"velocity-drive-right-Drive",24.9375
+34.675964,"sysid-test-state-Drive","quasistatic-forward"
+34.694978,"voltage-drive-left-Drive",2.8799990000000015
+34.695497,"position-drive-left-Drive",20.28857421875
+34.69585,"velocity-drive-left-Drive",25.20703125
+34.695979,"voltage-drive-right-Drive",2.8799990000000015
+34.696295,"position-drive-right-Drive",19.08349609375
+34.696629,"velocity-drive-right-Drive",25.22265625
+34.696684,"sysid-test-state-Drive","quasistatic-forward"
+34.714418,"voltage-drive-left-Drive",2.8999770000000034
+34.714882,"position-drive-left-Drive",20.78662109375
+34.715346,"velocity-drive-left-Drive",25.20703125
+34.715475,"voltage-drive-right-Drive",2.8999770000000034
+34.715828,"position-drive-right-Drive",19.58203125
+34.716162,"velocity-drive-right-Drive",25.513671875
+34.716217,"sysid-test-state-Drive","quasistatic-forward"
+34.734638,"voltage-drive-left-Drive",2.9200479999999978
+34.735027,"position-drive-left-Drive",21.28271484375
+34.735528,"velocity-drive-left-Drive",24.947265625
+34.735658,"voltage-drive-right-Drive",2.9200479999999978
+34.73601,"position-drive-right-Drive",20.08935546875
+34.736344,"velocity-drive-right-Drive",25.57421875
+34.7364,"sysid-test-state-Drive","quasistatic-forward"
+34.754022,"voltage-drive-left-Drive",2.9400080000000024
+34.75443,"position-drive-left-Drive",21.7841796875
+34.754783,"velocity-drive-left-Drive",25.634765625
+34.754913,"voltage-drive-right-Drive",2.9400080000000024
+34.755321,"position-drive-right-Drive",20.59619140625
+34.755692,"velocity-drive-right-Drive",25.814453125
+34.755729,"sysid-test-state-Drive","quasistatic-forward"
+34.773908,"voltage-drive-left-Drive",2.959931000000001
+34.774316,"position-drive-left-Drive",22.287109375
+34.77465,"velocity-drive-left-Drive",25.716796875
+34.77478,"voltage-drive-right-Drive",2.959931000000001
+34.775169,"position-drive-right-Drive",21.10595703125
+34.775596,"velocity-drive-right-Drive",26.1484375
+34.775652,"sysid-test-state-Drive","quasistatic-forward"
+34.793905,"voltage-drive-left-Drive",2.979909000000003
+34.79461,"position-drive-left-Drive",22.79931640625
+34.794981,"velocity-drive-left-Drive",26.107421875
+34.795111,"voltage-drive-right-Drive",2.979909000000003
+34.79576,"position-drive-right-Drive",21.6220703125
+34.796149,"velocity-drive-right-Drive",26.1015625
+34.796205,"sysid-test-state-Drive","quasistatic-forward"
+34.813698,"voltage-drive-left-Drive",2.9998869999999975
+34.814069,"position-drive-left-Drive",23.310546875
+34.814607,"velocity-drive-left-Drive",26.009765625
+34.814736,"voltage-drive-right-Drive",2.9998869999999975
+34.815126,"position-drive-right-Drive",22.14013671875
+34.81572,"velocity-drive-right-Drive",26.060546875
+34.815794,"sysid-test-state-Drive","quasistatic-forward"
+34.833806,"voltage-drive-left-Drive",3.019903000000003
+34.834158,"position-drive-left-Drive",23.82763671875
+34.834678,"velocity-drive-left-Drive",26.38671875
+34.834789,"voltage-drive-right-Drive",3.019903000000003
+34.835123,"position-drive-right-Drive",22.6611328125
+34.835531,"velocity-drive-right-Drive",26.3671875
+34.835587,"sysid-test-state-Drive","quasistatic-forward"
+34.853896,"voltage-drive-left-Drive",3.040029999999998
+34.854248,"position-drive-left-Drive",24.3505859375
+34.854656,"velocity-drive-left-Drive",26.236328125
+34.854879,"voltage-drive-right-Drive",3.040029999999998
+34.855305,"position-drive-right-Drive",23.18212890625
+34.855658,"velocity-drive-right-Drive",26.43359375
+34.855713,"sysid-test-state-Drive","quasistatic-forward"
+34.873874,"voltage-drive-left-Drive",3.0600640000000006
+34.874245,"position-drive-left-Drive",24.875
+34.874616,"velocity-drive-left-Drive",27.19921875
+34.874727,"voltage-drive-right-Drive",3.0600640000000006
+34.875209,"position-drive-right-Drive",23.70703125
+34.875636,"velocity-drive-right-Drive",26.451171875
+34.875692,"sysid-test-state-Drive","quasistatic-forward"
+34.894743,"voltage-drive-left-Drive",3.080226999999997
+34.895095,"position-drive-left-Drive",25.40673828125
+34.895726,"velocity-drive-left-Drive",26.826171875
+34.895856,"voltage-drive-right-Drive",3.080226999999997
+34.89619,"position-drive-right-Drive",24.2333984375
+34.896542,"velocity-drive-right-Drive",26.20703125
+34.896579,"sysid-test-state-Drive","quasistatic-forward"
+34.913979,"voltage-drive-left-Drive",3.0999090000000002
+34.914331,"position-drive-left-Drive",25.93994140625
+34.914647,"velocity-drive-left-Drive",27.517578125
+34.914758,"voltage-drive-right-Drive",3.0999090000000002
+34.915092,"position-drive-right-Drive",24.76708984375
+34.915667,"velocity-drive-right-Drive",27.1875
+34.915704,"sysid-test-state-Drive","quasistatic-forward"
+34.933846,"voltage-drive-left-Drive",3.1200909999999986
+34.934198,"position-drive-left-Drive",26.48583984375
+34.934532,"velocity-drive-left-Drive",27.517578125
+34.934644,"voltage-drive-right-Drive",3.1200909999999986
+34.934978,"position-drive-right-Drive",25.30224609375
+34.935423,"velocity-drive-right-Drive",26.63671875
+34.935478,"sysid-test-state-Drive","quasistatic-forward"
+34.95375,"voltage-drive-left-Drive",3.1400510000000033
+34.954103,"position-drive-left-Drive",27.03515625
+34.954455,"velocity-drive-left-Drive",27.6484375
+34.954585,"voltage-drive-right-Drive",3.1400510000000033
+34.954919,"position-drive-right-Drive",25.8369140625
+34.955308,"velocity-drive-right-Drive",26.79296875
+34.955364,"sysid-test-state-Drive","quasistatic-forward"
+34.973803,"voltage-drive-left-Drive",3.159900000000004
+34.974155,"position-drive-left-Drive",27.5810546875
+34.974489,"velocity-drive-left-Drive",27.126953125
+34.9746,"voltage-drive-right-Drive",3.159900000000004
+34.974934,"position-drive-right-Drive",26.37646484375
+34.975324,"velocity-drive-right-Drive",27.69921875
+34.975379,"sysid-test-state-Drive","quasistatic-forward"
+34.993948,"voltage-drive-left-Drive",3.1799149999999976
+34.9943,"position-drive-left-Drive",28.126953125
+34.994634,"velocity-drive-left-Drive",27.72265625
+34.994746,"voltage-drive-right-Drive",3.1799149999999976
+34.99508,"position-drive-right-Drive",26.9267578125
+34.995525,"velocity-drive-right-Drive",27.541015625
+34.99558,"sysid-test-state-Drive","quasistatic-forward"
+35.013852,"voltage-drive-left-Drive",3.199912000000001
+35.014223,"position-drive-left-Drive",28.6787109375
+35.014557,"velocity-drive-left-Drive",27.84765625
+35.014668,"voltage-drive-right-Drive",3.199912000000001
+35.015002,"position-drive-right-Drive",27.47802734375
+35.015447,"velocity-drive-right-Drive",27.99609375
+35.015503,"sysid-test-state-Drive","quasistatic-forward"
+35.033831,"voltage-drive-left-Drive",3.219927000000002
+35.034183,"position-drive-left-Drive",29.224609375
+35.034535,"velocity-drive-left-Drive",27.5703125
+35.034647,"voltage-drive-right-Drive",3.219927000000002
+35.034962,"position-drive-right-Drive",28.03173828125
+35.035407,"velocity-drive-right-Drive",28.19140625
+35.035463,"sysid-test-state-Drive","quasistatic-forward"
+35.054013,"voltage-drive-left-Drive",3.2399239999999985
+35.054365,"position-drive-left-Drive",29.78369140625
+35.054699,"velocity-drive-left-Drive",28.224609375
+35.054811,"voltage-drive-right-Drive",3.2399239999999985
+35.055144,"position-drive-right-Drive",28.59326171875
+35.05559,"velocity-drive-right-Drive",28.310546875
+35.055645,"sysid-test-state-Drive","quasistatic-forward"
+35.073991,"voltage-drive-left-Drive",3.2600879999999997
+35.074344,"position-drive-left-Drive",30.33935546875
+35.074678,"velocity-drive-left-Drive",28.119140625
+35.074789,"voltage-drive-right-Drive",3.2600879999999997
+35.075123,"position-drive-right-Drive",29.15478515625
+35.075587,"velocity-drive-right-Drive",28.626953125
+35.075642,"sysid-test-state-Drive","quasistatic-forward"
+35.094786,"voltage-drive-left-Drive",3.280289
+35.095138,"position-drive-left-Drive",30.8994140625
+35.095565,"velocity-drive-left-Drive",28.08203125
+35.095695,"voltage-drive-right-Drive",3.280289
+35.096029,"position-drive-right-Drive",29.71875
+35.096344,"velocity-drive-right-Drive",28.24609375
+35.0964,"sysid-test-state-Drive","quasistatic-forward"
+35.114152,"voltage-drive-left-Drive",3.300062999999998
+35.114523,"position-drive-left-Drive",31.46142578125
+35.114857,"velocity-drive-left-Drive",28.08203125
+35.114968,"voltage-drive-right-Drive",3.300062999999998
+35.115376,"position-drive-right-Drive",30.28955078125
+35.115747,"velocity-drive-right-Drive",28.9609375
+35.115803,"sysid-test-state-Drive","quasistatic-forward"
+35.134205,"voltage-drive-left-Drive",3.320135000000004
+35.134557,"position-drive-left-Drive",32.02880859375
+35.134891,"velocity-drive-left-Drive",28.716796875
+35.135002,"voltage-drive-right-Drive",3.320135000000004
+35.135429,"position-drive-right-Drive",30.86328125
+35.135781,"velocity-drive-right-Drive",28.904296875
+35.135837,"sysid-test-state-Drive","quasistatic-forward"
+35.154257,"voltage-drive-left-Drive",3.340076
+35.154628,"position-drive-left-Drive",32.59765625
+35.154962,"velocity-drive-left-Drive",28.673828125
+35.155055,"voltage-drive-right-Drive",3.340076
+35.155481,"position-drive-right-Drive",31.4443359375
+35.155815,"velocity-drive-right-Drive",29.095703125
+35.155871,"sysid-test-state-Drive","quasistatic-forward"
+35.175311,"voltage-drive-left-Drive",3.360648000000001
+35.175701,"position-drive-left-Drive",33.7451171875
+35.176053,"velocity-drive-left-Drive",29.16796875
+35.176165,"voltage-drive-right-Drive",3.360648000000001
+35.176499,"position-drive-right-Drive",32.0283203125
+35.176832,"velocity-drive-right-Drive",29.4296875
+35.176888,"sysid-test-state-Drive","quasistatic-forward"
+35.194659,"voltage-drive-left-Drive",3.380087999999997
+35.19503,"position-drive-left-Drive",33.7451171875
+35.195587,"velocity-drive-left-Drive",29.16796875
+35.195716,"voltage-drive-right-Drive",3.380087999999997
+35.196069,"position-drive-right-Drive",32.61279296875
+35.196403,"velocity-drive-right-Drive",29.705078125
+35.196477,"sysid-test-state-Drive","quasistatic-forward"
+35.213932,"voltage-drive-left-Drive",3.399992000000001
+35.214285,"position-drive-left-Drive",34.32861328125
+35.214619,"velocity-drive-left-Drive",29.689453125
+35.214712,"voltage-drive-right-Drive",3.399992000000001
+35.215027,"position-drive-right-Drive",33.2080078125
+35.215491,"velocity-drive-right-Drive",30.3203125
+35.215546,"sysid-test-state-Drive","quasistatic-forward"
+35.234041,"voltage-drive-left-Drive",3.4199889999999975
+35.234412,"position-drive-left-Drive",34.91015625
+35.234746,"velocity-drive-left-Drive",29.400390625
+35.234838,"voltage-drive-right-Drive",3.4199889999999975
+35.235154,"position-drive-right-Drive",33.8017578125
+35.235617,"velocity-drive-right-Drive",29.724609375
+35.235655,"sysid-test-state-Drive","quasistatic-forward"
+35.253871,"voltage-drive-left-Drive",3.4399300000000004
+35.254223,"position-drive-left-Drive",35.49560546875
+35.254576,"velocity-drive-left-Drive",29.611328125
+35.254687,"voltage-drive-right-Drive",3.4399300000000004
+35.255021,"position-drive-right-Drive",34.40185546875
+35.255447,"velocity-drive-right-Drive",30.353515625
+35.255503,"sysid-test-state-Drive","quasistatic-forward"
+35.27383,"voltage-drive-left-Drive",3.4599459999999986
+35.274164,"position-drive-left-Drive",36.087890625
+35.274517,"velocity-drive-left-Drive",30.0859375
+35.274628,"voltage-drive-right-Drive",3.4599459999999986
+35.274943,"position-drive-right-Drive",35.00439453125
+35.275426,"velocity-drive-right-Drive",30.26953125
+35.275481,"sysid-test-state-Drive","quasistatic-forward"
+35.29431,"voltage-drive-left-Drive",3.4799240000000005
+35.294662,"position-drive-left-Drive",36.681640625
+35.294996,"velocity-drive-left-Drive",29.689453125
+35.295107,"voltage-drive-right-Drive",3.4799240000000005
+35.29559,"position-drive-right-Drive",35.60693359375
+35.295942,"velocity-drive-right-Drive",30.58984375
+35.295998,"sysid-test-state-Drive","quasistatic-forward"
+35.313917,"voltage-drive-left-Drive",3.4999399999999987
+35.314288,"position-drive-left-Drive",37.27685546875
+35.314622,"velocity-drive-left-Drive",30.033203125
+35.314733,"voltage-drive-right-Drive",3.4999399999999987
+35.315067,"position-drive-right-Drive",36.21533203125
+35.315568,"velocity-drive-right-Drive",30.62109375
+35.315605,"sysid-test-state-Drive","quasistatic-forward"
+35.333951,"voltage-drive-left-Drive",3.5199000000000034
+35.334303,"position-drive-left-Drive",37.87744140625
+35.334656,"velocity-drive-left-Drive",30.45703125
+35.334786,"voltage-drive-right-Drive",3.5199000000000034
+35.33512,"position-drive-right-Drive",36.8271484375
+35.335583,"velocity-drive-right-Drive",30.708984375
+35.335639,"sysid-test-state-Drive","quasistatic-forward"
+35.35443,"voltage-drive-left-Drive",3.540305
+35.354801,"position-drive-left-Drive",38.4775390625
+35.355135,"velocity-drive-left-Drive",30.44921875
+35.355339,"voltage-drive-right-Drive",3.540305
+35.355692,"position-drive-right-Drive",37.443359375
+35.356044,"velocity-drive-right-Drive",30.904296875
+35.3561,"sysid-test-state-Drive","quasistatic-forward"
+35.374149,"voltage-drive-left-Drive",3.560209000000004
+35.374501,"position-drive-left-Drive",39.083984375
+35.374835,"velocity-drive-left-Drive",30.552734375
+35.374946,"voltage-drive-right-Drive",3.560209000000004
+35.375355,"position-drive-right-Drive",38.0595703125
+35.375707,"velocity-drive-right-Drive",31.251953125
+35.375744,"sysid-test-state-Drive","quasistatic-forward"
+35.39422,"voltage-drive-left-Drive",3.5799270000000014
+35.394591,"position-drive-left-Drive",39.68701171875
+35.394943,"velocity-drive-left-Drive",30.54296875
+35.395055,"voltage-drive-right-Drive",3.5799270000000014
+35.395537,"position-drive-right-Drive",38.68310546875
+35.395889,"velocity-drive-right-Drive",31.8046875
+35.395945,"sysid-test-state-Drive","quasistatic-forward"
+35.413976,"voltage-drive-left-Drive",3.5999799999999986
+35.414328,"position-drive-left-Drive",40.3017578125
+35.414681,"velocity-drive-left-Drive",30.8125
+35.414792,"voltage-drive-right-Drive",3.5999799999999986
+35.415126,"position-drive-right-Drive",39.3134765625
+35.41559,"velocity-drive-right-Drive",31.818359375
+35.415645,"sysid-test-state-Drive","quasistatic-forward"
+35.433973,"voltage-drive-left-Drive",3.619902999999997
+35.434325,"position-drive-left-Drive",40.9150390625
+35.434733,"velocity-drive-left-Drive",31.306640625
+35.434863,"voltage-drive-right-Drive",3.619902999999997
+35.435197,"position-drive-right-Drive",39.94287109375
+35.435624,"velocity-drive-right-Drive",31.814453125
+35.435679,"sysid-test-state-Drive","quasistatic-forward"
+35.454248,"voltage-drive-left-Drive",3.6401039999999973
+35.4546,"position-drive-left-Drive",41.53076171875
+35.455027,"velocity-drive-left-Drive",30.91015625
+35.455138,"voltage-drive-right-Drive",3.6401039999999973
+35.455565,"position-drive-right-Drive",40.58251953125
+35.455917,"velocity-drive-right-Drive",32.423828125
+35.455954,"sysid-test-state-Drive","quasistatic-forward"
+35.474208,"voltage-drive-left-Drive",3.6599710000000023
+35.474579,"position-drive-left-Drive",42.1552734375
+35.475042,"velocity-drive-left-Drive",31.5078125
+35.475154,"voltage-drive-right-Drive",3.6599710000000023
+35.47558,"position-drive-right-Drive",41.2216796875
+35.475914,"velocity-drive-right-Drive",32.388671875
+35.475951,"sysid-test-state-Drive","quasistatic-forward"
+35.494984,"voltage-drive-left-Drive",3.679949000000004
+35.495559,"position-drive-left-Drive",42.7841796875
+35.495911,"velocity-drive-left-Drive",32.001953125
+35.496041,"voltage-drive-right-Drive",3.679949000000004
+35.496356,"position-drive-right-Drive",41.86474609375
+35.496709,"velocity-drive-right-Drive",32.34375
+35.496764,"sysid-test-state-Drive","quasistatic-forward"
+35.51409,"voltage-drive-left-Drive",3.6999090000000017
+35.514461,"position-drive-left-Drive",43.41650390625
+35.514851,"velocity-drive-left-Drive",32.001953125
+35.514962,"voltage-drive-right-Drive",3.6999090000000017
+35.515444,"position-drive-right-Drive",42.505859375
+35.515815,"velocity-drive-right-Drive",32.80078125
+35.515871,"sysid-test-state-Drive","quasistatic-forward"
+35.533697,"voltage-drive-left-Drive",3.719942999999997
+35.534105,"position-drive-left-Drive",44.0498046875
+35.534458,"velocity-drive-left-Drive",31.912109375
+35.534569,"voltage-drive-right-Drive",3.719942999999997
+35.534903,"position-drive-right-Drive",43.1533203125
+35.535237,"velocity-drive-right-Drive",32.765625
+35.535423,"sysid-test-state-Drive","quasistatic-forward"
+35.553861,"voltage-drive-left-Drive",3.7399400000000007
+35.554603,"position-drive-left-Drive",44.68798828125
+35.555011,"velocity-drive-left-Drive",32.08984375
+35.555141,"voltage-drive-right-Drive",3.7399400000000007
+35.555568,"position-drive-right-Drive",43.8017578125
+35.55592,"velocity-drive-right-Drive",32.5234375
+35.555976,"sysid-test-state-Drive","quasistatic-forward"
+35.573747,"voltage-drive-left-Drive",3.7598990000000008
+35.574099,"position-drive-left-Drive",45.32958984375
+35.574433,"velocity-drive-left-Drive",32.7890625
+35.574544,"voltage-drive-right-Drive",3.7598990000000008
+35.574915,"position-drive-right-Drive",44.45703125
+35.575379,"velocity-drive-right-Drive",33.025390625
+35.575435,"sysid-test-state-Drive","quasistatic-forward"
+35.594226,"voltage-drive-left-Drive",3.780100000000001
+35.594578,"position-drive-left-Drive",45.97509765625
+35.594931,"velocity-drive-left-Drive",32.439453125
+35.595042,"voltage-drive-right-Drive",3.780100000000001
+35.595506,"position-drive-right-Drive",45.1123046875
+35.595914,"velocity-drive-right-Drive",33.361328125
+35.59597,"sysid-test-state-Drive","quasistatic-forward"
+35.614408,"voltage-drive-left-Drive",3.7999860000000005
+35.614835,"position-drive-left-Drive",46.62255859375
+35.615206,"velocity-drive-left-Drive",32.58203125
+35.615484,"voltage-drive-right-Drive",3.7999860000000005
+35.615874,"position-drive-right-Drive",45.77099609375
+35.616282,"velocity-drive-right-Drive",33.263671875
+35.616338,"sysid-test-state-Drive","quasistatic-forward"
+35.633904,"voltage-drive-left-Drive",3.8200389999999977
+35.634257,"position-drive-left-Drive",47.2734375
+35.634609,"velocity-drive-left-Drive",33.05859375
+35.634721,"voltage-drive-right-Drive",3.8200389999999977
+35.635073,"position-drive-right-Drive",46.43701171875
+35.635481,"velocity-drive-right-Drive",33.501953125
+35.635537,"sysid-test-state-Drive","quasistatic-forward"
+35.654347,"voltage-drive-left-Drive",3.8400169999999996
+35.654736,"position-drive-left-Drive",47.93359375
+35.655089,"velocity-drive-left-Drive",33.36328125
+35.6552,"voltage-drive-right-Drive",3.8400169999999996
+35.655627,"position-drive-right-Drive",47.10888671875
+35.655979,"velocity-drive-right-Drive",34.14453125
+35.656035,"sysid-test-state-Drive","quasistatic-forward"
+35.674362,"voltage-drive-left-Drive",3.8601810000000008
+35.674714,"position-drive-left-Drive",48.5947265625
+35.675067,"velocity-drive-left-Drive",33.314453125
+35.675178,"voltage-drive-right-Drive",3.8601810000000008
+35.675605,"position-drive-right-Drive",47.78271484375
+35.675939,"velocity-drive-right-Drive",33.76171875
+35.675994,"sysid-test-state-Drive","quasistatic-forward"
+35.694804,"voltage-drive-left-Drive",3.880437000000004
+35.695509,"position-drive-left-Drive",49.93701171875
+35.695899,"velocity-drive-left-Drive",34.361328125
+35.69601,"voltage-drive-right-Drive",3.880437000000004
+35.696362,"position-drive-right-Drive",48.458984375
+35.696696,"velocity-drive-right-Drive",34.171875
+35.696733,"sysid-test-state-Drive","quasistatic-forward"
+35.713966,"voltage-drive-left-Drive",3.8999150000000036
+35.714356,"position-drive-left-Drive",49.93701171875
+35.714708,"velocity-drive-left-Drive",34.361328125
+35.71482,"voltage-drive-right-Drive",3.8999150000000036
+35.715172,"position-drive-right-Drive",49.14013671875
+35.715673,"velocity-drive-right-Drive",34.25
+35.71571,"sysid-test-state-Drive","quasistatic-forward"
+35.734,"voltage-drive-left-Drive",3.9199299999999972
+35.734371,"position-drive-left-Drive",50.6123046875
+35.734761,"velocity-drive-left-Drive",33.765625
+35.734891,"voltage-drive-right-Drive",3.9199299999999972
+35.735225,"position-drive-right-Drive",49.81982421875
+35.735688,"velocity-drive-right-Drive",34.33984375
+35.735725,"sysid-test-state-Drive","quasistatic-forward"
+35.753942,"voltage-drive-left-Drive",3.9400939999999984
+35.754368,"position-drive-left-Drive",51.28564453125
+35.75485,"velocity-drive-left-Drive",34.279296875
+35.754962,"voltage-drive-right-Drive",3.9400939999999984
+35.75537,"position-drive-right-Drive",50.50537109375
+35.755722,"velocity-drive-right-Drive",34.4609375
+35.755759,"sysid-test-state-Drive","quasistatic-forward"
+35.773697,"voltage-drive-left-Drive",3.9598869999999984
+35.774087,"position-drive-left-Drive",51.96728515625
+35.774532,"velocity-drive-left-Drive",34.30859375
+35.774662,"voltage-drive-right-Drive",3.9598869999999984
+35.775089,"position-drive-right-Drive",51.19287109375
+35.775515,"velocity-drive-right-Drive",34.84765625
+35.775571,"sysid-test-state-Drive","quasistatic-forward"
+35.794084,"voltage-drive-left-Drive",3.979901999999999
+35.794436,"position-drive-left-Drive",52.64892578125
+35.794881,"velocity-drive-left-Drive",34.236328125
+35.795104,"voltage-drive-right-Drive",3.979901999999999
+35.795568,"position-drive-right-Drive",51.8857421875
+35.79592,"velocity-drive-right-Drive",34.998046875
+35.795957,"sysid-test-state-Drive","quasistatic-forward"
+35.813858,"voltage-drive-left-Drive",3.9998990000000028
+35.814229,"position-drive-left-Drive",53.3330078125
+35.814563,"velocity-drive-left-Drive",34.515625
+35.814674,"voltage-drive-right-Drive",3.9998990000000028
+35.815101,"position-drive-right-Drive",52.58447265625
+35.815602,"velocity-drive-right-Drive",35.6015625
+35.815657,"sysid-test-state-Drive","quasistatic-forward"
+35.834022,"voltage-drive-left-Drive",4.019915000000001
+35.834356,"position-drive-left-Drive",54.01904296875
+35.83469,"velocity-drive-left-Drive",34.427734375
+35.834801,"voltage-drive-right-Drive",4.019915000000001
+35.835228,"position-drive-right-Drive",53.28369140625
+35.835766,"velocity-drive-right-Drive",35.076171875
+35.835803,"sysid-test-state-Drive","quasistatic-forward"
+35.854427,"voltage-drive-left-Drive",4.039930000000002
+35.854779,"position-drive-left-Drive",54.712890625
+35.855113,"velocity-drive-left-Drive",34.9609375
+35.855225,"voltage-drive-right-Drive",4.039930000000002
+35.855855,"position-drive-right-Drive",53.98974609375
+35.856208,"velocity-drive-right-Drive",35.5703125
+35.856263,"sysid-test-state-Drive","quasistatic-forward"
+35.874164,"voltage-drive-left-Drive",4.060001000000003
+35.874498,"position-drive-left-Drive",55.40966796875
+35.874832,"velocity-drive-left-Drive",35.296875
+35.874943,"voltage-drive-right-Drive",4.060001000000003
+35.875351,"position-drive-right-Drive",54.6943359375
+35.875741,"velocity-drive-right-Drive",36.060546875
+35.875796,"sysid-test-state-Drive","quasistatic-forward"
+35.89494,"voltage-drive-left-Drive",4.080017000000002
+35.895441,"position-drive-left-Drive",56.1064453125
+35.89596,"velocity-drive-left-Drive",35.3515625
+35.89609,"voltage-drive-right-Drive",4.080017000000002
+35.896517,"position-drive-right-Drive",55.4052734375
+35.896851,"velocity-drive-right-Drive",35.857421875
+35.896906,"sysid-test-state-Drive","quasistatic-forward"
+35.914325,"voltage-drive-left-Drive",4.099957999999997
+35.914677,"position-drive-left-Drive",56.8125
+35.915011,"velocity-drive-left-Drive",35.615234375
+35.915122,"voltage-drive-right-Drive",4.099957999999997
+35.915568,"position-drive-right-Drive",56.12353515625
+35.915902,"velocity-drive-right-Drive",36.423828125
+35.915957,"sysid-test-state-Drive","quasistatic-forward"
+35.933765,"voltage-drive-left-Drive",4.119955000000001
+35.934099,"position-drive-left-Drive",57.5185546875
+35.93447,"velocity-drive-left-Drive",35.4375
+35.934581,"voltage-drive-right-Drive",4.119955000000001
+35.934915,"position-drive-right-Drive",56.837890625
+35.935472,"velocity-drive-right-Drive",36.140625
+35.935546,"sysid-test-state-Drive","quasistatic-forward"
+35.953985,"voltage-drive-left-Drive",4.139896000000004
+35.954337,"position-drive-left-Drive",58.224609375
+35.954671,"velocity-drive-left-Drive",35.5703125
+35.954782,"voltage-drive-right-Drive",4.139896000000004
+35.955098,"position-drive-right-Drive",57.56201171875
+35.95558,"velocity-drive-right-Drive",36.48046875
+35.955636,"sysid-test-state-Drive","quasistatic-forward"
+35.973889,"voltage-drive-left-Drive",4.159912000000002
+35.974241,"position-drive-left-Drive",58.9384765625
+35.974575,"velocity-drive-left-Drive",36.00390625
+35.974687,"voltage-drive-right-Drive",4.159912000000002
+35.975002,"position-drive-right-Drive",58.3173828125
+35.975429,"velocity-drive-right-Drive",36.466796875
+35.975484,"sysid-test-state-Drive","quasistatic-forward"
+35.994016,"voltage-drive-left-Drive",4.179964000000002
+35.994405,"position-drive-left-Drive",59.6533203125
+35.994795,"velocity-drive-left-Drive",36.095703125
+35.994925,"voltage-drive-right-Drive",4.179964000000002
+35.995425,"position-drive-right-Drive",59.01123046875
+35.995778,"velocity-drive-right-Drive",36.748046875
+35.995834,"sysid-test-state-Drive","quasistatic-forward"
+36.014217,"voltage-drive-left-Drive",4.19998
+36.014569,"position-drive-left-Drive",60.37255859375
+36.014903,"velocity-drive-left-Drive",36.3515625
+36.015014,"voltage-drive-right-Drive",4.19998
+36.015441,"position-drive-right-Drive",59.7470703125
+36.015812,"velocity-drive-right-Drive",37.0234375
+36.015868,"sysid-test-state-Drive","quasistatic-forward"
+36.034306,"voltage-drive-left-Drive",4.220161999999998
+36.034659,"position-drive-left-Drive",61.09130859375
+36.034993,"velocity-drive-left-Drive",36.494140625
+36.035104,"voltage-drive-right-Drive",4.220161999999998
+36.035642,"position-drive-right-Drive",60.4814453125
+36.035994,"velocity-drive-right-Drive",37.208984375
+36.03605,"sysid-test-state-Drive","quasistatic-forward"
+36.054136,"voltage-drive-left-Drive",4.2403629999999986
+36.054507,"position-drive-left-Drive",61.8193359375
+36.054841,"velocity-drive-left-Drive",36.822265625
+36.054952,"voltage-drive-right-Drive",4.2403629999999986
+36.05536,"position-drive-right-Drive",61.22802734375
+36.055713,"velocity-drive-right-Drive",37.431640625
+36.05575,"sysid-test-state-Drive","quasistatic-forward"
+36.074133,"voltage-drive-left-Drive",4.260045000000002
+36.074504,"position-drive-left-Drive",62.54833984375
+36.074857,"velocity-drive-left-Drive",36.904296875
+36.074968,"voltage-drive-right-Drive",4.260045000000002
+36.075469,"position-drive-right-Drive",61.96728515625
+36.075821,"velocity-drive-right-Drive",37.123046875
+36.075877,"sysid-test-state-Drive","quasistatic-forward"
+36.09554,"voltage-drive-left-Drive",4.28032
+36.095966,"position-drive-left-Drive",63.29052734375
+36.096337,"velocity-drive-left-Drive",37.224609375
+36.096467,"voltage-drive-right-Drive",4.28032
+36.096801,"position-drive-right-Drive",62.71533203125
+36.097191,"velocity-drive-right-Drive",37.861328125
+36.097246,"sysid-test-state-Drive","quasistatic-forward"
+36.114034,"voltage-drive-left-Drive",4.300000999999998
+36.114405,"position-drive-left-Drive",64.03173828125
+36.114776,"velocity-drive-left-Drive",37.224609375
+36.114887,"voltage-drive-right-Drive",4.300000999999998
+36.115221,"position-drive-right-Drive",63.46240234375
+36.115667,"velocity-drive-right-Drive",37.767578125
+36.115722,"sysid-test-state-Drive","quasistatic-forward"
+36.134458,"voltage-drive-left-Drive",4.320313000000002
+36.134847,"position-drive-left-Drive",64.77734375
+36.1352,"velocity-drive-left-Drive",37.8359375
+36.135552,"voltage-drive-right-Drive",4.320313000000002
+36.135905,"position-drive-right-Drive",64.21533203125
+36.136257,"velocity-drive-right-Drive",38.046875
+36.136313,"sysid-test-state-Drive","quasistatic-forward"
+36.154176,"voltage-drive-left-Drive",4.339901999999999
+36.154529,"position-drive-left-Drive",65.53955078125
+36.155011,"velocity-drive-left-Drive",38.376953125
+36.155141,"voltage-drive-right-Drive",4.339901999999999
+36.155568,"position-drive-right-Drive",64.97607421875
+36.155901,"velocity-drive-right-Drive",38.236328125
+36.155957,"sysid-test-state-Drive","quasistatic-forward"
+36.174155,"voltage-drive-left-Drive",4.359955000000003
+36.174507,"position-drive-left-Drive",66.3095703125
+36.174841,"velocity-drive-left-Drive",38.904296875
+36.174934,"voltage-drive-right-Drive",4.359955000000003
+36.175564,"position-drive-right-Drive",65.7333984375
+36.175917,"velocity-drive-right-Drive",38.458984375
+36.175973,"sysid-test-state-Drive","quasistatic-forward"
+36.194411,"voltage-drive-left-Drive",4.379951999999999
+36.194764,"position-drive-left-Drive",67.07373046875
+36.195116,"velocity-drive-left-Drive",38.4375
+36.195209,"voltage-drive-right-Drive",4.379951999999999
+36.195636,"position-drive-right-Drive",66.49365234375
+36.195969,"velocity-drive-right-Drive",38.203125
+36.196025,"sysid-test-state-Drive","quasistatic-forward"
+36.214427,"voltage-drive-left-Drive",4.399893000000002
+36.214779,"position-drive-left-Drive",67.84375
+36.215113,"velocity-drive-left-Drive",39.1015625
+36.215224,"voltage-drive-right-Drive",4.399893000000002
+36.215762,"position-drive-right-Drive",67.26171875
+36.216115,"velocity-drive-right-Drive",38.994140625
+36.216152,"sysid-test-state-Drive","quasistatic-forward"
+36.233978,"voltage-drive-left-Drive",4.419908000000003
+36.234349,"position-drive-left-Drive",68.61865234375
+36.234683,"velocity-drive-left-Drive",39.078125
+36.234795,"voltage-drive-right-Drive",4.419908000000003
+36.235147,"position-drive-right-Drive",68.02734375
+36.235648,"velocity-drive-right-Drive",38.92578125
+36.235704,"sysid-test-state-Drive","quasistatic-forward"
+36.254328,"voltage-drive-left-Drive",4.439887000000002
+36.254699,"position-drive-left-Drive",69.3974609375
+36.255033,"velocity-drive-left-Drive",39.056640625
+36.255144,"voltage-drive-right-Drive",4.439887000000002
+36.255589,"position-drive-right-Drive",68.7958984375
+36.255923,"velocity-drive-right-Drive",38.572265625
+36.25596,"sysid-test-state-Drive","quasistatic-forward"
+36.274046,"voltage-drive-left-Drive",4.459920999999998
+36.274399,"position-drive-left-Drive",70.17236328125
+36.27477,"velocity-drive-left-Drive",39.529296875
+36.274881,"voltage-drive-right-Drive",4.459920999999998
+36.275215,"position-drive-right-Drive",69.57275390625
+36.275679,"velocity-drive-right-Drive",39.47265625
+36.275734,"sysid-test-state-Drive","quasistatic-forward"
+36.295045,"voltage-drive-left-Drive",4.480419000000001
+36.295546,"position-drive-left-Drive",70.955078125
+36.295898,"velocity-drive-left-Drive",39.0703125
+36.29601,"voltage-drive-right-Drive",4.480419000000001
+36.296344,"position-drive-right-Drive",70.3525390625
+36.296752,"velocity-drive-right-Drive",38.919921875
+36.296807,"sysid-test-state-Drive","quasistatic-forward"
+36.31404,"voltage-drive-left-Drive",4.499896000000003
+36.31443,"position-drive-left-Drive",71.732421875
+36.314782,"velocity-drive-left-Drive",39.0703125
+36.314894,"voltage-drive-right-Drive",4.499896000000003
+36.315227,"position-drive-right-Drive",71.13037109375
+36.315691,"velocity-drive-right-Drive",39.35546875
+36.315747,"sysid-test-state-Drive","quasistatic-forward"
+36.334056,"voltage-drive-left-Drive",4.519911000000004
+36.334408,"position-drive-left-Drive",72.51806640625
+36.334761,"velocity-drive-left-Drive",39.30078125
+36.334872,"voltage-drive-right-Drive",4.519911000000004
+36.335206,"position-drive-right-Drive",71.91845703125
+36.335725,"velocity-drive-right-Drive",39.76171875
+36.335781,"sysid-test-state-Drive","quasistatic-forward"
+36.353793,"voltage-drive-left-Drive",4.540020000000002
+36.35422,"position-drive-left-Drive",73.298828125
+36.354591,"velocity-drive-left-Drive",39.12109375
+36.354702,"voltage-drive-right-Drive",4.540020000000002
+36.355036,"position-drive-right-Drive",72.70849609375
+36.355481,"velocity-drive-right-Drive",39.521484375
+36.355537,"sysid-test-state-Drive","quasistatic-forward"
+36.375237,"voltage-drive-left-Drive",4.559998000000004
+36.375738,"position-drive-left-Drive",74.08740234375
+36.376071,"velocity-drive-left-Drive",40.474609375
+36.376201,"voltage-drive-right-Drive",4.559998000000004
+36.376535,"position-drive-right-Drive",73.5078125
+36.376869,"velocity-drive-right-Drive",40.48046875
+36.376906,"sysid-test-state-Drive","quasistatic-forward"
+36.394195,"voltage-drive-left-Drive",4.580051000000001
+36.394566,"position-drive-left-Drive",74.88134765625
+36.395159,"velocity-drive-left-Drive",39.673828125
+36.395382,"voltage-drive-right-Drive",4.580051000000001
+36.395772,"position-drive-right-Drive",74.30615234375
+36.396124,"velocity-drive-right-Drive",40.09375
+36.39618,"sysid-test-state-Drive","quasistatic-forward"
+36.413895,"voltage-drive-left-Drive",4.599973000000002
+36.414284,"position-drive-left-Drive",75.6689453125
+36.414618,"velocity-drive-left-Drive",39.673828125
+36.41473,"voltage-drive-right-Drive",4.599973000000002
+36.415064,"position-drive-right-Drive",75.10986328125
+36.415527,"velocity-drive-right-Drive",40.63671875
+36.415583,"sysid-test-state-Drive","quasistatic-forward"
+36.434096,"voltage-drive-left-Drive",4.620044000000004
+36.434467,"position-drive-left-Drive",76.46240234375
+36.434856,"velocity-drive-left-Drive",40.16015625
+36.434968,"voltage-drive-right-Drive",4.620044000000004
+36.435413,"position-drive-right-Drive",75.916015625
+36.435784,"velocity-drive-right-Drive",40.662109375
+36.43584,"sysid-test-state-Drive","quasistatic-forward"
+36.454111,"voltage-drive-left-Drive",4.639967000000002
+36.454482,"position-drive-left-Drive",77.2666015625
+36.454853,"velocity-drive-left-Drive",40.310546875
+36.454965,"voltage-drive-right-Drive",4.639967000000002
+36.455373,"position-drive-right-Drive",76.72265625
+36.455725,"velocity-drive-right-Drive",40.84375
+36.455781,"sysid-test-state-Drive","quasistatic-forward"
+36.473774,"voltage-drive-left-Drive",4.659907999999998
+36.474182,"position-drive-left-Drive",78.07080078125
+36.474535,"velocity-drive-left-Drive",40.677734375
+36.474646,"voltage-drive-right-Drive",4.659907999999998
+36.47498,"position-drive-right-Drive",77.57470703125
+36.475407,"velocity-drive-right-Drive",41.228515625
+36.475444,"sysid-test-state-Drive","quasistatic-forward"
+36.494773,"voltage-drive-left-Drive",4.680054000000002
+36.495125,"position-drive-left-Drive",78.8759765625
+36.495571,"velocity-drive-left-Drive",40.830078125
+36.4957,"voltage-drive-right-Drive",4.680054000000002
+36.496331,"position-drive-right-Drive",78.357421875
+36.496702,"velocity-drive-right-Drive",41.388671875
+36.496758,"sysid-test-state-Drive","quasistatic-forward"
+36.514046,"voltage-drive-left-Drive",4.699901999999998
+36.514417,"position-drive-left-Drive",79.68798828125
+36.514788,"velocity-drive-left-Drive",40.8671875
+36.5149,"voltage-drive-right-Drive",4.699901999999998
+36.515215,"position-drive-right-Drive",79.1865234375
+36.515753,"velocity-drive-right-Drive",41.814453125
+36.515809,"sysid-test-state-Drive","quasistatic-forward"
+36.533932,"sysid-test-state-Drive","none"
+36.682369,"NT:/FMSInfo/FMSControlData",32
+36.822384,"systemTime",2024-06-04 11:16:27.112549
+41.822815,"systemTime",2024-06-04 11:16:32.112952
+46.822652,"systemTime",2024-06-04 11:16:37.112739
+51.823324,"systemTime",2024-06-04 11:16:42.113366
+56.822679,"systemTime",2024-06-04 11:16:47.112672
+61.822794,"systemTime",2024-06-04 11:16:52.112733
+66.822836,"systemTime",2024-06-04 11:16:57.112731
+71.822506,"systemTime",2024-06-04 11:17:02.112372
+76.822844,"systemTime",2024-06-04 11:17:07.112653
+81.822959,"systemTime",2024-06-04 11:17:12.112733
+86.823149,"systemTime",2024-06-04 11:17:17.112873
+87.958298,"NTConnection","{""connected"":false,""remote_id"":""shuffleboard@1"",""remote_ip"":""10.51.13.237"",""remote_port"":57859,""protocol_version"":1025}"
+87.959225,"NTConnection","{""connected"":false,""remote_id"":""elastic@2"",""remote_ip"":""10.51.13.237"",""remote_port"":57857,""protocol_version"":1025}"
+91.822782,"systemTime",2024-06-04 11:17:22.112464
+91.922377,"NT:/FMSInfo/FMSControlData",0
+96.822712,"systemTime",2024-06-04 11:17:27.112341
+101.822957,"systemTime",2024-06-04 11:17:32.112548
+106.822868,"systemTime",2024-06-04 11:17:37.112415
+111.822873,"systemTime",2024-06-04 11:17:42.112372
+116.822728,"systemTime",2024-06-04 11:17:47.112185
+121.822825,"systemTime",2024-06-04 11:17:52.112240
+126.822866,"systemTime",2024-06-04 11:17:57.112239
+131.822741,"systemTime",2024-06-04 11:18:02.112078
+136.822745,"systemTime",2024-06-04 11:18:07.112044
+141.822712,"systemTime",2024-06-04 11:18:12.111954
+146.82292,"systemTime",2024-06-04 11:18:17.112118
+151.823221,"systemTime",2024-06-04 11:18:22.112385
+156.822965,"systemTime",2024-06-04 11:18:27.112094
+161.822821,"systemTime",2024-06-04 11:18:32.111814
+166.822732,"systemTime",2024-06-04 11:18:37.111763
+171.822662,"systemTime",2024-06-04 11:18:42.111658
+176.822722,"systemTime",2024-06-04 11:18:47.111683
+181.822874,"systemTime",2024-06-04 11:18:52.111782
+186.822953,"systemTime",2024-06-04 11:18:57.111829
+191.82279,"systemTime",2024-06-04 11:19:02.111618
+196.822775,"systemTime",2024-06-04 11:19:07.111573
+201.822854,"systemTime",2024-06-04 11:19:12.111610
+206.823229,"systemTime",2024-06-04 11:19:17.111933
+211.822713,"systemTime",2024-06-04 11:19:22.111377
+216.822718,"systemTime",2024-06-04 11:19:27.111345
+221.82287,"systemTime",2024-06-04 11:19:32.111458
+226.8228,"systemTime",2024-06-04 11:19:37.111344
+231.822878,"systemTime",2024-06-04 11:19:42.111391
+236.822752,"systemTime",2024-06-04 11:19:47.111223
+241.822886,"systemTime",2024-06-04 11:19:52.111307
+246.822891,"systemTime",2024-06-04 11:19:57.111284
+251.822579,"systemTime",2024-06-04 11:20:02.110922
+256.82288,"systemTime",2024-06-04 11:20:07.111181
+261.823088,"systemTime",2024-06-04 11:20:12.111366
+266.823,"systemTime",2024-06-04 11:20:17.111221
+271.822707,"systemTime",2024-06-04 11:20:22.110894
+276.823138,"systemTime",2024-06-04 11:20:27.111298
+281.822919,"systemTime",2024-06-04 11:20:32.111042
+286.822738,"systemTime",2024-06-04 11:20:37.110809
+291.824059,"systemTime",2024-06-04 11:20:42.112092
+296.822672,"systemTime",2024-06-04 11:20:47.110672
+301.823065,"systemTime",2024-06-04 11:20:52.111020
+306.822958,"systemTime",2024-06-04 11:20:57.110887
+311.82287,"systemTime",2024-06-04 11:21:02.110756
+316.822985,"systemTime",2024-06-04 11:21:07.110822
+321.822655,"systemTime",2024-06-04 11:21:12.110467
+326.823142,"systemTime",2024-06-04 11:21:17.110907
+331.823053,"systemTime",2024-06-04 11:21:22.110779
+336.82276,"systemTime",2024-06-04 11:21:27.110446
+341.823618,"systemTime",2024-06-04 11:21:32.111270
+346.822935,"systemTime",2024-06-04 11:21:37.110557
+351.82294,"systemTime",2024-06-04 11:21:42.110519
+356.82324,"systemTime",2024-06-04 11:21:47.110777
+361.822985,"systemTime",2024-06-04 11:21:52.110496
+366.823286,"systemTime",2024-06-04 11:21:57.110748
+371.822956,"systemTime",2024-06-04 11:22:02.110383
+376.823127,"systemTime",2024-06-04 11:22:07.110521
+381.822871,"systemTime",2024-06-04 11:22:12.110232
+386.822838,"systemTime",2024-06-04 11:22:17.110153
+391.822917,"systemTime",2024-06-04 11:22:22.110204
+396.823051,"systemTime",2024-06-04 11:22:27.110309
+401.823073,"systemTime",2024-06-04 11:22:32.110281
+406.823022,"systemTime",2024-06-04 11:22:37.110194
+411.822729,"systemTime",2024-06-04 11:22:42.109873
+416.822863,"systemTime",2024-06-04 11:22:47.109968
+421.822811,"systemTime",2024-06-04 11:22:52.109873
+426.822853,"systemTime",2024-06-04 11:22:57.109889
+431.823191,"systemTime",2024-06-04 11:23:02.110189
+436.822916,"systemTime",2024-06-04 11:23:07.109875
+441.822902,"systemTime",2024-06-04 11:23:12.109822
+446.823055,"systemTime",2024-06-04 11:23:17.109934
+451.822855,"systemTime",2024-06-04 11:23:22.109709
+456.82297,"systemTime",2024-06-04 11:23:27.109793
+461.822918,"systemTime",2024-06-04 11:23:32.109692
+466.822997,"systemTime",2024-06-04 11:23:37.109751
+471.823539,"systemTime",2024-06-04 11:23:42.110253
+476.822727,"systemTime",2024-06-04 11:23:47.109400
+481.822731,"systemTime",2024-06-04 11:23:52.109369
+486.822846,"systemTime",2024-06-04 11:23:57.109444
+490.342152,"NT:/FMSInfo/FMSControlData",32
+491.25561,"NTConnection","{""connected"":true,""remote_id"":""elastic@1"",""remote_ip"":""10.51.13.237"",""remote_port"":57603,""protocol_version"":1025}"
+491.822906,"systemTime",2024-06-04 11:24:02.110668
+492.858979,"NTConnection","{""connected"":true,""remote_id"":""shuffleboard@2"",""remote_ip"":""10.51.13.237"",""remote_port"":65457,""protocol_version"":1025}"
+496.822891,"systemTime",2024-06-04 11:24:07.110612
+501.823063,"systemTime",2024-06-04 11:24:12.110756
+506.82264,"systemTime",2024-06-04 11:24:17.110295
+511.822792,"systemTime",2024-06-04 11:24:22.110419
+516.822945,"systemTime",2024-06-04 11:24:27.110532
+521.822912,"systemTime",2024-06-04 11:24:32.110467
+526.822953,"systemTime",2024-06-04 11:24:37.110478
+531.823031,"systemTime",2024-06-04 11:24:42.110521
+536.822442,"systemTime",2024-06-04 11:24:47.109884
+541.822799,"systemTime",2024-06-04 11:24:52.110210
+546.822766,"systemTime",2024-06-04 11:24:57.110151
+551.822454,"systemTime",2024-06-04 11:25:02.109793
+556.822866,"systemTime",2024-06-04 11:25:07.110174
+561.822592,"systemTime",2024-06-04 11:25:12.109872
+566.822708,"systemTime",2024-06-04 11:25:17.109956
+571.822823,"systemTime",2024-06-04 11:25:22.110023
+576.82279,"systemTime",2024-06-04 11:25:27.109958
+581.822553,"systemTime",2024-06-04 11:25:32.109695
+586.822557,"systemTime",2024-06-04 11:25:37.109661
+591.822765,"systemTime",2024-06-04 11:25:42.109837
+596.822881,"systemTime",2024-06-04 11:25:47.109917
+601.822959,"systemTime",2024-06-04 11:25:52.109959
+606.822722,"systemTime",2024-06-04 11:25:57.109683
+611.822689,"systemTime",2024-06-04 11:26:02.109630
+616.822749,"systemTime",2024-06-04 11:26:07.109643
+621.823013,"systemTime",2024-06-04 11:26:12.109876
+626.82272,"systemTime",2024-06-04 11:26:17.109554
+631.82265,"systemTime",2024-06-04 11:26:22.109461
+636.822876,"systemTime",2024-06-04 11:26:27.109655
+641.822547,"systemTime",2024-06-04 11:26:32.109291
+646.822829,"systemTime",2024-06-04 11:26:37.109524
+651.822796,"systemTime",2024-06-04 11:26:42.109461
+656.822874,"systemTime",2024-06-04 11:26:47.109509
+661.822878,"systemTime",2024-06-04 11:26:52.109478
+666.822845,"systemTime",2024-06-04 11:26:57.109415
+671.822757,"systemTime",2024-06-04 11:27:02.109298
+676.822724,"systemTime",2024-06-04 11:27:07.109225
+681.822672,"systemTime",2024-06-04 11:27:12.109144
+686.82288,"systemTime",2024-06-04 11:27:17.109323
+691.822643,"systemTime",2024-06-04 11:27:22.109050
+696.822777,"systemTime",2024-06-04 11:27:27.109149
+701.82267,"systemTime",2024-06-04 11:27:32.109013
+706.822785,"systemTime",2024-06-04 11:27:37.109100
+711.822715,"systemTime",2024-06-04 11:27:42.109006
+716.822645,"systemTime",2024-06-04 11:27:47.108888
+721.822501,"systemTime",2024-06-04 11:27:52.108727
+726.822728,"systemTime",2024-06-04 11:27:57.108905
+731.822658,"systemTime",2024-06-04 11:28:02.108804
+736.822643,"systemTime",2024-06-04 11:28:07.108758
+741.822814,"systemTime",2024-06-04 11:28:12.108913
+746.822744,"systemTime",2024-06-04 11:28:17.108808
+751.822674,"systemTime",2024-06-04 11:28:22.108696
+756.822734,"systemTime",2024-06-04 11:28:27.108726
+761.823053,"systemTime",2024-06-04 11:28:32.109025
+766.822612,"systemTime",2024-06-04 11:28:37.108555
+771.822857,"systemTime",2024-06-04 11:28:42.108753
+776.823028,"systemTime",2024-06-04 11:28:47.108901
+781.822865,"systemTime",2024-06-04 11:28:52.108702
+786.822925,"systemTime",2024-06-04 11:28:57.108730
+791.822725,"systemTime",2024-06-04 11:29:02.108509
+796.822859,"systemTime",2024-06-04 11:29:07.108606
+801.822604,"systemTime",2024-06-04 11:29:12.108325
+806.822663,"systemTime",2024-06-04 11:29:17.108354
+811.82263,"systemTime",2024-06-04 11:29:22.108283
+816.823005,"systemTime",2024-06-04 11:29:27.108633
+821.822898,"systemTime",2024-06-04 11:29:32.108496
+826.82268,"systemTime",2024-06-04 11:29:37.108251
+831.822591,"systemTime",2024-06-04 11:29:42.108120
+836.82317,"systemTime",2024-06-04 11:29:47.108672
+841.822692,"systemTime",2024-06-04 11:29:52.108163
+846.822993,"systemTime",2024-06-04 11:29:57.108436
+851.822589,"systemTime",2024-06-04 11:30:02.108005
+856.822667,"systemTime",2024-06-04 11:30:07.108048
+861.822671,"systemTime",2024-06-04 11:30:12.108022
+866.822731,"systemTime",2024-06-04 11:30:17.108063
+871.822605,"systemTime",2024-06-04 11:30:22.107899
+876.823018,"systemTime",2024-06-04 11:30:27.108289
+881.822985,"systemTime",2024-06-04 11:30:32.108223
+886.823063,"systemTime",2024-06-04 11:30:37.108279
+891.823011,"systemTime",2024-06-04 11:30:42.108189
+896.822756,"systemTime",2024-06-04 11:30:47.107900
+901.822556,"systemTime",2024-06-04 11:30:52.107682
+906.822727,"systemTime",2024-06-04 11:30:57.107815
+911.822453,"systemTime",2024-06-04 11:31:02.107513
+916.822828,"systemTime",2024-06-04 11:31:07.107867
+921.822906,"systemTime",2024-06-04 11:31:12.107906
+926.822743,"systemTime",2024-06-04 11:31:17.107730
+931.822803,"systemTime",2024-06-04 11:31:22.107748
+936.822584,"systemTime",2024-06-04 11:31:27.107501
+941.822718,"systemTime",2024-06-04 11:31:32.107608
+946.82263,"systemTime",2024-06-04 11:31:37.107495
+951.822523,"systemTime",2024-06-04 11:31:42.107369
+956.822749,"systemTime",2024-06-04 11:31:47.107555
+961.822957,"systemTime",2024-06-04 11:31:52.107737
+966.822609,"systemTime",2024-06-04 11:31:57.107364
+971.822947,"systemTime",2024-06-04 11:32:02.107680
+976.822821,"systemTime",2024-06-04 11:32:07.107521
+981.822918,"systemTime",2024-06-04 11:32:12.107596
+986.822718,"systemTime",2024-06-04 11:32:17.107370
+989.605348,"NTConnection","{""connected"":false,""remote_id"":""shuffleboard@2"",""remote_ip"":""10.51.13.237"",""remote_port"":65457,""protocol_version"":1025}"
+989.702457,"NTConnection","{""connected"":false,""remote_id"":""elastic@1"",""remote_ip"":""10.51.13.237"",""remote_port"":57603,""protocol_version"":1025}"
+991.823112,"systemTime",2024-06-04 11:32:22.107724
+993.522366,"NT:/FMSInfo/FMSControlData",0
+996.823042,"systemTime",2024-06-04 11:32:27.107622
+1001.823009,"systemTime",2024-06-04 11:32:32.107562
+1006.822679,"systemTime",2024-06-04 11:32:37.107215
+1011.823054,"systemTime",2024-06-04 11:32:42.107551
+1016.823003,"systemTime",2024-06-04 11:32:47.107484
+1021.823749,"systemTime",2024-06-04 11:32:52.108191
+1026.822937,"systemTime",2024-06-04 11:32:57.107358
+1031.822885,"systemTime",2024-06-04 11:33:02.107275
+1036.823075,"systemTime",2024-06-04 11:33:07.107449
+1041.823023,"systemTime",2024-06-04 11:33:12.107355
+1046.822916,"systemTime",2024-06-04 11:33:17.107220
+1051.823105,"systemTime",2024-06-04 11:33:22.107384
+1056.822998,"systemTime",2024-06-04 11:33:27.107266
+1061.822947,"systemTime",2024-06-04 11:33:32.107174
+1066.823415,"systemTime",2024-06-04 11:33:37.107614
+1071.822862,"systemTime",2024-06-04 11:33:42.107032
+1076.822755,"systemTime",2024-06-04 11:33:47.106899
+1081.823019,"systemTime",2024-06-04 11:33:52.107147
+1086.822782,"systemTime",2024-06-04 11:33:57.106884
+1091.822953,"systemTime",2024-06-04 11:34:02.107030
+1096.822975,"systemTime",2024-06-04 11:34:07.107023
+1101.82285,"systemTime",2024-06-04 11:34:12.106866
+1106.82278,"systemTime",2024-06-04 11:34:17.106767
+1111.823897,"systemTime",2024-06-04 11:34:22.107856
+1116.822788,"systemTime",2024-06-04 11:34:27.106710
+1121.822885,"systemTime",2024-06-04 11:34:32.106795
+1126.822629,"systemTime",2024-06-04 11:34:37.106503
+1131.822856,"systemTime",2024-06-04 11:34:42.106709
+1136.822693,"systemTime",2024-06-04 11:34:47.106513
+1141.822753,"systemTime",2024-06-04 11:34:52.106550
+1146.823424,"systemTime",2024-06-04 11:34:57.107189
+1151.822965,"systemTime",2024-06-04 11:35:02.106713
+1156.82334,"systemTime",2024-06-04 11:35:07.107051
+1161.822917,"systemTime",2024-06-04 11:35:12.106611
+1162.082228,"NT:/FMSInfo/FMSControlData",32
+1162.98092,"NTConnection","{""connected"":true,""remote_id"":""elastic@1"",""remote_ip"":""10.51.13.237"",""remote_port"":56328,""protocol_version"":1025}"
+1165.055218,"NTConnection","{""connected"":true,""remote_id"":""shuffleboard@2"",""remote_ip"":""10.51.13.237"",""remote_port"":60324,""protocol_version"":1025}"
+1166.822699,"systemTime",2024-06-04 11:35:17.107714
+1171.82274,"systemTime",2024-06-04 11:35:22.107736
+1176.822726,"systemTime",2024-06-04 11:35:27.107696
+1181.822804,"systemTime",2024-06-04 11:35:32.107739
+1186.822567,"systemTime",2024-06-04 11:35:37.107482
+1191.822738,"systemTime",2024-06-04 11:35:42.107612
