@@ -1,6 +1,7 @@
 import math
 
 import wpilib
+from wpilib import Preferences
 import wpimath
 import wpilib.drive
 import wpimath.filter
@@ -9,7 +10,6 @@ import phoenix6
 
 import drivetrain
 import swervemodule
-import util
 
 
 class MyRobot(wpilib.TimedRobot):
@@ -44,9 +44,9 @@ class MyRobot(wpilib.TimedRobot):
         # negative values when we push forward.
         xSpeed = (
             -self.xspeedLimiter.calculate(
-                wpimath.applyDeadband(self.controller.getLeftY(), 0.02)
-            )
-            * drivetrain.kMaxSpeed
+                wpimath.applyDeadband(self.controller.getLeftY(), 0.1)
+            ) *
+            Preferences.getDouble("max_speed") * 6.75 / (0.0508 * 2 * math.pi)
         )
 
         # Get the y speed or sideways/strafe speed. We are inverting this because
@@ -54,9 +54,9 @@ class MyRobot(wpilib.TimedRobot):
         # return positive values when you pull to the right by default.
         ySpeed = (
             -self.yspeedLimiter.calculate(
-                wpimath.applyDeadband(self.controller.getLeftX(), 0.02)
-            )
-            * drivetrain.kMaxSpeed
+                wpimath.applyDeadband(self.controller.getLeftX(), 0.1)
+            ) *
+            Preferences.getDouble("max_speed") * 6.75 / (0.0508 * 2 * math.pi)
         )
 
         # Get the rate of angular rotation. We are inverting this because we want a
@@ -65,9 +65,9 @@ class MyRobot(wpilib.TimedRobot):
         # the right by default.
         rot = (
             -self.rotLimiter.calculate(
-                wpimath.applyDeadband(self.controller.getRightX(), 0.02)
-            )
-            * drivetrain.kMaxSpeed
+                wpimath.applyDeadband(self.controller.getRightX(), 0.1)
+            ) *
+            Preferences.getDouble("max_speed") * 6.75 / (0.0508 * 2 * math.pi)
         )
 
         if self.controller.getAButton():

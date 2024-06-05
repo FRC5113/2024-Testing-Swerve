@@ -6,12 +6,13 @@
 
 import math
 import navx
+from wpilib import Preferences
 import wpimath.geometry
 import wpimath.kinematics
 import swervemodule
 import phoenix6
 
-kMaxSpeed = 3.0  # 3 meters per second
+kMaxSpeed = 3.0 * 6.75 / (0.0508 * 2 * math.pi) # 3 meters per second
 kMaxAngularSpeed = math.pi  # 1/2 rotation per second
 
 
@@ -42,6 +43,8 @@ class Drivetrain:
 
         self.gyro.reset()
 
+        self.maxSpeed = Preferences.initDouble("max_speed", 3.0)
+
     def drive(
         self,
         xSpeed: float,
@@ -71,7 +74,7 @@ class Drivetrain:
             )
         )
         wpimath.kinematics.SwerveDrive4Kinematics.desaturateWheelSpeeds(
-            swerveModuleStates, kMaxSpeed
+            swerveModuleStates, Preferences.getDouble("max_speed")  * 6.75 / (0.0508 * 2 * math.pi)
         )
         self.frontLeft.setDesiredState(swerveModuleStates[0])
         self.frontRight.setDesiredState(swerveModuleStates[1])

@@ -125,11 +125,11 @@ class SwerveModule:
         # very lazy, but should work
         Preferences.initDouble("drive_kP", 0.0)
         self.drivePIDController.setP(Preferences.getDouble("drive_kP"))
-        Preferences.initDouble("drive_kS", 0.12)
+        Preferences.initDouble("drive_kS", 0.15)
         self.driveFeedforward = wpimath.controller.SimpleMotorFeedforwardMeters(
             Preferences.getDouble("drive_kS"), self.driveFeedforward.kV
         )
-        Preferences.initDouble("drive_kV", 0.6)
+        Preferences.initDouble("drive_kV", 0.102)
         self.driveFeedforward = wpimath.controller.SimpleMotorFeedforwardMeters(
             self.driveFeedforward.kS, Preferences.getDouble("drive_kV")
         )
@@ -217,7 +217,7 @@ class SwerveModule:
         self.driveMotor.setVoltage(driveFeedback + driveFeedforward)
         self.turningMotor.setVoltage(-turnOutput)
         # puts pid stuff in terminal
-        if self.turningEncoder.device_id == 13:
+        if self.turningEncoder.device_id == 33:
             print(
                 f"y: {encoderRotation.radians()}, r: {state.angle.radians()}, e: {encoderRotation.radians() - state.angle.radians()}, u: {turnFeedback}, ff: {turnOutput},"
             )
