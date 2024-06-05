@@ -39,7 +39,7 @@ class Drive(Subsystem):
         # Tell SysId to make generated commands require this subsystem, suffix test state in
         # WPILog with this subsystem's name ("drive")
         self.sys_id_routine = SysIdRoutine(
-            SysIdRoutine.Config(),
+            SysIdRoutine.Config(rampRate=0.2),
             SysIdRoutine.Mechanism(drive, self.log, self),
         )
 
@@ -79,3 +79,9 @@ class Drive(Subsystem):
 
     def sysIdDynamic(self, direction: SysIdRoutine.Direction) -> Command:
         return self.sys_id_routine.dynamic(direction)
+
+    def stop(self) -> None:
+        self.frontLeft.stop()
+        self.frontRight.stop()
+        self.backLeft.stop()
+        self.backRight.stop()

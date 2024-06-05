@@ -8,14 +8,16 @@ import math
 from wpilib import Preferences
 from wpilib.interfaces import MotorController
 import wpimath.kinematics
+from wpimath.kinematics import SwerveModuleState
 import wpimath.geometry
+from wpimath.geometry import Rotation2d
 import wpimath.controller
 import wpimath.trajectory
 import phoenix6
 
 kWheelRadius = 0.0508
-kModuleMaxAngularVelocity = 10
-kModuleMaxAngularAcceleration = 20
+kModuleMaxAngularVelocity = 30
+kModuleMaxAngularAcceleration = 300
 
 
 class WPI_TalonFX(phoenix6.hardware.TalonFX, MotorController):
@@ -102,8 +104,8 @@ class SwerveModule:
 
         # Gains are for example purposes only - must be determined for your own robot!
         self.turningPIDController = wpimath.controller.ProfiledPIDController(
+            18.0,
             0,
-            0.5,
             0,
             wpimath.trajectory.TrapezoidProfile.Constraints(
                 kModuleMaxAngularVelocity,
@@ -114,7 +116,7 @@ class SwerveModule:
         # Gains are for example purposes only - must be determined for your own robot!
         self.driveFeedforward = wpimath.controller.SimpleMotorFeedforwardMeters(0, 0)
         self.turnFeedforward = wpimath.controller.SimpleMotorFeedforwardMeters(
-            0.12, 0.5
+            0.16, 0.375
         )
         self.voltage = 0
 
@@ -191,3 +193,7 @@ class SwerveModule:
         #     print(
         #         f"y: {encoderRotation.radians()}, r: {state.angle.radians()}, e: {encoderRotation.radians() - state.angle.radians()}, u: {turnFeedback}, ff: {turnOutput},"
         #     )
+
+    def stop(self) -> None:
+        self.driveMotor.setIdleMode(phoenix6.signals.NeutralModeValue.BRAKE)
+        self.turningMotor.stopMotor()

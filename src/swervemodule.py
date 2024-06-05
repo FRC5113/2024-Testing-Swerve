@@ -98,13 +98,13 @@ class SwerveModule:
         self.turningEncoder = phoenix6.hardware.CANcoder(turningEncoderChannel)
 
         # Gains are for example purposes only - must be determined for your own robot!
-        self.drivePIDController = wpimath.controller.PIDController(0.0, 0.12, 0.6)
+        self.drivePIDController = wpimath.controller.PIDController(0, 0, 0)
 
         # Gains are for example purposes only - must be determined for your own robot!
         self.turningPIDController = wpimath.controller.ProfiledPIDController(
-            18.0,
-            0.16,
-            0.375,
+            0,
+            0,
+            0,
             wpimath.trajectory.TrapezoidProfile.Constraints(
                 kModuleMaxAngularVelocity,
                 kModuleMaxAngularAcceleration,
@@ -113,7 +113,7 @@ class SwerveModule:
 
         # Gains are for example purposes only - must be determined for your own robot!
         self.driveFeedforward = wpimath.controller.SimpleMotorFeedforwardMeters(0, 0)
-        self.turnFeedforward = wpimath.controller.SimpleMotorFeedforwardMeters(30, 300)
+        self.turnFeedforward = wpimath.controller.SimpleMotorFeedforwardMeters(0, 0)
         self.speedScale = 0
         self.collectPreferences()
 

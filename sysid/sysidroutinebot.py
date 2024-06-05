@@ -46,6 +46,7 @@ class SysIdRoutineBot:
 
         # Bind full set of SysId routine tests to buttons; a complete routine should run each of these
         # once.
+        self.drive.stop()
         self.controller.a().whileTrue(
             self.drive.sysIdQuasistatic(SysIdRoutine.Direction.kForward)
         )
