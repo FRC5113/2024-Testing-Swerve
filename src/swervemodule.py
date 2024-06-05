@@ -98,13 +98,13 @@ class SwerveModule:
         self.turningEncoder = phoenix6.hardware.CANcoder(turningEncoderChannel)
 
         # Gains are for example purposes only - must be determined for your own robot!
-        self.drivePIDController = wpimath.controller.PIDController(0.0, 0.12, 0.6)
+        self.drivePIDController = wpimath.controller.PIDController(0, 0, 0)
 
         # Gains are for example purposes only - must be determined for your own robot!
         self.turningPIDController = wpimath.controller.ProfiledPIDController(
-            18.0,
-            0.16,
-            0.375,
+            0,
+            0,
+            0,
             wpimath.trajectory.TrapezoidProfile.Constraints(
                 kModuleMaxAngularVelocity,
                 kModuleMaxAngularAcceleration,
@@ -113,7 +113,7 @@ class SwerveModule:
 
         # Gains are for example purposes only - must be determined for your own robot!
         self.driveFeedforward = wpimath.controller.SimpleMotorFeedforwardMeters(0, 0)
-        self.turnFeedforward = wpimath.controller.SimpleMotorFeedforwardMeters(30, 300)
+        self.turnFeedforward = wpimath.controller.SimpleMotorFeedforwardMeters(0, 0)
         self.speedScale = 0
         self.collectPreferences()
 
@@ -125,21 +125,21 @@ class SwerveModule:
         # very lazy, but should work
         Preferences.initDouble("drive_kP", 0.0)
         self.drivePIDController.setP(Preferences.getDouble("drive_kP"))
-        Preferences.initDouble("drive_kS", 0.0)
+        Preferences.initDouble("drive_kS", 0.12)
         self.driveFeedforward = wpimath.controller.SimpleMotorFeedforwardMeters(
             Preferences.getDouble("drive_kS"), self.driveFeedforward.kV
         )
-        Preferences.initDouble("drive_kV", 0.5)
+        Preferences.initDouble("drive_kV", 0.6)
         self.driveFeedforward = wpimath.controller.SimpleMotorFeedforwardMeters(
             self.driveFeedforward.kS, Preferences.getDouble("drive_kV")
         )
-        Preferences.initDouble("turning_kP", 0.5)
+        Preferences.initDouble("turning_kP", 18.0)
         self.turningPIDController.setP(Preferences.getDouble("turning_kP"))
-        Preferences.initDouble("turning_kS", 0.12)
+        Preferences.initDouble("turning_kS", 0.16)
         self.turnFeedforward = wpimath.controller.SimpleMotorFeedforwardMeters(
             Preferences.getDouble("turning_kS"), self.turnFeedforward.kV
         )
-        Preferences.initDouble("turning_kV", 0.5)
+        Preferences.initDouble("turning_kV", 0.375)
         self.turnFeedforward = wpimath.controller.SimpleMotorFeedforwardMeters(
             self.driveFeedforward.kS, Preferences.getDouble("turning_kV")
         )

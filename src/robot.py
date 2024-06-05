@@ -9,6 +9,7 @@ import phoenix6
 
 import drivetrain
 import swervemodule
+import util
 
 
 class MyRobot(wpilib.TimedRobot):
