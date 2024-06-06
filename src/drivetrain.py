@@ -6,7 +6,9 @@
 
 import math
 import navx
-from wpilib import Preferences
+import ntcore
+from wpilib import Preferences, SmartDashboard
+from wpiutil import Sendable, SendableBuilder
 import wpimath.geometry
 import wpimath.kinematics
 import swervemodule
@@ -45,6 +47,37 @@ class Drivetrain:
 
         self.maxSpeed = Preferences.initDouble("max_speed", 3.0)
 
+    def initSendable(self):
+        self.swerveModuleStates = self.kinematics.toSwerveModuleStates(
+            wpimath.kinematics.ChassisSpeeds(0, 0, 0)
+        )
+
+        def getSpeedGetter(i):
+            def getter():
+                return self.swerveModuleStates[i].speed
+            return getter
+        
+        def getAngleGetter(i):
+            return self.swerveModuleStates[i].angle.radians
+        
+        def dummySetter(value):
+            pass
+
+        class SwerveSendable(Sendable):
+            def initSendable(self, builder: SendableBuilder):
+                builder.setSmartDashboardType("SwerveDrive")
+                builder.addDoubleProperty("Front Left Velocity", getSpeedGetter(0), dummySetter)
+                builder.addDoubleProperty("Front Left Angle", getAngleGetter(0), dummySetter)
+                builder.addDoubleProperty("Front Right Velocity", getSpeedGetter(1), dummySetter)
+                builder.addDoubleProperty("Front Right Angle", getAngleGetter(1), dummySetter)
+                builder.addDoubleProperty("Back Left Velocity", getSpeedGetter(2), dummySetter)
+                builder.addDoubleProperty("Back Left Angle", getAngleGetter(2), dummySetter)
+                builder.addDoubleProperty("Back Right Velocity", getSpeedGetter(3), dummySetter)
+                builder.addDoubleProperty("Back Right Angle", getAngleGetter(3), dummySetter)
+
+        self.sendable = SwerveSendable()
+        SmartDashboard.putData("Swerve Drive", self.sendable)
+
     def drive(
         self,
         xSpeed: float,
@@ -61,7 +94,7 @@ class Drivetrain:
         :param fieldRelative: Whether the provided x and y speeds are relative to the field.
         :param periodSeconds: Time
         """
-        swerveModuleStates = self.kinematics.toSwerveModuleStates(
+        self.swerveModuleStates = self.kinematics.toSwerveModuleStates(
             wpimath.kinematics.ChassisSpeeds.discretize(
                 (
                     wpimath.kinematics.ChassisSpeeds.fromFieldRelativeSpeeds(
@@ -74,12 +107,13 @@ class Drivetrain:
             )
         )
         wpimath.kinematics.SwerveDrive4Kinematics.desaturateWheelSpeeds(
-            swerveModuleStates, Preferences.getDouble("max_speed")  * 6.75 / (0.0508 * 2 * math.pi)
+            self.swerveModuleStates, Preferences.getDouble("max_speed")  * 6.75 / (0.0508 * 2 * math.pi)
         )
-        self.frontLeft.setDesiredState(swerveModuleStates[0])
-        self.frontRight.setDesiredState(swerveModuleStates[1])
-        self.backLeft.setDesiredState(swerveModuleStates[2])
-        self.backRight.setDesiredState(swerveModuleStates[3])
+        self.frontLeft.setDesiredState(self.swerveModuleStates[0])
+        self.frontRight.setDesiredState(self.swerveModuleStates[1])
+        self.backLeft.setDesiredState(self.swerveModuleStates[2])
+        self.backRight.setDesiredState(self.swerveModuleStates[3])
+        
 
     def reset_gyro(self) -> None:
         self.gyro.reset()

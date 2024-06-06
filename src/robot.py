@@ -24,6 +24,7 @@ class MyRobot(wpilib.TimedRobot):
         self.xspeedLimiter = wpimath.filter.SlewRateLimiter(self.slewRate)
         self.yspeedLimiter = wpimath.filter.SlewRateLimiter(self.slewRate)
         self.rotLimiter = wpimath.filter.SlewRateLimiter(self.slewRate)
+        self.swerve.initSendable()
 
     def autonomousPeriodic(self) -> None:
         self.driveWithJoystick(True)
