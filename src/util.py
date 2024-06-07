@@ -3,16 +3,24 @@ from wpilib import Preferences
 from wpilib.interfaces import MotorController
 import phoenix6
 
+#way to easliy switch between xbox and Ps5 with ounly changing one word in robot.py
+class Xbox:
+    getAbutton = wpilib.XboxController.getAButton
+    getBbutton = wpilib.XboxController.getBButton
+    getLeftX = wpilib.XboxController.getLeftX
+    getLeftY = wpilib.XboxController.getLeftY
+    getRightX = wpilib.XboxController.getRightX
+    getRightY = wpilib.XboxController.getRightY
+    getStartButton = wpilib.XboxController.getStartButton
 
-class Controller:
-
-    def xbox(self):
-        self.getAbutton = wpilib.XboxController.getAButton
-        self.getBbutton = wpilib.XboxController.getBButton
-        self.getLeftX = wpilib.XboxController.getLeftX
-        self.getLeftY = wpilib.XboxController.getLeftY
-        self.getRightX = wpilib.XboxController.getRightX
-        self.getRightY = wpilib.XboxController.getRightY
+class PS5:
+    getAbutton = wpilib.PS5Controller.getCircleButton
+    getBbutton = wpilib.PS5Controller.getCrossButton
+    getLeftX = wpilib.PS5Controller.getLeftX
+    getLeftY = wpilib.PS5Controller.getLeftY
+    getRightX = wpilib.PS5Controller.getRightX
+    getRightY = wpilib.PS5Controller.getRightY
+    getStartButton = wpilib.PS5Controller.getCreateButton
 
 
 class WPI_TalonFX(phoenix6.hardware.TalonFX, MotorController):

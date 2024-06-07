@@ -6,12 +6,14 @@ import wpimath.filter
 import wpimath.controller
 
 import drivetrain
+import util
 
 
 class MyRobot(wpilib.TimedRobot):
     def robotInit(self) -> None:
         """Robot initialization function"""
-        self.controller = wpilib.PS5Controller(0)
+        #change line below between xbox and PS5
+        self.controller = util.Xbox()
         self.swerve = drivetrain.Drivetrain()
 
         # Slew rate limiters to make joystick inputs more gentle
@@ -32,7 +34,7 @@ class MyRobot(wpilib.TimedRobot):
             self.rotLimiter = wpimath.filter.SlewRateLimiter(self.slewRate)
 
         self.driveWithJoystick(True)
-        if self.controller.getCreateButton():
+        if self.controller.getStartButton():
             self.swerve.reset_gyro()
 
     def driveWithJoystick(self, fieldRelative: bool) -> None:
