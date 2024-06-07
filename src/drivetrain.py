@@ -6,28 +6,26 @@
 
 import math
 import navx
-import ntcore
 from wpilib import Preferences, SmartDashboard
 from wpiutil import Sendable, SendableBuilder
 import wpimath.geometry
 import wpimath.kinematics
 import swervemodule
-import phoenix6
-
-kMaxSpeed = 3.0 * 6.75 / (0.0508 * 2 * math.pi) # 3 meters per second
-kMaxAngularSpeed = math.pi  # 1/2 rotation per second
 
 
-class Drivetrain:
+class Drivetrain(Sendable):
     """
     Represents a swerve drive style drivetrain.
     """
 
     def __init__(self) -> None:
+        Sendable.__init__(self)
         self.frontLeftLocation = wpimath.geometry.Translation2d(0.318, 0.318)
         self.frontRightLocation = wpimath.geometry.Translation2d(0.318, -0.318)
         self.backLeftLocation = wpimath.geometry.Translation2d(-0.318, 0.318)
         self.backRightLocation = wpimath.geometry.Translation2d(-0.318, -0.318)
+        self.driveGearRatio = 6.75
+        self.wheelRadius = 0.0508
 
         self.frontLeft = swervemodule.SwerveModule(11, 12, 13)
         self.frontRight = swervemodule.SwerveModule(21, 22, 23)
@@ -47,36 +45,59 @@ class Drivetrain:
 
         self.maxSpeed = Preferences.initDouble("max_speed", 3.0)
 
-    def initSendable(self):
         self.swerveModuleStates = self.kinematics.toSwerveModuleStates(
             wpimath.kinematics.ChassisSpeeds(0, 0, 0)
         )
+        SmartDashboard.putData("Swerve Drive", self)
 
-        def getSpeedGetter(i):
-            def getter():
-                return self.swerveModuleStates[i].speed
-            return getter
-        
-        def getAngleGetter(i):
-            return self.swerveModuleStates[i].angle.radians
-        
-        def dummySetter(value):
-            pass
+    def initSendable(self, builder: SendableBuilder) -> None:
+        # Sendable.initSendable(self, builder)
+        builder.setSmartDashboardType("SwerveDrive")
+        builder.addDoubleProperty(
+            "Front Left Velocity",
+            lambda: self.swerveModuleStates[0].speed,
+            lambda _: None,
+        )
+        builder.addDoubleProperty(
+            "Front Left Angle",
+            lambda: self.swerveModuleStates[0].angle.radians(),
+            lambda _: None,
+        )
+        builder.addDoubleProperty(
+            "Front Right Velocity",
+            lambda: self.swerveModuleStates[1].speed,
+            lambda _: None,
+        )
+        builder.addDoubleProperty(
+            "Front Right Angle",
+            lambda: self.swerveModuleStates[1].angle.radians(),
+            lambda _: None,
+        )
+        builder.addDoubleProperty(
+            "Back Left Velocity",
+            lambda: self.swerveModuleStates[2].speed,
+            lambda _: None,
+        )
+        builder.addDoubleProperty(
+            "Back Left Angle",
+            lambda: self.swerveModuleStates[2].angle.radians(),
+            lambda _: None,
+        )
+        builder.addDoubleProperty(
+            "Back Right Velocity",
+            lambda: self.swerveModuleStates[3].speed,
+            lambda _: None,
+        )
+        builder.addDoubleProperty(
+            "Back Right Angle",
+            lambda: self.swerveModuleStates[3].angle.radians(),
+            lambda _: None,
+        )
 
-        class SwerveSendable(Sendable):
-            def initSendable(self, builder: SendableBuilder):
-                builder.setSmartDashboardType("SwerveDrive")
-                builder.addDoubleProperty("Front Left Velocity", getSpeedGetter(0), dummySetter)
-                builder.addDoubleProperty("Front Left Angle", getAngleGetter(0), dummySetter)
-                builder.addDoubleProperty("Front Right Velocity", getSpeedGetter(1), dummySetter)
-                builder.addDoubleProperty("Front Right Angle", getAngleGetter(1), dummySetter)
-                builder.addDoubleProperty("Back Left Velocity", getSpeedGetter(2), dummySetter)
-                builder.addDoubleProperty("Back Left Angle", getAngleGetter(2), dummySetter)
-                builder.addDoubleProperty("Back Right Velocity", getSpeedGetter(3), dummySetter)
-                builder.addDoubleProperty("Back Right Angle", getAngleGetter(3), dummySetter)
-
-        self.sendable = SwerveSendable()
-        SmartDashboard.putData("Swerve Drive", self.sendable)
+    def convertSpeed(self, linearSpeed: float) -> float:
+        # converts linear speed (m/s) to angular speed of the motor (rad/s)
+        # figure out how to use units!
+        return linearSpeed * self.driveGearRatio / (self.wheelRadius * 2 * math.pi)
 
     def drive(
         self,
@@ -107,13 +128,13 @@ class Drivetrain:
             )
         )
         wpimath.kinematics.SwerveDrive4Kinematics.desaturateWheelSpeeds(
-            self.swerveModuleStates, Preferences.getDouble("max_speed")  * 6.75 / (0.0508 * 2 * math.pi)
+            self.swerveModuleStates,
+            Preferences.getDouble("max_speed") * 6.75 / (0.0508 * 2 * math.pi),
         )
         self.frontLeft.setDesiredState(self.swerveModuleStates[0])
         self.frontRight.setDesiredState(self.swerveModuleStates[1])
         self.backLeft.setDesiredState(self.swerveModuleStates[2])
         self.backRight.setDesiredState(self.swerveModuleStates[3])
-        
 
     def reset_gyro(self) -> None:
         self.gyro.reset()

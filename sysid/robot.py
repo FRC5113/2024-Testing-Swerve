@@ -51,3 +51,30 @@ class MyRobot(TimedCommandRobot):
     def testPeriodic(self) -> None:
         """This function is called periodically during test mode."""
         pass
+
+    # def testInit(self) -> None:
+    #     self.test_motor = swervemodule.WPI_TalonFX(12)
+    #     self.test_encoder = phoenix6.hardware.CANcoder(13)
+    #     self.test_voltage = 0
+    #     self.test_kS = 0
+    #     self.test_kV = 0
+
+    # def testPeriodic(self) -> None:
+    #     # routine to determine the kS and kV of a motor
+
+    #     # minimum velocity that is considered "moving" (rad/s)
+    #     v_threshold = 0.01  # not tuned
+    #     # amount by which voltage increases each cycle
+    #     voltage_step = 0.01
+
+    #     self.test_motor.setVoltage(self.test_voltage)
+    #     velocity = self.test_encoder.get_velocity().value * 2 * math.pi
+    #     if velocity > v_threshold and self.test_kS == 0:
+    #         self.test_kS = self.test_voltage
+
+    #     if self.test_kS > 0:
+    #         self.test_kV = (self.test_voltage - self.test_kS) / velocity
+
+    #     print(f"measured kS: {self.test_kS}, measured kV: {self.test_kV}")
+
+    #     self.test_voltage += voltage_step
