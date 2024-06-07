@@ -43,7 +43,10 @@ class Drivetrain(Sendable):
 
         self.gyro.reset()
 
-        self.maxSpeed = Preferences.initDouble("max_speed", 3.0)
+        
+
+        Preferences.initDouble("max_speed", 3.0)
+        self.maxSpeed = 3.0
 
         self.swerveModuleStates = self.kinematics.toSwerveModuleStates(
             wpimath.kinematics.ChassisSpeeds(0, 0, 0)
@@ -55,7 +58,7 @@ class Drivetrain(Sendable):
         builder.setSmartDashboardType("SwerveDrive")
         builder.addDoubleProperty(
             "Front Left Velocity",
-            lambda: self.swerveModuleStates[0].speed,
+            lambda: self.swerveModuleStates[0].speed / self.maxSpeed / 3,
             lambda _: None,
         )
         builder.addDoubleProperty(
@@ -65,7 +68,7 @@ class Drivetrain(Sendable):
         )
         builder.addDoubleProperty(
             "Front Right Velocity",
-            lambda: self.swerveModuleStates[1].speed,
+            lambda: self.swerveModuleStates[1].speed / self.maxSpeed / 3,
             lambda _: None,
         )
         builder.addDoubleProperty(
@@ -75,7 +78,7 @@ class Drivetrain(Sendable):
         )
         builder.addDoubleProperty(
             "Back Left Velocity",
-            lambda: self.swerveModuleStates[2].speed,
+            lambda: self.swerveModuleStates[2].speed / self.maxSpeed / 3,
             lambda _: None,
         )
         builder.addDoubleProperty(
@@ -85,7 +88,7 @@ class Drivetrain(Sendable):
         )
         builder.addDoubleProperty(
             "Back Right Velocity",
-            lambda: self.swerveModuleStates[3].speed,
+            lambda: self.swerveModuleStates[3].speed / self.maxSpeed / 3,
             lambda _: None,
         )
         builder.addDoubleProperty(

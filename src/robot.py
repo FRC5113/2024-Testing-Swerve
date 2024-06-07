@@ -4,15 +4,17 @@ import wpimath
 import wpilib.drive
 import wpimath.filter
 import wpimath.controller
+import navx
 
 import drivetrain
-
+from wpilib import SmartDashboard
 
 class MyRobot(wpilib.TimedRobot):
     def robotInit(self) -> None:
         """Robot initialization function"""
         self.controller = wpilib.PS5Controller(0)
         self.swerve = drivetrain.Drivetrain()
+        self.gyro = navx.AHRS.create_spi()
 
         # Slew rate limiters to make joystick inputs more gentle
         wpilib.Preferences.initDouble("slew_rate", 5)
@@ -34,6 +36,8 @@ class MyRobot(wpilib.TimedRobot):
         self.driveWithJoystick(True)
         if self.controller.getCreateButton():
             self.swerve.reset_gyro()
+
+        SmartDashboard.putNumber("Gyro Angle", self.gyro.getAngle())
 
     def driveWithJoystick(self, fieldRelative: bool) -> None:
         # Get the x speed. We are inverting this because Xbox controllers return
