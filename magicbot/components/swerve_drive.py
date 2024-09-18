@@ -1,17 +1,18 @@
 from components.swerve_wheel import SwerveWheel
-from constants import *
 import math
 import navx
 from wpilib import SmartDashboard
-from wpimath.kinematics import (
-    SwerveDrive4Kinematics,
-    SwerveDrive4Odometry,
-    SwerveModulePosition,
-)
-from wpimath.geometry import Translation2d, Pose2d, Rotation2d
+from wpimath.kinematics import SwerveDrive4Kinematics
+from wpimath.geometry import Translation2d
+from wpimath.kinematics import ChassisSpeeds
+from wpiutil import Sendable, SendableBuilder
 
 
-class SwerveDrive:
+class SwerveDrive(Sendable):
+    offset_x: float
+    offset_y: float
+    drive_gear_ratio: float
+    wheel_radius: float
     front_left: SwerveWheel
     front_right: SwerveWheel
     rear_left: SwerveWheel
@@ -19,57 +20,96 @@ class SwerveDrive:
     navX: navx.AHRS
 
     def __init__(self) -> None:
-        self.speedMultiplier = kDefaultSpeedMultplier
-        self.rotationMultiplier = kDefaultRotationMultiplier
-        self.translationMultiplier = kDefaultTranslationMultiplier
-
+        Sendable.__init__(self)
         self.translationX = self.translationY = self.rotationX = 0
-        self.translationMultiplier = self.rotationMultiplier = self.speedMultiplier = 1
+        self.max_speed = 3.0
         self.should_freeze = False
+        self.period = 0
 
     def setup(self) -> None:
         """
-        This function is automatically called after the components have been injected.
+        This function is automatically called after the components have
+        been injected.
         """
         # Kinematics
-        self.front_left_pose = Translation2d(0.381, 0.381)
-        self.front_right_pose = Translation2d(0.381, -0.381)
-        self.rear_left_pose = Translation2d(-0.381, 0.381)
-        self.rear_right_pose = Translation2d(-0.381, -0.381)
+        self.front_left_pose = Translation2d(self.offset_x, self.offset_y)
+        self.front_right_pose = Translation2d(self.offset_x, -self.offset_y)
+        self.rear_left_pose = Translation2d(-self.offset_x, self.offset_y)
+        self.rear_right_pose = Translation2d(-self.offset_x, -self.offset_y)
         self.kinematics = SwerveDrive4Kinematics(
             self.front_left_pose,
             self.front_right_pose,
             self.rear_left_pose,
             self.rear_right_pose,
         )
+        self.swerve_module_states = self.kinematics.toSwerveModuleStates(
+            ChassisSpeeds(0, 0, 0)
+        )
+        SmartDashboard.putData("Swerve Drive", self)
 
-        # Odometry
-        self.odometry = SwerveDrive4Odometry(
-            self.kinematics,
-            Rotation2d(math.radians(self.getPitch())),
-            (
-                SwerveModulePosition(self.front_left.getDirectionMotorPos()),
-                SwerveModulePosition(self.front_right.getDirectionMotorPos()),
-                SwerveModulePosition(self.rear_left.getDirectionMotorPos()),
-                SwerveModulePosition(self.rear_right.getDirectionMotorPos()),
-            ),
-            Pose2d(x=0, y=0, angle=0),
+    def initSendable(self, builder: SendableBuilder) -> None:
+        builder.setSmartDashboardType("SwerveDrive")
+        builder.addDoubleProperty(
+            "Front Left Velocity",
+            lambda: self.swerve_module_states[0].speed / 10,
+            lambda _: None,
+        )
+        builder.addDoubleProperty(
+            "Front Left Angle",
+            lambda: self.swerve_module_states[0].angle.radians(),
+            lambda _: None,
+        )
+        builder.addDoubleProperty(
+            "Front Right Velocity",
+            lambda: self.swerve_module_states[1].speed / 10,
+            lambda _: None,
+        )
+        builder.addDoubleProperty(
+            "Front Right Angle",
+            lambda: self.swerve_module_states[1].angle.radians(),
+            lambda _: None,
+        )
+        builder.addDoubleProperty(
+            "Back Left Velocity",
+            lambda: self.swerve_module_states[2].speed / 10,
+            lambda _: None,
+        )
+        builder.addDoubleProperty(
+            "Back Left Angle",
+            lambda: self.swerve_module_states[2].angle.radians(),
+            lambda _: None,
+        )
+        builder.addDoubleProperty(
+            "Back Right Velocity",
+            lambda: self.swerve_module_states[3].speed / 10,
+            lambda _: None,
+        )
+        builder.addDoubleProperty(
+            "Back Right Angle",
+            lambda: self.swerve_module_states[3].angle.radians(),
+            lambda _: None,
         )
 
     """
     CONTROL METHODS
 
-    These essentially set up variables and info before execute is ran (like updating translationX from 0 -> 1)
+    These essentially set up variables and info before execute is ran 
+    (like updating translationX from 0 -> 1)
     """
 
-    def setTranslationX(self, translationX: float) -> None:
+    def drive(
+        self,
+        translationX: float,
+        translationY: float,
+        rotationX: float,
+        max_speed: float,
+        period: float,
+    ):
         self.translationX = translationX
-
-    def setTranslationY(self, translationY: float) -> None:
         self.translationY = translationY
-
-    def setRotationX(self, rotationX: float) -> None:
         self.rotationX = rotationX
+        self.max_speed = max_speed
+        self.period = period
 
     def freeze(self) -> None:
         self.should_freeze = True
@@ -77,34 +117,16 @@ class SwerveDrive:
     def unfreeze(self) -> None:
         self.should_freeze = False
 
-    def setSpeedMultiplier(self, multiplier: float) -> None:
-        self.speedMultiplier = multiplier
-
-    def getPitch(self) -> float:
-        return self.navX.getYaw()
-
-    """
-    INFO STUFF(?)
-    yeah idk tbh
-    """
-
-    def updateOdometry(self) -> None:
-        self.odometry.update(
-            Rotation2d(math.radians(self.navX_sim.getDouble("Pitch").get())),
-            SwerveModulePosition(self.front_left.getDirectionMotorPos()),
-            SwerveModulePosition(self.front_right.getDirectionMotorPos()),
-            SwerveModulePosition(self.rear_left.getDirectionMotorPos()),
-            SwerveModulePosition(self.rear_right.getDirectionMotorPos()),
-        )
+    def reset_gyro(self) -> None:
+        self.navX.reset()
 
     """
     EXECUTE
-    This is ran every "tick" of the robot. This is where we update all the wheels speed and direction.
+    This is ran every "tick" of the robot. This is where we update all 
+    the wheels speed and direction.
     """
 
     def execute(self) -> None:
-        SmartDashboard.putNumber("speedMultiplier", self.speedMultiplier)
-
         if self.should_freeze:
             self.front_left.stopWheel()
             self.front_right.stopWheel()
@@ -112,69 +134,20 @@ class SwerveDrive:
             self.rear_right.stopWheel()
             return
 
-        translationX = self.translationX
-        translationY = self.translationY
-        rotationX = self.rotationX
-
-        translationX *= -1
-        rotationX *= -1
-
-        # Add non-speed multipliers
-        translationX *= self.translationMultiplier
-        translationY *= self.translationMultiplier
-        rotationX *= self.rotationMultiplier
-
-        # Field Orientaated Drive (aka complicated math so the robot doesn't rotate while we translate or somthin idrk)
-        temp = translationY * math.cos(
-            self.navX.getYaw() * (math.pi / 180)
-        ) + translationX * math.sin(self.navX.getYaw() * (math.pi / 180))
-        translationX = -translationY * math.sin(
-            self.navX.getYaw() * (math.pi / 180)
-        ) + translationX * math.cos(self.navX.getYaw() * (math.pi / 180))
-        translationY = temp
-
-        # FOR FUTURE ROBOTICS PEOPLE: These usually would require the self.rotationX to be multiplied by (robotLength or robotWidth / 2).
-        # However, since Larry is a square, we don't use this. I'm leaving the code there just in case someone reads this and uses it.
-        robotLength = 1
-        robotWidth = 1
-
-        a = translationX - rotationX  # * (robotLength / 2)
-        b = translationX + rotationX  # * (robotLength / 2)
-        c = translationY - rotationX  # * (robotWidth / 2)
-        d = translationY + rotationX  # * (robotWidth / 2)
-
-        # Wheel 1 = topRight, Wheel 2 = topLeft, Wheel 3 = bottomLeft, Wheel 4 = bottomRight
-        # wheel = [speed, angle]
-        topRight = [math.sqrt(b**2 + c**2), math.atan2(b, c) * (180 / math.pi) + 180]
-        topLeft = [math.sqrt(b**2 + d**2), math.atan2(b, d) * (180 / math.pi) + 180]
-        bottomLeft = [math.sqrt(a**2 + d**2), math.atan2(a, d) * (180 / math.pi) + 180]
-        bottomRight = [math.sqrt(a**2 + c**2), math.atan2(a, c) * (180 / math.pi) + 180]
-
-        # Check if any wheels have a speed higher than 1. If so, divide all wheels by highest value
-        highestSpeed = max(
-            abs(topRight[0]), abs(topLeft[0]), abs(bottomLeft[0]), abs(bottomRight[0])
+        self.swerve_module_states = self.kinematics.toSwerveModuleStates(
+            ChassisSpeeds.discretize(
+                (
+                    ChassisSpeeds.fromFieldRelativeSpeeds(
+                        self.translationX,
+                        self.translationY,
+                        self.rotationX,
+                        self.navX.getRotation2d(),
+                    )
+                ),
+                self.period,
+            )
         )
-        if highestSpeed > 1:
-            topRight[0] /= highestSpeed
-            topLeft[0] /= highestSpeed
-            bottomLeft[0] /= highestSpeed
-            bottomRight[0] /= highestSpeed
-
-        # Speed modifiers
-        topRight[0] *= self.speedMultiplier
-        topLeft[0] *= self.speedMultiplier
-        bottomLeft[0] *= self.speedMultiplier
-        bottomRight[0] *= self.speedMultiplier
-
-        # Turn wheels :D
-        self.front_left.setDesiredSpeed(topLeft[0])
-        self.front_left.setDesiredAngle(topLeft[1])
-
-        self.front_right.setDesiredSpeed(topRight[0])
-        self.front_right.setDesiredAngle(topRight[1])
-
-        self.rear_left.setDesiredSpeed(bottomLeft[0])
-        self.rear_left.setDesiredAngle(bottomLeft[1])
-
-        self.rear_right.setDesiredSpeed(bottomRight[0])
-        self.rear_right.setDesiredAngle(bottomRight[1])
+        SwerveDrive4Kinematics.desaturateWheelSpeeds(
+            self.swerve_module_states,
+            self.max_speed * self.drive_gear_ratio / (self.wheel_radius * 2 * math.pi),
+        )
