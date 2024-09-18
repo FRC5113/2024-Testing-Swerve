@@ -7,8 +7,7 @@ import magicbot
 import navx
 import wpilib
 from wpimath import applyDeadband
-from wpilib import Preferences,SmartDashboard
-
+from wpilib import Preferences, SmartDashboard, RobotController, PowerDistribution
 
 
 class MyRobot(magicbot.MagicRobot):
@@ -100,6 +99,7 @@ class MyRobot(magicbot.MagicRobot):
             self.swerve_drive.reset_gyro()
 
         SmartDashboard.putNumber("Gyro Angle", self.navX.getAngle())
+        SmartDashboard.putNumber("Voltage", RobotController.getBatteryVoltage())
 
     def initPreferences(self) -> None:
         Preferences.initDouble("speed_kP", 0.0)
@@ -114,6 +114,7 @@ class MyRobot(magicbot.MagicRobot):
         Preferences.initDouble("direction_kV", 0.375)
         Preferences.initDouble("direction_Expo_kA", 0.0)
         Preferences.initDouble("direction_Expo_kV", 0.12)
+
 
 if __name__ == "__main__":
     wpilib.run(MyRobot)
