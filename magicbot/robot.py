@@ -7,6 +7,8 @@ import magicbot
 import navx
 import wpilib
 from wpimath import applyDeadband
+from wpilib import Preferences,SmartDashboard
+
 
 
 class MyRobot(magicbot.MagicRobot):
@@ -38,23 +40,27 @@ class MyRobot(magicbot.MagicRobot):
 
         # Motor Configurations (replace with preferences eventually)
         self.direction_configs = TalonFXConfiguration()
-        self.direction_configs.slot0.k_s = 0.25
-        self.direction_configs.slot0.k_p = 4.8
-        self.direction_configs.slot0.k_i = 0
-        self.direction_configs.slot0.k_d = 0
+        self.direction_configs.slot0.k_s = Preferences.getDouble("direction_kS")
+        self.direction_configs.slot0.k_p = Preferences.getDouble("direction_kP")
+        self.direction_configs.slot0.k_v = Preferences.getDouble("direction_kV")
         self.direction_configs.motion_magic.motion_magic_cruise_velocity = 0
-        self.direction_configs.motion_magic.motion_magic_expo_k_v = 0.12
-        self.direction_configs.motion_magic.motion_magic_expo_k_a = 0
+        self.direction_configs.motion_magic.motion_magic_expo_k_v = (
+            Preferences.getDouble("direction_Expo_kV")
+        )
+        self.direction_configs.motion_magic.motion_magic_expo_k_a = (
+            Preferences.getDouble("direction_Expo_kA")
+        )
 
         self.speed_configs = TalonFXConfiguration()
-        self.speed_configs.slot0.k_s = 0.25
-        self.speed_configs.slot0.k_v = 0.12
-        self.speed_configs.slot0.k_a = 0
-        self.speed_configs.slot0.k_p = 4.8
-        self.speed_configs.slot0.k_i = 0
-        self.speed_configs.slot0.k_d = 0
-        self.speed_configs.motion_magic.motion_magic_acceleration = 400
-        self.speed_configs.motion_magic.motion_magic_jerk = 4000
+        self.speed_configs.slot0.k_s = Preferences.getDouble("speed_kS")
+        self.speed_configs.slot0.k_v = Preferences.getDouble("speed_kV")
+        self.speed_configs.slot0.k_p = Preferences.getDouble("speed_kP")
+        self.speed_configs.motion_magic.motion_magic_acceleration = (
+            Preferences.getDouble("speed_acceleration")
+        )
+        self.speed_configs.motion_magic.motion_magic_jerk = Preferences.getDouble(
+            "speed_jerk"
+        )
 
         # Swerve Drive
         self.navX = navx.AHRS.create_spi()
@@ -62,10 +68,12 @@ class MyRobot(magicbot.MagicRobot):
         self.offset_y = 0.381
         self.drive_gear_ratio = 6.75
         self.wheel_radius = 0.0508
-        self.max_speed = 3.0
+        self.max_speed = Preferences.getDouble("speed_scale")
 
         # Controller
         self.driver_controller = wpilib.XboxController(0)
+
+        self.initPreferences()
 
     def teleopPeriodic(self):
         multiplier = self.max_speed  # todo: final touches, max speed in co, other prefs
@@ -91,6 +99,21 @@ class MyRobot(magicbot.MagicRobot):
         if self.driver_controller.getStartButton():
             self.swerve_drive.reset_gyro()
 
+        SmartDashboard.putNumber("Gyro Angle", self.navX.getAngle())
+
+    def initPreferences(self) -> None:
+        Preferences.initDouble("speed_kP", 0.0)
+        Preferences.initDouble("speed_kS", 0.15)
+        Preferences.initDouble("speed_kV", 0.102)
+        Preferences.initDouble("speed_jerk", 4000)
+        Preferences.initDouble("speed_acceleration", 400)
+        Preferences.initDouble("speed_scale", 1.0)
+
+        Preferences.initDouble("direction_kP", 18.0)
+        Preferences.initDouble("direction_kS", 0.14)
+        Preferences.initDouble("direction_kV", 0.375)
+        Preferences.initDouble("direction_Expo_kA", 0.0)
+        Preferences.initDouble("direction_Expo_kV", 0.12)
 
 if __name__ == "__main__":
     wpilib.run(MyRobot)
