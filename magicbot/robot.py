@@ -9,7 +9,7 @@ import wpilib
 from wpimath import applyDeadband
 from wpilib import SmartDashboard, RobotController
 
-from util import SmartPreference
+from utility import SmartPreference
 
 
 class MyRobot(magicbot.MagicRobot):
@@ -70,8 +70,6 @@ class MyRobot(magicbot.MagicRobot):
         # Controller
         self.driver_controller = wpilib.XboxController(0)
 
-        # hehehehehe
-        self.injected_watchdog = None
 
     def fetch_swerve_motor_configs(self):
         """Fetch SmartPreferences for swerve motor configs"""
