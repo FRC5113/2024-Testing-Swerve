@@ -4,8 +4,8 @@ import wpilib
 from phoenix6.signals import NeutralModeValue, FeedbackSensorSourceValue
 from wpimath.kinematics import SwerveModuleState
 from wpimath.geometry import Rotation2d
-
 from phoenix6 import configs, controls
+from magicbot import will_reset_to
 
 
 class SwerveWheel:
@@ -17,6 +17,11 @@ class SwerveWheel:
     direction_configs: configs.TalonFXConfiguration
     cancoder: CANcoder
     debug: bool
+
+    """Module must be explicitly told to move (via setDesiredState) each
+    loop, otherwise it defaults to stopped for safety.
+    """
+    stopped = will_reset_to(True)
 
     def setup(self) -> None:
         """
@@ -37,11 +42,8 @@ class SwerveWheel:
         self.direction_motor.configurator.apply(self.direction_configs)
         self.speed_motor.configurator.apply(self.speed_configs)
 
-        self.desiredState = None
-        self.stopped = False
-        # create a Motion Magic Expo Voltage request for direction motor
+        self.desired_state = None
         self.direction_request = controls.MotionMagicExpoVoltage(0)
-        # create a Motion Magic Velocity Voltage request for speed motor
         self.speed_request = controls.MotionMagicVelocityVoltage(0)
 
     """
@@ -49,41 +51,36 @@ class SwerveWheel:
     """
 
     def setDesiredState(self, state: SwerveModuleState):
-        self.desiredState = state
-
-    def stopWheel(self) -> None:
-        # consider using another type of brake/stop
-        self.speed_motor.set_control(controls.static_brake.StaticBrake())
-        self.direction_motor.set_control(controls.coast_out.CoastOut())
-
-        # Prevents SmartDashboard desync
-        if self.debug:
-            wpilib.SmartDashboard.putNumber(str(self.speed_motor.device_id) + " Mag", 0)
-
-        self.stopped = True
-
-    def getDirectionMotorPos(self) -> None:
-        return self.direction_motor.get_position().value / (150 / 7)
+        self.stopped = False
+        self.desired_state = state
 
     """
     EXECUTE
     """
 
     def execute(self) -> None:
-        if (
-            self.stopped or self.desiredState is None
-        ):  # Stops angle from updating when stopped.
-            self.stopped = False
+        if self.stopped:
+            self.speed_motor.set_control(controls.static_brake.StaticBrake())
+            self.direction_motor.set_control(controls.coast_out.CoastOut())
+            # Prevents SmartDashboard desync
+            if self.debug:
+                wpilib.SmartDashboard.putNumber(
+                    str(self.speed_motor.device_id) + " Mag", 0
+                )
             return
 
+        # configs must be applied periodically to get updates from NT
+        self.direction_motor.configurator.apply(self.direction_configs)
+        self.speed_motor.configurator.apply(self.speed_configs)
+
         encoder_rotation = Rotation2d(self.cancoder.get_position().value * 2 * math.pi)
-        state = SwerveModuleState.optimize(self.desiredState, encoder_rotation)
+        state = SwerveModuleState.optimize(self.desired_state, encoder_rotation)
         # scale speed while turning
         state.speed *= (state.angle - encoder_rotation).cos()
         # convert speed from m/s to r/s
         state.speed *= self.drive_gear_ratio / (self.wheel_radius * 2 * math.pi)
         self.direction_motor.set_control(
-            self.direction_request.with_position(state.angle.radians / 2 / math.pi)
+            self.direction_request.with_position(state.angle.radians() / 2 / math.pi)
         )
         self.speed_motor.set_control(self.speed_request.with_velocity(state.speed))
 
@@ -103,7 +100,7 @@ class SwerveWheel:
             )
             wpilib.SmartDashboard.putNumber(
                 str(self.direction_motor.device_id) + "angle_u (volts)",
-                self.direction_motor.get_motor_voltage(),
+                self.direction_motor.get_motor_voltage().value,
             )
             wpilib.SmartDashboard.putNumber(
                 str(self.speed_motor.device_id) + "speed_r (rps)", state.speed
@@ -118,5 +115,5 @@ class SwerveWheel:
             )
             wpilib.SmartDashboard.putNumber(
                 str(self.direction_motor.device_id) + "speed_u (volts)",
-                self.speed_motor.get_motor_voltage(),
+                self.speed_motor.get_motor_voltage().value,
             )

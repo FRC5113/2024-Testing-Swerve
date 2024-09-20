@@ -7,7 +7,9 @@ import magicbot
 import navx
 import wpilib
 from wpimath import applyDeadband
-from wpilib import Preferences, SmartDashboard, RobotController, PowerDistribution
+from wpilib import SmartDashboard, RobotController
+
+from util import SmartPreference
 
 
 class MyRobot(magicbot.MagicRobot):
@@ -17,10 +19,28 @@ class MyRobot(magicbot.MagicRobot):
     rear_left: SwerveWheel
     rear_right: SwerveWheel
 
+    # initialize SmartPreferences as class attributes
+    direction_kS = SmartPreference(0.14)
+    direction_kP = SmartPreference(18.0)
+    direction_kI = SmartPreference(0)
+    direction_kD = SmartPreference(0)
+    direction_kV = SmartPreference(0.375)
+    direction_kA = SmartPreference(0)
+    direction_kMaxV = SmartPreference(0)
+    speed_kS = SmartPreference(0.15)
+    speed_kV = SmartPreference(0.102)
+    speed_kA = SmartPreference(0)
+    speed_kP = SmartPreference(0)
+    speed_kI = SmartPreference(0)
+    speed_kD = SmartPreference(0)
+    speed_kMaxA = SmartPreference(400)
+    speed_kMaxJ = SmartPreference(4000)
+    max_speed = SmartPreference(3.0)
+
     def createObjects(self):
         self.debug = True
 
-        # Swerve Wheels
+        # Swerve Motor IDs
         self.front_left_speed_motor = TalonFX(12)
         self.front_left_direction_motor = TalonFX(11)
         self.front_left_cancoder = CANcoder(13)
@@ -37,29 +57,8 @@ class MyRobot(magicbot.MagicRobot):
         self.rear_right_direction_motor = TalonFX(41)
         self.rear_right_cancoder = CANcoder(43)
 
-        # Motor Configurations (replace with preferences eventually)
-        self.direction_configs = TalonFXConfiguration()
-        self.direction_configs.slot0.k_s = Preferences.getDouble("direction_kS")
-        self.direction_configs.slot0.k_p = Preferences.getDouble("direction_kP")
-        self.direction_configs.slot0.k_v = Preferences.getDouble("direction_kV")
-        self.direction_configs.motion_magic.motion_magic_cruise_velocity = 0
-        self.direction_configs.motion_magic.motion_magic_expo_k_v = (
-            Preferences.getDouble("direction_Expo_kV")
-        )
-        self.direction_configs.motion_magic.motion_magic_expo_k_a = (
-            Preferences.getDouble("direction_Expo_kA")
-        )
-
-        self.speed_configs = TalonFXConfiguration()
-        self.speed_configs.slot0.k_s = Preferences.getDouble("speed_kS")
-        self.speed_configs.slot0.k_v = Preferences.getDouble("speed_kV")
-        self.speed_configs.slot0.k_p = Preferences.getDouble("speed_kP")
-        self.speed_configs.motion_magic.motion_magic_acceleration = (
-            Preferences.getDouble("speed_acceleration")
-        )
-        self.speed_configs.motion_magic.motion_magic_jerk = Preferences.getDouble(
-            "speed_jerk"
-        )
+        # Swerve Motor Configs
+        self.fetch_swerve_motor_configs()
 
         # Swerve Drive
         self.navX = navx.AHRS.create_spi()
@@ -67,53 +66,60 @@ class MyRobot(magicbot.MagicRobot):
         self.offset_y = 0.381
         self.drive_gear_ratio = 6.75
         self.wheel_radius = 0.0508
-        self.max_speed = Preferences.getDouble("speed_scale")
 
         # Controller
         self.driver_controller = wpilib.XboxController(0)
 
-        self.initPreferences()
+        # hehehehehe
+        self.injected_watchdog = None
 
-    def teleopPeriodic(self):
-        multiplier = self.max_speed  # todo: final touches, max speed in co, other prefs
-        if self.driver_controller.getLeftBumper():
-            multiplier *= 0.5
-        if self.driver_controller.getRightBumper():
-            multiplier *= 0.5
-
-        left_joy_x = applyDeadband(self.driver_controller.getLeftX(), 0.1) * multiplier
-        left_joy_y = applyDeadband(self.driver_controller.getLeftY(), 0.1) * multiplier
-        right_joy_x = (
-            applyDeadband(self.driver_controller.getRightX(), 0.1) * multiplier
+    def fetch_swerve_motor_configs(self):
+        """Fetch SmartPreferences for swerve motor configs"""
+        self.direction_configs = TalonFXConfiguration()
+        self.direction_configs.slot0.k_s = self.direction_kS
+        self.direction_configs.slot0.k_p = self.direction_kP
+        self.direction_configs.slot0.k_i = self.direction_kI
+        self.direction_configs.slot0.k_d = self.direction_kD
+        self.direction_configs.motion_magic.motion_magic_expo_k_v = self.direction_kV
+        self.direction_configs.motion_magic.motion_magic_expo_k_a = self.direction_kA
+        self.direction_configs.motion_magic.motion_magic_cruise_velocity = (
+            self.direction_kMaxV
         )
 
-        if left_joy_x == 0 and left_joy_y == 0 and right_joy_x == 0:
-            self.swerve_drive.freeze()
-        else:
-            self.swerve_drive.unfreeze()
+        self.speed_configs = TalonFXConfiguration()
+        self.speed_configs.slot0.k_s = self.speed_kS
+        self.speed_configs.slot0.k_v = self.speed_kS
+        self.speed_configs.slot0.k_a = self.speed_kS
+        self.speed_configs.slot0.k_p = self.speed_kP
+        self.speed_configs.slot0.k_i = self.speed_kI
+        self.speed_configs.slot0.k_d = self.speed_kD
+        self.speed_configs.motion_magic.motion_magic_acceleration = self.speed_kMaxA
+        self.speed_configs.motion_magic.motion_magic_jerk = self.speed_kMaxJ
 
-        # assumes dt=0.02 (magicbot moment)
-        self.swerve_drive.drive(left_joy_x, left_joy_y, right_joy_x, multiplier, 0.02)
+    def teleopPeriodic(self):
+        # called periodically so that NT updates can be read
+        self.fetch_swerve_motor_configs()
+
+        mult = self.max_speed
+        if self.driver_controller.getLeftBumper():
+            mult *= 0.5
+        if self.driver_controller.getRightBumper():
+            mult *= 0.5
+
+        """x is forward/backward, y is left/right. invert both axes for
+        correct orientation"""
+        left_joy_x = applyDeadband(-self.driver_controller.getLeftY(), 0.1) * mult
+        left_joy_y = applyDeadband(-self.driver_controller.getLeftX(), 0.1) * mult
+        right_joy_x = applyDeadband(self.driver_controller.getRightX(), 0.1) * mult
+
+        if left_joy_x != 0 or left_joy_y != 0 or right_joy_x != 0:
+            self.swerve_drive.drive(left_joy_x, left_joy_y, right_joy_x, mult)
 
         if self.driver_controller.getStartButton():
             self.swerve_drive.reset_gyro()
 
         SmartDashboard.putNumber("Gyro Angle", self.navX.getAngle())
         SmartDashboard.putNumber("Voltage", RobotController.getBatteryVoltage())
-
-    def initPreferences(self) -> None:
-        Preferences.initDouble("speed_kP", 0.0)
-        Preferences.initDouble("speed_kS", 0.15)
-        Preferences.initDouble("speed_kV", 0.102)
-        Preferences.initDouble("speed_jerk", 4000)
-        Preferences.initDouble("speed_acceleration", 400)
-        Preferences.initDouble("speed_scale", 1.0)
-
-        Preferences.initDouble("direction_kP", 18.0)
-        Preferences.initDouble("direction_kS", 0.14)
-        Preferences.initDouble("direction_kV", 0.375)
-        Preferences.initDouble("direction_Expo_kA", 0.0)
-        Preferences.initDouble("direction_Expo_kV", 0.12)
 
 
 if __name__ == "__main__":
