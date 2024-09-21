@@ -22,6 +22,7 @@ class SwerveWheel:
     loop, otherwise it defaults to stopped for safety.
     """
     stopped = will_reset_to(True)
+    update = will_reset_to(False)
 
     def setup(self) -> None:
         """
@@ -54,11 +55,19 @@ class SwerveWheel:
         self.stopped = False
         self.desired_state = state
 
+    def hasUpdate(self):
+        self.update = True
+
     """
     EXECUTE
     """
 
     def execute(self) -> None:
+        # update configs if change detected
+        if self.update:
+            self.direction_motor.configurator.apply(self.direction_configs)
+            self.speed_motor.configurator.apply(self.speed_configs)
+
         if self.stopped:
             self.speed_motor.set_control(controls.static_brake.StaticBrake())
             self.direction_motor.set_control(controls.coast_out.CoastOut())
@@ -68,10 +77,6 @@ class SwerveWheel:
                     str(self.speed_motor.device_id) + " Mag", 0
                 )
             return
-
-        # configs must be applied periodically to get updates from NT
-        self.direction_motor.configurator.apply(self.direction_configs)
-        self.speed_motor.configurator.apply(self.speed_configs)
 
         encoder_rotation = Rotation2d(self.cancoder.get_position().value * 2 * math.pi)
         state = SwerveModuleState.optimize(self.desired_state, encoder_rotation)

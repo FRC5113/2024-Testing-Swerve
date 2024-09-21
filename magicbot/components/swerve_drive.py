@@ -27,7 +27,8 @@ class SwerveDrive(Sendable):
 
     def __init__(self) -> None:
         Sendable.__init__(self)
-        self.max_speed = 3.0
+        self.max_speed = 0
+        self.period = 0.02
 
     def setup(self) -> None:
         """
@@ -45,9 +46,8 @@ class SwerveDrive(Sendable):
             self.rear_left_pose,
             self.rear_right_pose,
         )
-        self.swerve_module_states = self.kinematics.toSwerveModuleStates(
-            ChassisSpeeds(0, 0, 0)
-        )
+        self.still_states = self.kinematics.toSwerveModuleStates(ChassisSpeeds())
+        self.swerve_module_states = self.still_states
         SmartDashboard.putData("Swerve Drive", self)
 
     def initSendable(self, builder: SendableBuilder) -> None:
@@ -106,11 +106,13 @@ class SwerveDrive(Sendable):
         translationY: float,
         rotationX: float,
         max_speed: float,
+        period: float,
     ):
         self.translationX = translationX
         self.translationY = translationY
         self.rotationX = rotationX
         self.max_speed = max_speed
+        self.period = period
         self.stopped = False
 
     def reset_gyro(self) -> None:
@@ -124,6 +126,8 @@ class SwerveDrive(Sendable):
 
     def execute(self) -> None:
         if self.stopped:
+            # below line is only to keep NT updated
+            self.swerve_module_states = self.still_states
             return
 
         self.swerve_module_states = self.kinematics.toSwerveModuleStates(
@@ -136,7 +140,7 @@ class SwerveDrive(Sendable):
                         self.navX.getRotation2d(),
                     )
                 ),
-                0.02,
+                self.period,
             )
         )
         self.swerve_module_states = SwerveDrive4Kinematics.desaturateWheelSpeeds(

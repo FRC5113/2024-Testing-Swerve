@@ -1,3 +1,5 @@
+import math
+
 from components.swerve_drive import SwerveDrive
 from components.swerve_wheel import SwerveWheel
 from phoenix6.hardware import TalonFX
@@ -35,6 +37,9 @@ class MyRobot(magicbot.MagicRobot):
     speed_kD = SmartPreference(0)
     speed_kMaxA = SmartPreference(400)
     speed_kMaxJ = SmartPreference(4000)
+    """This should be the max speed (m/s) at which the drive motors can
+    run, NOT the max speed that the robot should go (ie. use a curve
+    instead). This is because this is also used to calculate omega."""
     max_speed = SmartPreference(3.0)
 
     def createObjects(self):
@@ -70,7 +75,6 @@ class MyRobot(magicbot.MagicRobot):
         # Controller
         self.driver_controller = wpilib.XboxController(0)
 
-
     def fetch_swerve_motor_configs(self):
         """Fetch SmartPreferences for swerve motor configs"""
         self.direction_configs = TalonFXConfiguration()
@@ -97,8 +101,13 @@ class MyRobot(magicbot.MagicRobot):
     def teleopPeriodic(self):
         # called periodically so that NT updates can be read
         self.fetch_swerve_motor_configs()
+        if SmartPreference.has_changed():
+            self.front_left.hasUpdate()
+            self.front_right.hasUpdate()
+            self.rear_left.hasUpdate()
+            self.rear_right.hasUpdate()
 
-        mult = self.max_speed
+        mult = 1
         if self.driver_controller.getLeftBumper():
             mult *= 0.5
         if self.driver_controller.getRightBumper():
@@ -106,18 +115,38 @@ class MyRobot(magicbot.MagicRobot):
 
         """x is forward/backward, y is left/right. invert both axes for
         correct orientation"""
-        left_joy_x = applyDeadband(-self.driver_controller.getLeftY(), 0.1) * mult
-        left_joy_y = applyDeadband(-self.driver_controller.getLeftX(), 0.1) * mult
-        right_joy_x = applyDeadband(self.driver_controller.getRightX(), 0.1) * mult
+        left_joy_x = (
+            applyDeadband(-self.driver_controller.getLeftY(), 0.1)
+            * mult
+            * self.max_speed
+        )
+        left_joy_y = (
+            applyDeadband(-self.driver_controller.getLeftX(), 0.1)
+            * mult
+            * self.max_speed
+        )
+        # calculate max angular speed based on max_speed (cool math here)
+        omega = self.max_speed / math.dist((0, 0), (self.offset_x, self.offset_y))
+        right_joy_x = (
+            applyDeadband(self.driver_controller.getRightX(), 0.1) * mult * omega
+        )
 
         if left_joy_x != 0 or left_joy_y != 0 or right_joy_x != 0:
-            self.swerve_drive.drive(left_joy_x, left_joy_y, right_joy_x, mult)
+            self.swerve_drive.drive(
+                left_joy_x, left_joy_y, right_joy_x, self.max_speed, self.period
+            )
 
         if self.driver_controller.getStartButton():
             self.swerve_drive.reset_gyro()
 
         SmartDashboard.putNumber("Gyro Angle", self.navX.getAngle())
         SmartDashboard.putNumber("Voltage", RobotController.getBatteryVoltage())
+
+    # override _do_periodics() to access watchdog
+    # DON'T DO ANYTHING ELSE HERE UNLESS YOU KNOW WHAT YOU'RE DOING
+    def _do_periodics(self):
+        super()._do_periodics()
+        self.period = max(0.02, self.watchdog.getTime())
 
 
 if __name__ == "__main__":

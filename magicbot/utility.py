@@ -105,6 +105,8 @@ class SmartPreference(object):
     ```
     """
 
+    _changed_flag = False
+
     def __init__(self, value) -> None:
         self._value = value
         self._type = type(value)
@@ -123,12 +125,16 @@ class SmartPreference(object):
             Preferences.initBoolean(self._key, self._value)
 
     def __get__(self, obj, objtype=None):
+        new = None
         if self._type == int or self._type == float:
-            self._value = Preferences.getDouble(self._key, self._value)
+            new = Preferences.getDouble(self._key, self._value)
         elif self._type == str:
-            self._value = Preferences.getString(self._key, self._value)
+            new = Preferences.getString(self._key, self._value)
         elif self._type == bool:
-            self._value = Preferences.getBoolean(self._key, self._value)
+            new = Preferences.getBoolean(self._key, self._value)
+        if new != self._value:
+            SmartPreference._changed_flag = True
+            self._value = new
         return self._value
 
     def __set__(self, obj, value):
@@ -144,6 +150,14 @@ class SmartPreference(object):
             self._value = Preferences.setString(self._key, self._value)
         elif self._type == bool:
             self._value = Preferences.setBoolean(self._key, self._value)
+
+    def has_changed() -> bool:
+        """Returns if any SmartPreference has changed since checked.
+        Only works if called statically."""
+        if SmartPreference._changed_flag:
+            SmartPreference._changed_flag = False
+            return True
+        return False
 
 
 class WPI_TalonFX(phoenix6.hardware.TalonFX, MotorController):

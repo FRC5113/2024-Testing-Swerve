@@ -42,7 +42,7 @@
   {
     "name": "/Preferences/direction_kA",
     "type": "double",
-    "value": 0.0,
+    "value": 0.9,
     "properties": {
       "persistent": true
     }
@@ -122,7 +122,15 @@
   {
     "name": "/Preferences/max_speed",
     "type": "double",
-    "value": 3.0,
+    "value": 5.0,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Preferences/max_omega",
+    "type": "double",
+    "value": 1.0,
     "properties": {
       "persistent": true
     }
