@@ -1,8 +1,5 @@
-import wpilib.simulation
 from pyfrc.physics.core import PhysicsInterface
-from pyfrc.physics import motor_cfgs
-from pyfrc.physics.drivetrains import four_motor_swerve_drivetrain
-from pyfrc.physics.units import units
+
 
 class PhysicsEngine:
     def __init__(self, physics_controller: PhysicsInterface, robot: "MyRobot"):

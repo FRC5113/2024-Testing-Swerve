@@ -120,7 +120,7 @@ class SwerveDrive(Sendable):
                 self.front_right.get_position(),
                 self.rear_left.get_position(),
                 self.rear_right.get_position(),
-            )
+            ),
         )
 
     """

@@ -48,17 +48,6 @@ class SwerveWheel:
         self.speed_request = controls.MotionMagicVelocityVoltage(0)
 
     """
-    INFORMATION METHODS
-    """
-    
-    def get_position(self):
-        return SwerveModulePosition(
-            self.speed_motor.get_position().value, #TODO: CONVERT TO METERS
-            Rotation2d(self.cancoder.get_absolute_position().value * 2 * math.pi)
-        )
-
-
-    """
     CONTROL METHODS
     """
 
