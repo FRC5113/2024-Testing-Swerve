@@ -3,8 +3,8 @@ import math
 import navx
 from wpilib import SmartDashboard
 from wpimath.kinematics import SwerveDrive4Kinematics
-from wpimath.geometry import Translation2d
-from wpimath.kinematics import ChassisSpeeds
+from wpimath.geometry import Translation2d, Rotation2d, Pose2d
+from wpimath.kinematics import ChassisSpeeds, SwerveDrive4Odometry, SwerveModulePosition
 from wpiutil import Sendable, SendableBuilder
 from magicbot import will_reset_to
 
@@ -46,12 +46,31 @@ class SwerveDrive(Sendable):
             self.rear_left_pose,
             self.rear_right_pose,
         )
-        self.still_states = self.kinematics.toSwerveModuleStates(ChassisSpeeds())
+        self.chassis_speeds = ChassisSpeeds()
+        self.still_states = self.kinematics.toSwerveModuleStates(self.chassis_speeds)
         self.swerve_module_states = self.still_states
         SmartDashboard.putData("Swerve Drive", self)
 
+        self.odometry = SwerveDrive4Odometry(
+            self.kinematics,
+            Rotation2d(),
+            (
+                SwerveModulePosition(),
+                SwerveModulePosition(),
+                SwerveModulePosition(),
+                SwerveModulePosition(),
+            ),
+            Pose2d(x=0, y=0, angle=0),
+        )
+
     def initSendable(self, builder: SendableBuilder) -> None:
         builder.setSmartDashboardType("SwerveDrive")
+        builder.addDoubleProperty(
+            "Robot Angle",
+            # Rotate to match field widget
+            lambda: self.navX.getRotation2d().radians() - math.pi / 2,
+            lambda _: None,
+        )
         builder.addDoubleProperty(
             "Front Left Velocity",
             lambda: self.swerve_module_states[0].speed,
@@ -93,6 +112,17 @@ class SwerveDrive(Sendable):
             lambda _: None,
         )
 
+    def update_odometry(self) -> None:
+        self.odometry.update(
+            Rotation2d(math.radians(0)),
+            (
+                self.front_left.get_position(),
+                self.front_right.get_position(),
+                self.rear_left.get_position(),
+                self.rear_right.get_position(),
+            )
+        )
+
     """
     CONTROL METHODS
 
@@ -128,20 +158,22 @@ class SwerveDrive(Sendable):
         if self.stopped:
             # below line is only to keep NT updated
             self.swerve_module_states = self.still_states
+            self.chassis_speeds = ChassisSpeeds()
             return
 
+        self.chassis_speeds = ChassisSpeeds.discretize(
+            (
+                ChassisSpeeds.fromFieldRelativeSpeeds(
+                    self.translationX,
+                    self.translationY,
+                    self.rotationX,
+                    self.navX.getRotation2d(),
+                )
+            ),
+            self.period,
+        )
         self.swerve_module_states = self.kinematics.toSwerveModuleStates(
-            ChassisSpeeds.discretize(
-                (
-                    ChassisSpeeds.fromFieldRelativeSpeeds(
-                        self.translationX,
-                        self.translationY,
-                        self.rotationX,
-                        self.navX.getRotation2d(),
-                    )
-                ),
-                self.period,
-            )
+            self.chassis_speeds
         )
         self.swerve_module_states = SwerveDrive4Kinematics.desaturateWheelSpeeds(
             self.swerve_module_states,

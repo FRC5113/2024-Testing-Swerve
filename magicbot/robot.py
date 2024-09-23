@@ -98,6 +98,9 @@ class MyRobot(magicbot.MagicRobot):
         self.speed_configs.motion_magic.motion_magic_acceleration = self.speed_kMaxA
         self.speed_configs.motion_magic.motion_magic_jerk = self.speed_kMaxJ
 
+    def _simulationInit(self):
+        self.field = wpilib.Field2d()
+
     def teleopPeriodic(self):
         # called periodically so that NT updates can be read
         self.fetch_swerve_motor_configs()
@@ -141,6 +144,11 @@ class MyRobot(magicbot.MagicRobot):
 
         SmartDashboard.putNumber("Gyro Angle", self.navX.getAngle())
         SmartDashboard.putNumber("Voltage", RobotController.getBatteryVoltage())
+
+    def _simulationPeriodic(self):
+        self.swerve_drive.update_odometry()
+        self.field.setRobotPose(self.swerve_drive.odometry.getPose())
+        SmartDashboard.putData("Field", self.field)
 
     # override _do_periodics() to access watchdog
     # DON'T DO ANYTHING ELSE HERE UNLESS YOU KNOW WHAT YOU'RE DOING

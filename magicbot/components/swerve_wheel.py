@@ -2,7 +2,7 @@ from phoenix6.hardware import CANcoder, TalonFX
 import math
 import wpilib
 from phoenix6.signals import NeutralModeValue, FeedbackSensorSourceValue
-from wpimath.kinematics import SwerveModuleState
+from wpimath.kinematics import SwerveModuleState, SwerveModulePosition
 from wpimath.geometry import Rotation2d
 from phoenix6 import configs, controls
 from magicbot import will_reset_to
@@ -46,6 +46,17 @@ class SwerveWheel:
         self.desired_state = None
         self.direction_request = controls.MotionMagicExpoVoltage(0)
         self.speed_request = controls.MotionMagicVelocityVoltage(0)
+
+    """
+    INFORMATION METHODS
+    """
+    
+    def get_position(self):
+        return SwerveModulePosition(
+            self.speed_motor.get_position().value, #TODO: CONVERT TO METERS
+            Rotation2d(self.cancoder.get_absolute_position().value * 2 * math.pi)
+        )
+
 
     """
     CONTROL METHODS
