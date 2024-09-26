@@ -54,11 +54,17 @@ class SwerveWheel:
     CONTROL METHODS
     """
 
+    def get_position(self):
+        return SwerveModulePosition(
+            self.speed_motor.get_position().value, #convert to meters?
+            Rotation2d(self.cancoder.get_absolute_position().value * math.tau)
+        )
+
     def setDesiredState(self, state: SwerveModuleState):
         self.stopped = False
         self.desired_state = state
 
-    def update(self, direction_configs, speed_configs):
+    def update_configs(self, direction_configs, speed_configs):
         self.update = True
         self.direction_configs = direction_configs
         self.speed_configs = speed_configs

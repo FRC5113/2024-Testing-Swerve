@@ -105,10 +105,10 @@ class MyRobot(magicbot.MagicRobot):
         # called periodically so that NT updates can be read
         self.fetch_swerve_motor_configs()
         if SmartPreference.has_changed():
-            self.front_left.hasUpdate()
-            self.front_right.hasUpdate()
-            self.rear_left.hasUpdate()
-            self.rear_right.hasUpdate()
+            self.front_left.update_configs(self.direction_configs, self.speed_configs)
+            self.front_right.update_configs(self.direction_configs, self.speed_configs)
+            self.rear_left.update_configs(self.direction_configs, self.speed_configs)
+            self.rear_right.update_configs(self.direction_configs, self.speed_configs)
 
         mult = 1
         if self.driver_controller.getLeftBumper():
