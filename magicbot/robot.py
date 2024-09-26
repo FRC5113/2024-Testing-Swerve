@@ -82,11 +82,13 @@ class MyRobot(magicbot.MagicRobot):
         self.direction_configs.slot0.k_p = self.direction_kP
         self.direction_configs.slot0.k_i = self.direction_kI
         self.direction_configs.slot0.k_d = self.direction_kD
-        self.direction_configs.motion_magic.motion_magic_expo_k_v = self.direction_kV
-        self.direction_configs.motion_magic.motion_magic_expo_k_a = self.direction_kA
+        self.direction_configs.slot0.k_v = self.direction_kV
+        self.direction_configs.slot0.k_a = self.direction_kA
         self.direction_configs.motion_magic.motion_magic_cruise_velocity = (
             self.direction_kMaxV
         )
+        self.direction_configs.motion_magic.motion_magic_acceleration = 300.0
+        self.direction_configs.motion_magic.motion_magic_jerk = 3000.0
 
         self.speed_configs = TalonFXConfiguration()
         self.speed_configs.slot0.k_s = self.speed_kS
