@@ -82,11 +82,13 @@ class MyRobot(magicbot.MagicRobot):
         self.direction_configs.slot0.k_p = self.direction_kP
         self.direction_configs.slot0.k_i = self.direction_kI
         self.direction_configs.slot0.k_d = self.direction_kD
-        self.direction_configs.motion_magic.motion_magic_expo_k_v = self.direction_kV
-        self.direction_configs.motion_magic.motion_magic_expo_k_a = self.direction_kA
+        self.direction_configs.slot0.k_v = self.direction_kV
+        self.direction_configs.slot0.k_a = self.direction_kA
         self.direction_configs.motion_magic.motion_magic_cruise_velocity = (
             self.direction_kMaxV
         )
+        self.direction_configs.motion_magic.motion_magic_acceleration = 300.0
+        self.direction_configs.motion_magic.motion_magic_jerk = 3000.0
 
         self.speed_configs = TalonFXConfiguration()
         self.speed_configs.slot0.k_s = self.speed_kS
@@ -105,10 +107,10 @@ class MyRobot(magicbot.MagicRobot):
         # called periodically so that NT updates can be read
         self.fetch_swerve_motor_configs()
         if SmartPreference.has_changed():
-            self.front_left.hasUpdate()
-            self.front_right.hasUpdate()
-            self.rear_left.hasUpdate()
-            self.rear_right.hasUpdate()
+            self.front_left.update_configs(self.direction_configs, self.speed_configs)
+            self.front_right.update_configs(self.direction_configs, self.speed_configs)
+            self.rear_left.update_configs(self.direction_configs, self.speed_configs)
+            self.rear_right.update_configs(self.direction_configs, self.speed_configs)
 
         mult = 1
         if self.driver_controller.getLeftBumper():

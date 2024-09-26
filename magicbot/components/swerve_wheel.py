@@ -29,23 +29,26 @@ class SwerveWheel:
         This function is automatically called after the motors and encoders have been injected.
         """
 
-        # initialize to brake mode
-        self.direction_configs.motor_output.neutral_mode = NeutralModeValue.BRAKE
-        self.speed_configs.motor_output.neutral_mode = NeutralModeValue.BRAKE
-        # set cancoder as remote sensor
-        self.direction_configs.feedback.feedback_remote_sensor_id = (
-            self.cancoder.device_id
-        )
-        self.direction_configs.feedback.feedback_sensor_source = (
-            FeedbackSensorSourceValue.REMOTE_CANCODER
-        )
         # apply configs
+        self.init_configs()
         self.direction_motor.configurator.apply(self.direction_configs)
         self.speed_motor.configurator.apply(self.speed_configs)
 
         self.desired_state = None
-        self.direction_request = controls.MotionMagicExpoVoltage(0)
+        self.direction_request = controls.MotionMagicVoltage(0)
         self.speed_request = controls.MotionMagicVelocityVoltage(0)
+
+    def init_configs(self):
+        # initialize to brake mode
+        self.direction_configs.motor_output.neutral_mode = NeutralModeValue.BRAKE
+        self.speed_configs.motor_output.neutral_mode = NeutralModeValue.BRAKE
+        # set cancoder as remote sensor
+        # self.direction_configs.feedback.feedback_sensor_source = (
+        #     FeedbackSensorSourceValue.REMOTE_CANCODER
+        # )
+        # self.direction_configs.feedback.feedback_remote_sensor_id = (
+        #     self.cancoder.device_id
+        # )
 
     """
     CONTROL METHODS
@@ -55,7 +58,10 @@ class SwerveWheel:
         self.stopped = False
         self.desired_state = state
 
-    def hasUpdate(self):
+    def update_configs(self, direction_configs, speed_configs):
+        self.direction_configs = direction_configs
+        self.speed_configs = speed_configs
+        self.init_configs()
         self.update = True
 
     """
@@ -90,6 +96,13 @@ class SwerveWheel:
         self.speed_motor.set_control(self.speed_request.with_velocity(state.speed))
 
         if self.debug:
+            if self.cancoder.device_id == 13:
+                print(
+                    self.direction_motor.get_closed_loop_reference().value,
+                    self.direction_motor.get_closed_loop_reference().value
+                    - self.direction_motor.get_closed_loop_error().value,
+                    self.direction_motor.get_motor_voltage().value,
+                )
             wpilib.SmartDashboard.putNumber(
                 str(self.direction_motor.device_id) + "angle_r (degrees)",
                 state.angle.degrees(),
