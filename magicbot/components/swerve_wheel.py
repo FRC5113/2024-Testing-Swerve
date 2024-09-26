@@ -29,6 +29,16 @@ class SwerveWheel:
         This function is automatically called after the motors and encoders have been injected.
         """
 
+        # apply configs
+        self.init_configs()
+        self.direction_motor.configurator.apply(self.direction_configs)
+        self.speed_motor.configurator.apply(self.speed_configs)
+
+        self.desired_state = None
+        self.direction_request = controls.MotionMagicExpoVoltage(0)
+        self.speed_request = controls.MotionMagicVelocityVoltage(0)
+
+    def init_configs(self):
         # initialize to brake mode
         self.direction_configs.motor_output.neutral_mode = NeutralModeValue.BRAKE
         self.speed_configs.motor_output.neutral_mode = NeutralModeValue.BRAKE
@@ -39,13 +49,6 @@ class SwerveWheel:
         self.direction_configs.feedback.feedback_sensor_source = (
             FeedbackSensorSourceValue.REMOTE_CANCODER
         )
-        # apply configs
-        self.direction_motor.configurator.apply(self.direction_configs)
-        self.speed_motor.configurator.apply(self.speed_configs)
-
-        self.desired_state = None
-        self.direction_request = controls.MotionMagicExpoVoltage(0)
-        self.speed_request = controls.MotionMagicVelocityVoltage(0)
 
     """
     CONTROL METHODS
@@ -55,8 +58,11 @@ class SwerveWheel:
         self.stopped = False
         self.desired_state = state
 
-    def hasUpdate(self):
+    def update(self, direction_configs, speed_configs):
         self.update = True
+        self.direction_configs = direction_configs
+        self.speed_configs = speed_configs
+        self.init_configs()
 
     """
     EXECUTE
