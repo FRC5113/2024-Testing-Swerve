@@ -3,6 +3,8 @@ from typing import Callable
 import wpilib
 from wpilib import Preferences
 from wpilib.interfaces import MotorController
+from wpimath.controller import PIDController
+from wpiutil import Sendable, SendableBuilder
 import phoenix6
 
 
@@ -75,6 +77,68 @@ def cubic_curve(
     absolute_offset: bool = True,
 ) -> Callable[[float], float]:
     return curve(lambda x: scalar * x**3, offset, deadband, max_mag, absolute_offset)
+
+
+class SmartGain():
+    def __init__(self, key, value, getter, setter):
+        self.key = key
+        self.value = value
+        self.getter = getter
+        self.setter = setter
+        Preferences.initDouble(key, value)
+
+    def update(self):
+        from_preferences = Preferences.getDouble(self.key, self.value)
+        # check if value has been changed via set method (takes priority)
+        if self.value != self.getter():
+            self.value = self.getter()
+            Preferences.setDouble(self.key, self.value)
+        # check if value has been changed via preferences
+        elif self.value != from_preferences:
+            self.value = from_preferences
+            self.setter(from_preferences)
+    
+    def set(self, value):
+        if value != self.value:
+            self.value = value
+            Preferences.setDouble(self.key, self.value)
+            self.setter(self.value)
+
+    def get(self):
+        return self.value
+
+
+class SmartProfile(PIDController, Sendable):
+    def __init__(self, key, Kp, Ki, Kd, period=0.02) -> None:
+        PIDController().__init__(Kp, Ki, Kd, period)
+        Sendable().__init__(self)
+        self._gains = (
+            SmartGain(f"{key}_Kp", Kp, lambda: self.getP(), lambda x: self.setP(x)),
+            SmartGain(f"{key}_Ki", Ki, lambda: self.getI(), lambda x: self.setI(x)),
+            SmartGain(f"{key}_Kd", Kd, lambda: self.getD(), lambda x: self.setD(x)),
+        )
+
+    def initSendable(self, builder: SendableBuilder) -> None:
+        builder.setSmartDashboardType("SmartProfile")
+        for gain in self._gains:
+            builder.addDoubleProperty(
+                gain.key, 
+                lambda: gain.get(), 
+                lambda x: gain.set(x)
+            )
+
+    def _update(self):
+        """Should be called periodically (ie from calculate)"""
+        for gain in self._gains:
+            gain.update()
+
+    def calculate(self, measurement, setpoint=None):
+        """Overridden"""
+        self._update()
+        if setpoint is None:
+            return super().calculate(measurement)
+        else:
+            return super().calculate(measurement, setpoint)
 
 
 class SmartPreference(object):
