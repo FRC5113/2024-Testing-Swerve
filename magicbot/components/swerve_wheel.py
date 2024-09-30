@@ -1,20 +1,25 @@
 from phoenix6.hardware import CANcoder, TalonFX
 import math
 import wpilib
-from phoenix6.signals import NeutralModeValue, FeedbackSensorSourceValue
+from phoenix6.signals import NeutralModeValue
+from phoenix6.configs import TalonFXConfiguration
 from wpimath.kinematics import SwerveModuleState, SwerveModulePosition
 from wpimath.geometry import Rotation2d
 from phoenix6 import configs, controls
 from magicbot import will_reset_to
+
+from utility import SmartProfile
 
 
 class SwerveWheel:
     drive_gear_ratio: float
     wheel_radius: float
     speed_motor: TalonFX
-    speed_configs: configs.TalonFXConfiguration
+    # speed_configs: configs.TalonFXConfiguration
+    speed_profile: SmartProfile
     direction_motor: TalonFX
-    direction_configs: configs.TalonFXConfiguration
+    # direction_configs: configs.TalonFXConfiguration
+    direction_profile: SmartProfile
     cancoder: CANcoder
     debug: bool
 
@@ -30,18 +35,20 @@ class SwerveWheel:
         """
 
         # apply configs
-        self.init_configs()
-        self.direction_motor.configurator.apply(self.direction_configs)
-        self.speed_motor.configurator.apply(self.speed_configs)
+        # self.init_configs()
+        self.motor_configs = TalonFXConfiguration()
+        self.motor_configs.motor_output.neutral_mode = NeutralModeValue.BRAKE
+        self.direction_motor.configurator.apply(self.motor_configs)
+        self.speed_motor.configurator.apply(self.motor_configs)
 
         self.desired_state = None
-        self.direction_request = controls.MotionMagicExpoVoltage(0)
-        self.speed_request = controls.MotionMagicVelocityVoltage(0)
+        # self.direction_request = controls.MotionMagicVoltage(0)
+        # self.speed_request = controls.MotionMagicVelocityVoltage(0)
 
-    def init_configs(self):
+    # def init_configs(self):
         # initialize to brake mode
-        self.direction_configs.motor_output.neutral_mode = NeutralModeValue.BRAKE
-        self.speed_configs.motor_output.neutral_mode = NeutralModeValue.BRAKE
+        # self.direction_configs.motor_output.neutral_mode = NeutralModeValue.BRAKE
+        # self.speed_configs.motor_output.neutral_mode = NeutralModeValue.BRAKE
         # FIX CANCODER!!!! (use feedback rotor offset?)
         # set cancoder as remote sensor
         self.direction_configs.feedback.feedback_remote_sensor_id = (
@@ -55,6 +62,7 @@ class SwerveWheel:
         # initialize to brake mode
         self.direction_configs.motor_output.neutral_mode = NeutralModeValue.BRAKE
         self.speed_configs.motor_output.neutral_mode = NeutralModeValue.BRAKE
+        # FIX CANCODER!!!! (use feedback rotor offset?)
         # set cancoder as remote sensor
         # self.direction_configs.feedback.feedback_sensor_source = (
         #     FeedbackSensorSourceValue.REMOTE_CANCODER
@@ -77,11 +85,11 @@ class SwerveWheel:
         self.stopped = False
         self.desired_state = state
 
-    def update_configs(self, direction_configs, speed_configs):
-        self.update = True
-        self.direction_configs = direction_configs
-        self.speed_configs = speed_configs
-        self.init_configs()
+    # def update_configs(self, direction_configs, speed_configs):
+    #     self.direction_configs = direction_configs
+    #     self.speed_configs = speed_configs
+    #     self.init_configs()
+    #     self.update = True
 
     """
     EXECUTE
@@ -89,9 +97,9 @@ class SwerveWheel:
 
     def execute(self) -> None:
         # update configs if change detected
-        if self.update:
-            self.direction_motor.configurator.apply(self.direction_configs)
-            self.speed_motor.configurator.apply(self.speed_configs)
+        # if self.update:
+        #     self.direction_motor.configurator.apply(self.direction_configs)
+        #     self.speed_motor.configurator.apply(self.speed_configs)
 
         if self.stopped:
             self.speed_motor.set_control(controls.static_brake.StaticBrake())
@@ -109,12 +117,24 @@ class SwerveWheel:
         state.speed *= (state.angle - encoder_rotation).cos()
         # convert speed from m/s to r/s
         state.speed *= self.drive_gear_ratio / (self.wheel_radius * 2 * math.pi)
-        self.direction_motor.set_control(
-            self.direction_request.with_position(state.angle.radians() / 2 / math.pi)
+        # self.direction_motor.set_control(
+        #     self.direction_request.with_position(state.angle.radians() / 2 / math.pi)
+        # )
+        # self.speed_motor.set_control(self.speed_request.with_velocity(state.speed))
+        speed_output = self.speed_profile.calculate(
+            self.speed_motor.get_velocity().value,
+            state.speed
         )
-        self.speed_motor.set_control(self.speed_request.with_velocity(state.speed))
+        self.speed_motor.set_control(controls.VoltageOut(speed_output))
+        direction_output = self.direction_profile.calculate(
+            self.cancoder.get_absolute_position().value,
+            state.angle.radians() / math.tau
+        )
+        self.direction_motor.set_control(controls.VoltageOut(direction_output))
+
 
         if self.debug:
+            pass
             # if self.cancoder.device_id == 13:
                 # print(
                 #     self.direction_motor.get_closed_loop_reference().value,
@@ -122,36 +142,36 @@ class SwerveWheel:
                 #     - self.direction_motor.get_closed_loop_error().value,
                 #     self.direction_motor.get_motor_voltage().value,
                 # )
-            wpilib.SmartDashboard.putNumber(
-                str(self.direction_motor.device_id) + "angle_r (degrees)",
-                state.angle.degrees(),
-            )
-            wpilib.SmartDashboard.putNumber(
-                str(self.direction_motor.device_id) + "angle_e (degrees)",
-                state.angle.degrees()
-                - self.cancoder.get_absolute_position().value * 360,
-            )
-            wpilib.SmartDashboard.putNumber(
-                str(self.direction_motor.device_id) + "angle_y (degrees)",
-                self.cancoder.get_absolute_position().value * 360,
-            )
-            wpilib.SmartDashboard.putNumber(
-                str(self.direction_motor.device_id) + "angle_u (volts)",
-                self.direction_motor.get_motor_voltage().value,
-            )
-            wpilib.SmartDashboard.putNumber(
-                str(self.speed_motor.device_id) + "speed_r (rps)", 
-                self.speed_motor.get_closed_loop_reference().value
-            )
-            wpilib.SmartDashboard.putNumber(
-                str(self.direction_motor.device_id) + "speed_e (rps)",
-                self.speed_motor.get_closed_loop_error().value,
-            )
-            wpilib.SmartDashboard.putNumber(
-                str(self.direction_motor.device_id) + "speed_y (rps)",
-                self.speed_motor.get_rotor_velocity().value
-            )
-            wpilib.SmartDashboard.putNumber(
-                str(self.direction_motor.device_id) + "speed_u (volts)",
-                self.speed_motor.get_motor_voltage().value,
-            )
+            # wpilib.SmartDashboard.putNumber(
+            #     str(self.direction_motor.device_id) + "angle_r (degrees)",
+            #     state.angle.degrees(),
+            # )
+            # wpilib.SmartDashboard.putNumber(
+            #     str(self.direction_motor.device_id) + "angle_e (degrees)",
+            #     state.angle.degrees()
+            #     - self.cancoder.get_absolute_position().value * 360,
+            # )
+            # wpilib.SmartDashboard.putNumber(
+            #     str(self.direction_motor.device_id) + "angle_y (degrees)",
+            #     self.cancoder.get_absolute_position().value * 360,
+            # )
+            # wpilib.SmartDashboard.putNumber(
+            #     str(self.direction_motor.device_id) + "angle_u (volts)",
+            #     self.direction_motor.get_motor_voltage().value,
+            # )
+            # wpilib.SmartDashboard.putNumber(
+            #     str(self.speed_motor.device_id) + "speed_r (rps)", 
+            #     self.speed_motor.get_closed_loop_reference().value
+            # )
+            # wpilib.SmartDashboard.putNumber(
+            #     str(self.direction_motor.device_id) + "speed_e (rps)",
+            #     self.speed_motor.get_closed_loop_error().value,
+            # )
+            # wpilib.SmartDashboard.putNumber(
+            #     str(self.direction_motor.device_id) + "speed_y (rps)",
+            #     self.speed_motor.get_rotor_velocity().value
+            # )
+            # wpilib.SmartDashboard.putNumber(
+            #     str(self.direction_motor.device_id) + "speed_u (volts)",
+            #     self.speed_motor.get_motor_voltage().value,
+            # )
