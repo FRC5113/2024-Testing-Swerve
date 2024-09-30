@@ -1,9 +1,10 @@
 from typing import Callable
 
 import wpilib
-from wpilib import Preferences
+from wpilib import Preferences, SmartDashboard
 from wpilib.interfaces import MotorController
 from wpimath.controller import PIDController
+from wpimath.units import seconds
 from wpiutil import Sendable, SendableBuilder
 import phoenix6
 
@@ -109,14 +110,17 @@ class SmartGain():
 
 
 class SmartProfile(PIDController, Sendable):
-    def __init__(self, key, Kp, Ki, Kd, period=0.02) -> None:
-        PIDController().__init__(Kp, Ki, Kd, period)
-        Sendable().__init__(self)
+    def __init__(self, key, Kp, Ki, Kd, period=0.02, verbose=False) -> None:
+        PIDController.__init__(self, Kp, Ki, Kd, period)
+        Sendable.__init__(self)
         self._gains = (
             SmartGain(f"{key}_Kp", Kp, lambda: self.getP(), lambda x: self.setP(x)),
             SmartGain(f"{key}_Ki", Ki, lambda: self.getI(), lambda x: self.setI(x)),
             SmartGain(f"{key}_Kd", Kd, lambda: self.getD(), lambda x: self.setD(x)),
         )
+        self.verbose = verbose
+        self._measurement = None
+        self._output = 0
 
     def initSendable(self, builder: SendableBuilder) -> None:
         builder.setSmartDashboardType("SmartProfile")
@@ -126,6 +130,27 @@ class SmartProfile(PIDController, Sendable):
                 lambda: gain.get(), 
                 lambda x: gain.set(x)
             )
+        if self.verbose:
+            builder.addDoubleProperty(
+                "Setpoint", 
+                lambda: self.getSetpoint(), 
+                lambda _: None
+            )
+            builder.addDoubleProperty(
+                "Measurement", 
+                lambda: self.getMeasurement(), 
+                lambda _: None
+            )
+            builder.addDoubleProperty(
+                "Error", 
+                lambda: self.getPositionError(), 
+                lambda _: None
+            )
+            builder.addDoubleProperty(
+                "Output", 
+                lambda: self.getOutput(), 
+                lambda _: None
+            )
 
     def _update(self):
         """Should be called periodically (ie from calculate)"""
@@ -134,11 +159,19 @@ class SmartProfile(PIDController, Sendable):
 
     def calculate(self, measurement, setpoint=None):
         """Overridden"""
+        self._measurement = measurement
         self._update()
         if setpoint is None:
-            return super().calculate(measurement)
+            self._output = super().calculate(measurement)
         else:
-            return super().calculate(measurement, setpoint)
+            self._output = super().calculate(measurement, setpoint)
+        return self._output
+        
+    def getMeasurement(self):
+        return self._measurement
+    
+    def getOutput(self):
+        return self._output
 
 
 class SmartPreference(object):

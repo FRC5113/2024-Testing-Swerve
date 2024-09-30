@@ -11,7 +11,7 @@ import wpilib
 from wpimath import applyDeadband
 from wpilib import SmartDashboard, RobotController
 
-from utility import SmartPreference
+from utility import SmartPreference, SmartProfile
 
 
 class MyRobot(magicbot.MagicRobot):
@@ -46,20 +46,20 @@ class MyRobot(magicbot.MagicRobot):
         self.debug = True
 
         # Swerve Motor IDs
-        self.front_left_speed_motor = TalonFX(12)
-        self.front_left_direction_motor = TalonFX(11)
+        self.front_left_speed_motor = TalonFX(11)
+        self.front_left_direction_motor = TalonFX(12)
         self.front_left_cancoder = CANcoder(13)
 
-        self.front_right_speed_motor = TalonFX(22)
-        self.front_right_direction_motor = TalonFX(21)
+        self.front_right_speed_motor = TalonFX(21)
+        self.front_right_direction_motor = TalonFX(22)
         self.front_right_cancoder = CANcoder(23)
 
-        self.rear_left_speed_motor = TalonFX(32)
-        self.rear_left_direction_motor = TalonFX(31)
+        self.rear_left_speed_motor = TalonFX(31)
+        self.rear_left_direction_motor = TalonFX(32)
         self.rear_left_cancoder = CANcoder(33)
 
-        self.rear_right_speed_motor = TalonFX(42)
-        self.rear_right_direction_motor = TalonFX(41)
+        self.rear_right_speed_motor = TalonFX(41)
+        self.rear_right_direction_motor = TalonFX(42)
         self.rear_right_cancoder = CANcoder(43)
 
         # Swerve Motor Configs
@@ -71,6 +71,11 @@ class MyRobot(magicbot.MagicRobot):
         self.offset_y = 0.381
         self.drive_gear_ratio = 6.75
         self.wheel_radius = 0.0508
+
+        self.speed_profile = SmartProfile("speed", 0.0, 0.0, 0.0, verbose=True)
+        self.direction_profile = SmartProfile("direction", 0.0, 0.0, 0.0, verbose=True)
+        SmartDashboard.putData("Speed Profile", self.speed_profile)
+        SmartDashboard.putData("Direction Profile", self.direction_profile)
 
         # Controller
         self.driver_controller = wpilib.XboxController(0)

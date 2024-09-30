@@ -39,6 +39,3 @@ class PhysicsEngine:
             self.fl_encoder.add_position(
                 self.d_falcon_sim.getAngularVelocity() / (2 * math.pi) * tm_diff
             )
-            self.fl_direction.add_rotor_position(
-                self.d_falcon_sim.getAngularVelocity() / (2 * math.pi) * tm_diff
-            )
