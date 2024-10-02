@@ -75,7 +75,7 @@ class SwerveWheel:
             self.direction_motor.set_control(controls.coast_out.CoastOut())
             return
 
-        encoder_rotation = Rotation2d(self.cancoder.get_position().value * 2 * math.pi)
+        encoder_rotation = Rotation2d(self.cancoder.get_absolute_position().value * 2 * math.pi)
         state = SwerveModuleState.optimize(self.desired_state, encoder_rotation)
         # scale speed while turning
         state.speed *= (state.angle - encoder_rotation).cos()
@@ -86,7 +86,8 @@ class SwerveWheel:
         )
         self.speed_motor.set_control(controls.VoltageOut(speed_output))
         direction_output = self.direction_controller.calculate(
-            self.cancoder.get_absolute_position().value,
-            state.angle.radians() / math.tau,
+            -encoder_rotation.radians(),
+            #-self.cancoder.get_absolute_position().value,
+            state.angle.radians(),
         )
         self.direction_motor.set_control(controls.VoltageOut(direction_output))
