@@ -68,7 +68,7 @@ class SwerveDrive(Sendable):
         builder.addDoubleProperty(
             "Robot Angle",
             # Rotate to match field widget
-            lambda: self.navX.getRotation2d().radians() - math.pi / 2,
+            lambda: self.navX.getRotation2d().radians(),
             lambda _: None,
         )
         builder.addDoubleProperty(
@@ -154,7 +154,23 @@ class SwerveDrive(Sendable):
     the wheels speed and direction.
     """
 
+    def sendAdvantageScopeData(self):
+        """Put swerve module setpoints and measurements to NT.
+        This is used mainly for AdvantageScope's swerve tab"""
+        swerve_setpoints = []
+        for state in self.swerve_module_states:
+            swerve_setpoints += [state.angle.degrees(), state.speed]
+        SmartDashboard.putNumberArray("Swerve Setpoints", swerve_setpoints)
+        swerve_measurements = []
+        swerve_measurements += self.front_left.getMeasuredState()
+        swerve_measurements += self.front_right.getMeasuredState()
+        swerve_measurements += self.rear_left.getMeasuredState()
+        swerve_measurements += self.rear_right.getMeasuredState()
+        SmartDashboard.putNumberArray("Swerve Measurements", swerve_measurements)
+
     def execute(self) -> None:
+        self.sendAdvantageScopeData()
+
         if self.stopped:
             # below line is only to keep NT updated
             self.swerve_module_states = self.still_states

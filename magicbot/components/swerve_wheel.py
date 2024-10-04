@@ -55,11 +55,18 @@ class SwerveWheel:
     CONTROL METHODS
     """
 
-    def get_position(self):
-        return SwerveModulePosition(
-            self.speed_motor.get_position().value, #convert to meters?
-            Rotation2d(self.cancoder.get_absolute_position().value * math.tau)
-        )
+    def getMeasuredState(self):
+        """Retrieve list of measured angle and velocity
+        (used for AdvantageScope)
+        """
+        # if self.stopped:
+        #     return [0, 0]
+        return [
+            self.cancoder.get_absolute_position().value * 360,
+            self.speed_motor.get_velocity().value
+            * (self.wheel_radius * 2 * math.pi)
+            / self.drive_gear_ratio,
+        ]
 
     def setDesiredState(self, state: SwerveModuleState):
         self.stopped = False
@@ -75,7 +82,9 @@ class SwerveWheel:
             self.direction_motor.set_control(controls.coast_out.CoastOut())
             return
 
-        encoder_rotation = Rotation2d(self.cancoder.get_absolute_position().value * 2 * math.pi)
+        encoder_rotation = Rotation2d(
+            self.cancoder.get_absolute_position().value * 2 * math.pi
+        )
         state = SwerveModuleState.optimize(self.desired_state, encoder_rotation)
         # scale speed while turning
         state.speed *= (state.angle - encoder_rotation).cos()
@@ -86,8 +95,8 @@ class SwerveWheel:
         )
         self.speed_motor.set_control(controls.VoltageOut(speed_output))
         direction_output = self.direction_controller.calculate(
-            -encoder_rotation.radians(),
-            #-self.cancoder.get_absolute_position().value,
+            encoder_rotation.radians(),
+            # -self.cancoder.get_absolute_position().value,
             state.angle.radians(),
         )
         self.direction_motor.set_control(controls.VoltageOut(direction_output))

@@ -53,7 +53,9 @@ class MyRobot(magicbot.MagicRobot):
         self.wheel_radius = 0.0508
 
         self.speed_profile = SmartProfile("speed")
-        self.direction_profile = SmartProfile("direction", continuous_range=(-0.5, 0.5))
+        self.direction_profile = SmartProfile(
+            "direction", continuous_range=(-math.pi, math.pi)
+        )
         SmartDashboard.putData("Speed Profile", self.speed_profile)
         SmartDashboard.putData("Direction Profile", self.direction_profile)
 
