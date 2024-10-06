@@ -26,10 +26,10 @@ jobs:
           robotpy coverage test  
       - name: Test src directory
         run: |
-          cd ../src
+          cd src
           robotpy coverage test  
       - name: Test sysid directory
         run: |
-          cd ../sysid
+          cd sysid
           robotpy coverage test  
       
