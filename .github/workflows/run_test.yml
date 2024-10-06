@@ -20,10 +20,25 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
         continue-on-error: true
-      - name: Test with robotpy test
+      - name: Test magicbot directory
         run: |
+          cd magicbot
           robotpy coverage test  
-      - name: Generate coverage report
+      - name: Generate coverage report for magicbot directory
+        run: |
+          coverage report -m
+      - name: Test src directory
+        run: |
+          cd ../src
+          robotpy coverage test  
+      - name: Generate coverage report for src directory
+        run: |
+          coverage report -m
+      - name: Test sysid directory
+        run: |
+          cd ../sysid
+          robotpy coverage test  
+      - name: Generate coverage report for sysid directory
         run: |
           coverage report -m
       
