@@ -22,7 +22,7 @@ jobs:
         continue-on-error: true
       - name: Test with robotpy test
         run: |
-          python3 -m robotpy coverage test  
+          robotpy coverage test  
       - name: Generate coverage report
         run: |
           coverage report -m

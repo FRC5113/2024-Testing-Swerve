@@ -42,7 +42,6 @@ robotpy-halsim-ws==2024.3.2.1
 robotpy-installer==2024.2.2
 robotpy-navx==2024.1.1
 robotpy-pathplannerlib==2024.1.5
-robotpy-photonvision==2023.4.2
 robotpy-playingwithfusion==2024.2.0
 robotpy-rev==2024.2.4
 robotpy-romi==2024.3.2.1
