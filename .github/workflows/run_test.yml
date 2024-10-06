@@ -24,21 +24,12 @@ jobs:
         run: |
           cd magicbot
           robotpy coverage test  
-      - name: Generate coverage report for magicbot directory
-        run: |
-          coverage report -m
       - name: Test src directory
         run: |
           cd ../src
           robotpy coverage test  
-      - name: Generate coverage report for src directory
-        run: |
-          coverage report -m
       - name: Test sysid directory
         run: |
           cd ../sysid
           robotpy coverage test  
-      - name: Generate coverage report for sysid directory
-        run: |
-          coverage report -m
       
