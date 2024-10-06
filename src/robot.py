@@ -9,6 +9,7 @@ import navx
 import drivetrain
 from wpilib import SmartDashboard
 
+
 class MyRobot(wpilib.TimedRobot):
     def robotInit(self) -> None:
         """Robot initialization function"""

@@ -43,8 +43,6 @@ class Drivetrain(Sendable):
 
         self.gyro.reset()
 
-        
-
         Preferences.initDouble("max_speed", 3.0)
         self.maxSpeed = 3.0
 
