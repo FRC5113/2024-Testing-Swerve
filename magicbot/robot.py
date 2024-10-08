@@ -87,7 +87,7 @@ class MyRobot(magicbot.MagicRobot):
         # calculate max angular speed based on max_speed (cool math here)
         omega = self.max_speed / math.dist((0, 0), (self.offset_x, self.offset_y))
         right_joy_x = (
-            applyDeadband(self.driver_controller.getRightX(), 0.1) * mult * omega
+            -applyDeadband(self.driver_controller.getRightX(), 0.1) * mult * omega
         )
 
         if left_joy_x != 0 or left_joy_y != 0 or right_joy_x != 0:
