@@ -54,7 +54,7 @@ class MyRobot(magicbot.MagicRobot):
 
         self.speed_profile = SmartProfile("speed")
         self.direction_profile = SmartProfile(
-            "direction", continuous_range=(-math.pi, math.pi)
+            "direction", continuous_range=(0, math.tau)
         )
         SmartDashboard.putData("Speed Profile", self.speed_profile)
         SmartDashboard.putData("Direction Profile", self.direction_profile)

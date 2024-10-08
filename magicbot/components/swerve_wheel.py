@@ -96,7 +96,6 @@ class SwerveWheel:
         self.speed_motor.set_control(controls.VoltageOut(speed_output))
         direction_output = self.direction_controller.calculate(
             encoder_rotation.radians(),
-            # -self.cancoder.get_absolute_position().value,
             state.angle.radians(),
         )
-        self.direction_motor.set_control(controls.VoltageOut(direction_output))
+        self.direction_motor.set_control(controls.VoltageOut(-direction_output))
