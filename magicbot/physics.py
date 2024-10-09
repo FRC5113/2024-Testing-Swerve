@@ -65,7 +65,7 @@ class PhysicsEngine:
                 )
                 self.direction_falcon_sims[i].update(tm_diff)
                 self.encoders[i].sim_state.add_position(
-                    self.direction_falcon_sims[i].getAngularVelocity()
+                    -self.direction_falcon_sims[i].getAngularVelocity()
                     / (2 * math.pi)
                     * tm_diff
                 )
@@ -85,5 +85,5 @@ class PhysicsEngine:
             )
             # artificially soften simulated omega
             sim_speeds.omega_dps *= 0.4
-            pose = self.physics_controller.drive(chassis_speeds, tm_diff)
+            pose = self.physics_controller.drive(sim_speeds, tm_diff)
             self.robot.navX.setAngleAdjustment(-pose.rotation().degrees())
