@@ -2,6 +2,8 @@ import math
 
 import wpilib.shuffleboard
 
+import wpilib.shuffleboard
+
 from components.sysid_drive import SysIdDrive
 from components.swerve_drive import SwerveDrive
 from components.swerve_wheel import SwerveWheel
@@ -12,6 +14,7 @@ import navx
 import wpilib
 from wpimath import applyDeadband
 from wpilib import SmartDashboard, RobotController, SendableChooser
+from wpilib.shuffleboard import BuiltInWidgets, Shuffleboard, SendableChooser
 from wpilib.shuffleboard import BuiltInWidgets, Shuffleboard
 
 from util.smart_preference import SmartPreference, SmartProfile
