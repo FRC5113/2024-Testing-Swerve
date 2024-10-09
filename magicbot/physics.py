@@ -59,6 +59,9 @@ class PhysicsEngine:
                 self.speed_sim_states[i].set_rotor_velocity(
                     self.speed_falcon_sims[i].getAngularVelocity()
                 )
+                self.speed_sim_states[i].add_rotor_position(
+                    self.speed_falcon_sims[i].getAngularVelocity() * tm_diff
+                )
                 self.direction_sim_states[i].set_supply_voltage(battery_v)
                 self.direction_falcon_sims[i].setInputVoltage(
                     self.direction_sim_states[i].motor_voltage

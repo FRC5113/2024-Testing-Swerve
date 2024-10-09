@@ -5,7 +5,8 @@ from wpilib import SmartDashboard
 from wpilib.sysid import SysIdRoutineLog
 from wpimath.kinematics import SwerveDrive4Kinematics
 from wpimath.geometry import Translation2d, Rotation2d, Pose2d
-from wpimath.kinematics import ChassisSpeeds, SwerveDrive4Odometry, SwerveModulePosition
+from wpimath.kinematics import ChassisSpeeds, SwerveModulePosition
+from wpimath.estimator import SwerveDrive4PoseEstimator
 from wpiutil import Sendable, SendableBuilder
 from magicbot import will_reset_to
 
@@ -52,7 +53,7 @@ class SwerveDrive(Sendable):
         self.swerve_module_states = self.still_states
         SmartDashboard.putData("Swerve Drive", self)
 
-        self.odometry = SwerveDrive4Odometry(
+        self.pose_estimator = SwerveDrive4PoseEstimator(
             self.kinematics,
             Rotation2d(),
             (
@@ -112,6 +113,9 @@ class SwerveDrive(Sendable):
             lambda: self.swerve_module_states[3].angle.radians(),
             lambda _: None,
         )
+
+    def get_estimated_pose(self) -> Pose2d:
+        return self.pose_estimator.getEstimatedPosition()
 
     """
     CONTROL METHODS
@@ -175,6 +179,16 @@ class SwerveDrive(Sendable):
 
     def execute(self) -> None:
         self.sendAdvantageScopeData()
+        self.pose_estimator.update(
+            Rotation2d(-self.navX.getAngle() / 180 * math.pi),
+            (
+                self.front_left.getPosition(),
+                self.front_right.getPosition(),
+                self.rear_left.getPosition(),
+                self.rear_right.getPosition(),
+            ),
+        )
+        # print(self.front_left.getPosition())
 
         if self.stopped:
             # below line is only to keep NT updated

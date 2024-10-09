@@ -14,8 +14,6 @@ import navx
 import wpilib
 from wpimath import applyDeadband
 from wpilib import SmartDashboard, RobotController, SendableChooser
-from wpilib.shuffleboard import BuiltInWidgets, Shuffleboard, SendableChooser
-from wpilib.shuffleboard import BuiltInWidgets, Shuffleboard
 
 from util.smart_preference import SmartPreference, SmartProfile
 
@@ -75,6 +73,8 @@ class MyRobot(magicbot.MagicRobot):
 
         SmartDashboard.putData("Controller", self.controller)
 
+        self.estimated_field = wpilib.Field2d()
+
     def teleopPeriodic(self):
         if self.controller.getSelected() == wpilib.XboxController:
             self.driver_controller = wpilib.XboxController(0)
@@ -91,7 +91,6 @@ class MyRobot(magicbot.MagicRobot):
             self.leftbumper = self.driver_controller.getL1Button()
             self.rightbumper = self.driver_controller.getR1Button()
             self.startbutton = self.driver_controller.getOptionsButton()
-        print(self.driver_controller)
         mult = 1
         if self.leftbumper:
             mult *= 0.5
@@ -145,17 +144,20 @@ class MyRobot(magicbot.MagicRobot):
         if self.startbutton:
             self.swerve_drive.reset_gyro()
 
-        if self.driver_controller.getAButton():
-            self.sysid_drive.quasistatic_forward()
-        if self.driver_controller.getBButton():
-            self.sysid_drive.quasistatic_reverse()
-        if self.driver_controller.getXButton():
-            self.sysid_drive.dynamic_forward()
-        if self.driver_controller.getYButton():
-            self.sysid_drive.dynamic_reverse()
+        if isinstance(self.driver_controller, wpilib.XboxController):
+            if self.driver_controller.getAButton():
+                self.sysid_drive.quasistatic_forward()
+            if self.driver_controller.getBButton():
+                self.sysid_drive.quasistatic_reverse()
+            if self.driver_controller.getXButton():
+                self.sysid_drive.dynamic_forward()
+            if self.driver_controller.getYButton():
+                self.sysid_drive.dynamic_reverse()
 
         SmartDashboard.putNumber("Gyro Angle", self.navX.getAngle())
         SmartDashboard.putNumber("Voltage", RobotController.getBatteryVoltage())
+        self.estimated_field.setRobotPose(self.swerve_drive.get_estimated_pose())
+        SmartDashboard.putData("Estimated Field", self.estimated_field)
 
     # override _do_periodics() to access watchdog
     # DON'T DO ANYTHING ELSE HERE UNLESS YOU KNOW WHAT YOU'RE DOING
