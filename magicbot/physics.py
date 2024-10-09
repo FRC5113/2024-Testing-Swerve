@@ -70,8 +70,6 @@ class PhysicsEngine:
                     * tm_diff
                 )
 
-            chassis_speeds = self.robot.swerve_drive.chassis_speeds
-
             sim_speeds = four_motor_swerve_drivetrain(
                 self.speed_sim_states[2].motor_voltage / battery_v,
                 self.speed_sim_states[3].motor_voltage / battery_v,

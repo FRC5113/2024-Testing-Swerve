@@ -65,9 +65,6 @@ class MyRobot(magicbot.MagicRobot):
         # Controller
         self.driver_controller = wpilib.XboxController(0)
 
-    def _simulationInit(self):
-        self.field = wpilib.Field2d()
-
     def teleopPeriodic(self):
         mult = 1
         if self.driver_controller.getLeftBumper():
@@ -112,11 +109,6 @@ class MyRobot(magicbot.MagicRobot):
 
         SmartDashboard.putNumber("Gyro Angle", self.navX.getAngle())
         SmartDashboard.putNumber("Voltage", RobotController.getBatteryVoltage())
-
-    def _simulationPeriodic(self):
-        self.swerve_drive.update_odometry()
-        self.field.setRobotPose(self.swerve_drive.odometry.getPose())
-        SmartDashboard.putData("Field", self.field)
 
     # override _do_periodics() to access watchdog
     # DON'T DO ANYTHING ELSE HERE UNLESS YOU KNOW WHAT YOU'RE DOING

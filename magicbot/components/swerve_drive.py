@@ -113,17 +113,6 @@ class SwerveDrive(Sendable):
             lambda _: None,
         )
 
-    def update_odometry(self) -> None:
-        self.odometry.update(
-            Rotation2d(math.radians(0)),
-            (
-                self.front_left.get_position(),
-                self.front_right.get_position(),
-                self.rear_left.get_position(),
-                self.rear_right.get_position(),
-            ),
-        )
-
     """
     CONTROL METHODS
 
@@ -131,24 +120,20 @@ class SwerveDrive(Sendable):
     (like updating translationX from 0 -> 1)
     """
 
-    def sysid_drive(self, speed: float):
-        self.drive(speed, 0, 0, 3.0, 0.02)
+    def sysid_drive(self, volts: float):
+        self.drive(volts, 0, 0, 3.0, 0.02)
 
-    def sysid_log(self, sys_id_routine: SysIdRoutineLog) -> None:
+    def sysid_log(self, log: SysIdRoutineLog) -> None:
         # Record a frame for the left motors.  Since these share an encoder, we consider
         # the entire group to be one motor.
-        sys_id_routine.motor("drive-left").voltage(
-            self.front_left.getDriveVoltage()
-        ).position(self.front_left.getDrivePosition()).velocity(
-            self.front_left.getDriveVelocity()
-        )
+        log.motor("drive-left").voltage(self.front_left.getDriveVoltage()).position(
+            self.front_left.getDrivePosition()
+        ).velocity(self.front_left.getDriveVelocity())
         # Record a frame for the right motors.  Since these share an encoder, we consider
         # the entire group to be one motor.
-        sys_id_routine.motor("drive-right").voltage(
-            self.front_right.getDriveVoltage()
-        ).position(self.front_right.getDrivePosition()).velocity(
-            self.front_right.getDriveVelocity()
-        )
+        log.motor("drive-right").voltage(self.front_right.getDriveVoltage()).position(
+            self.front_right.getDrivePosition()
+        ).velocity(self.front_right.getDriveVelocity())
 
     def drive(
         self,
