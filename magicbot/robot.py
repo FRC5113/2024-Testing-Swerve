@@ -1,5 +1,7 @@
 import math
 
+import wpilib.shuffleboard
+
 from components.swerve_drive import SwerveDrive
 from components.swerve_wheel import SwerveWheel
 from phoenix6.hardware import TalonFX
@@ -8,7 +10,8 @@ import magicbot
 import navx
 import wpilib
 from wpimath import applyDeadband
-from wpilib import SmartDashboard, RobotController
+from wpilib import SmartDashboard, RobotController, SendableChooser
+from wpilib.shuffleboard import BuiltInWidgets, Shuffleboard
 
 from utility import SmartPreference, SmartProfile
 
@@ -59,19 +62,38 @@ class MyRobot(magicbot.MagicRobot):
         SmartDashboard.putData("Speed Profile", self.speed_profile)
         SmartDashboard.putData("Direction Profile", self.direction_profile)
 
-        # Controller
-        self.driver_controller = wpilib.XboxController(0)
+        # controller chooser
+        self.controller = SendableChooser()
+        self.controller.setDefaultOption("Playstation", wpilib.PS5Controller)
+        self.controller.addOption("Xbox", wpilib.XboxController)
+
+        SmartDashboard.putData("Controller", self.controller)
 
     def _simulationInit(self):
         self.field = wpilib.Field2d()
 
     def teleopPeriodic(self):
-        mult = 1
-        if self.driver_controller.getLeftBumper():
-            mult *= 0.5
-        if self.driver_controller.getRightBumper():
-            mult *= 0.5
+        if self.controller.getSelected() == wpilib.XboxController:
+            self.driver_controller = wpilib.XboxController(0)
+        elif self.controller.getSelected() == wpilib.PS5Controller:
+            self.driver_controller = wpilib.PS5Controller(0)
 
+            # Initialize Xbox and PS5 controllers as instance variables
+        if isinstance(self.driver_controller, wpilib.XboxController):
+            self.leftbumper = self.driver_controller.getLeftBumper()
+            self.rightbumper = self.driver_controller.getRightBumper()
+            self.startbutton = self.driver_controller.getStartButton()
+
+        elif isinstance(self.driver_controller, wpilib.PS5Controller):
+            self.leftbumper = self.driver_controller.getL1Button()
+            self.rightbumper = self.driver_controller.getR1Button()
+            self.startbutton = self.driver_controller.getOptionsButton()
+        print(self.driver_controller)
+        mult = 1
+        if self.leftbumper:
+            mult *= 0.5
+        if self.rightbumper:
+            mult *= 0.5
 
         """x is forward/backward, y is left/right. invert both axes for
         correct orientation"""
@@ -85,17 +107,16 @@ class MyRobot(magicbot.MagicRobot):
             * mult
             * self.max_speed
         )
-
         # Define the POV-to-(left_joy_x, left_joy_y) mapping
         pov_mapping = {
             0: (1, 0),
-            180: (-1, 0),
-            270: (0, 1),
+            45: (0.707, -0.707),
             90: (0, -1),
-            45: (0.5, -0.5),
-            135: (-0.5, -0.5),
-            225: (-0.5, 0.5),
-            315: (0.5, 0.5)
+            135: (-0.707, -0.707),
+            180: (-1, 0),
+            225: (-0.707, 0.707),
+            270: (0, 1),
+            315: (0.707, 0.707),
         }
 
         # Get the current POV from the controller
@@ -118,7 +139,7 @@ class MyRobot(magicbot.MagicRobot):
                 left_joy_x, left_joy_y, right_joy_x, self.max_speed, self.period
             )
 
-        if self.driver_controller.getStartButton():
+        if self.startbutton:
             self.swerve_drive.reset_gyro()
 
         SmartDashboard.putNumber("Gyro Angle", self.navX.getAngle())
