@@ -76,6 +76,16 @@ class SwerveWheel:
     def getDriveVelocity(self) -> float:
         return self.speed_motor.get_velocity().value
 
+    def getPosition(self) -> SwerveModulePosition:
+        return SwerveModulePosition(
+            self.getDrivePosition()
+            / self.drive_gear_ratio
+            * (self.wheel_radius * 2 * math.pi),
+            Rotation2d(
+                self.cancoder.get_absolute_position().value * math.tau + math.pi / 2
+            ),
+        )
+
     def setDesiredState(self, state: SwerveModuleState):
         self.stopped = False
         self.desired_state = state

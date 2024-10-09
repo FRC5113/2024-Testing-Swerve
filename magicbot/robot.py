@@ -78,6 +78,10 @@ class MyRobot(magicbot.MagicRobot):
         self.navX.reset()
         self.navX.setAngleAdjustment(-90)
 
+        self.estimated_field = wpilib.Field2d()
+
+        self.estimated_field = wpilib.Field2d()
+
     def teleopPeriodic(self):
         controller = SmartController(0)
 
@@ -119,6 +123,8 @@ class MyRobot(magicbot.MagicRobot):
 
         SmartDashboard.putNumber("Gyro Angle", self.navX.getAngle())
         SmartDashboard.putNumber("Voltage", RobotController.getBatteryVoltage())
+        self.estimated_field.setRobotPose(self.swerve_drive.get_estimated_pose())
+        SmartDashboard.putData("Estimated Field", self.estimated_field)
 
     # override _do_periodics() to access watchdog
     # DON'T DO ANYTHING ELSE HERE UNLESS YOU KNOW WHAT YOU'RE DOING
