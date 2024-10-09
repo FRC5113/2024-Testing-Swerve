@@ -164,7 +164,7 @@ class SwerveDrive(Sendable):
         This is used mainly for AdvantageScope's swerve tab"""
         swerve_setpoints = []
         for state in self.swerve_module_states:
-            swerve_setpoints += [state.angle.degrees(), state.speed]
+            swerve_setpoints += [state.angle.radians(), state.speed]
         SmartDashboard.putNumberArray("Swerve Setpoints", swerve_setpoints)
         swerve_measurements = []
         swerve_measurements += self.front_left.getMeasuredState()
