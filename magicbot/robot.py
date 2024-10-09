@@ -72,6 +72,7 @@ class MyRobot(magicbot.MagicRobot):
         if self.driver_controller.getRightBumper():
             mult *= 0.5
 
+
         """x is forward/backward, y is left/right. invert both axes for
         correct orientation"""
         left_joy_x = (
@@ -84,6 +85,28 @@ class MyRobot(magicbot.MagicRobot):
             * mult
             * self.max_speed
         )
+
+        # Define the POV-to-(left_joy_x, left_joy_y) mapping
+        pov_mapping = {
+            0: (1, 0),
+            180: (-1, 0),
+            270: (0, 1),
+            90: (0, -1),
+            45: (0.5, -0.5),
+            135: (-0.5, -0.5),
+            225: (-0.5, 0.5),
+            315: (0.5, 0.5)
+        }
+
+        # Get the current POV from the controller
+        pov_value = self.driver_controller.getPOV()
+
+        # Update the joystick values based on the POV value if it's in the mapping
+        if pov_value in pov_mapping:
+            left_joy_x, left_joy_y = pov_mapping[pov_value]
+            left_joy_x *= mult * self.max_speed
+            left_joy_y *= mult * self.max_speed
+
         # calculate max angular speed based on max_speed (cool math here)
         omega = self.max_speed / math.dist((0, 0), (self.offset_x, self.offset_y))
         right_joy_x = (
