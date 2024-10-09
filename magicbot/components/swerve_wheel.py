@@ -9,7 +9,7 @@ from wpimath.geometry import Rotation2d
 from phoenix6 import configs, controls
 from magicbot import will_reset_to
 
-from utility import SmartProfile
+from util.smart_preference import SmartProfile
 
 
 class SwerveWheel:
@@ -67,6 +67,15 @@ class SwerveWheel:
             * (self.wheel_radius * 2 * math.pi)
             / self.drive_gear_ratio,
         ]
+
+    def getDriveVoltage(self) -> float:
+        return self.speed_controller.getOutput()
+
+    def getDrivePosition(self) -> float:
+        return self.speed_motor.get_position().value
+
+    def getDriveVelocity(self) -> float:
+        return self.speed_motor.get_velocity().value
 
     def setDesiredState(self, state: SwerveModuleState):
         self.stopped = False

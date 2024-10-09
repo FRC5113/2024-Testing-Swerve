@@ -2,6 +2,7 @@ from components.swerve_wheel import SwerveWheel
 import math
 import navx
 from wpilib import SmartDashboard
+from wpilib.sysid import SysIdRoutineLog
 from wpimath.kinematics import SwerveDrive4Kinematics
 from wpimath.geometry import Translation2d, Rotation2d, Pose2d
 from wpimath.kinematics import ChassisSpeeds, SwerveDrive4Odometry, SwerveModulePosition
@@ -129,6 +130,25 @@ class SwerveDrive(Sendable):
     These essentially set up variables and info before execute is ran 
     (like updating translationX from 0 -> 1)
     """
+
+    def sysid_drive(self, speed: float):
+        self.drive(speed, 0, 0, 3.0, 0.02)
+
+    def sysid_log(self, sys_id_routine: SysIdRoutineLog) -> None:
+        # Record a frame for the left motors.  Since these share an encoder, we consider
+        # the entire group to be one motor.
+        sys_id_routine.motor("drive-left").voltage(
+            self.front_left.getDriveVoltage()
+        ).position(self.front_left.getDrivePosition()).velocity(
+            self.front_left.getDriveVelocity()
+        )
+        # Record a frame for the right motors.  Since these share an encoder, we consider
+        # the entire group to be one motor.
+        sys_id_routine.motor("drive-right").voltage(
+            self.front_right.getDriveVoltage()
+        ).position(self.front_right.getDrivePosition()).velocity(
+            self.front_right.getDriveVelocity()
+        )
 
     def drive(
         self,

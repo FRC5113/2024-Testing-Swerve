@@ -1,5 +1,6 @@
 import math
 
+from components.sysid_drive import SysIdDrive
 from components.swerve_drive import SwerveDrive
 from components.swerve_wheel import SwerveWheel
 from phoenix6.hardware import TalonFX
@@ -10,10 +11,12 @@ import wpilib
 from wpimath import applyDeadband
 from wpilib import SmartDashboard, RobotController
 
-from utility import SmartPreference, SmartProfile
+from util.smart_preference import SmartPreference, SmartProfile
 
 
 class MyRobot(magicbot.MagicRobot):
+    sysid_drive: SysIdDrive
+
     swerve_drive: SwerveDrive
     front_left: SwerveWheel
     front_right: SwerveWheel
@@ -97,6 +100,15 @@ class MyRobot(magicbot.MagicRobot):
 
         if self.driver_controller.getStartButton():
             self.swerve_drive.reset_gyro()
+
+        if self.driver_controller.getAButton():
+            self.sysid_drive.quasistatic_forward()
+        if self.driver_controller.getBButton():
+            self.sysid_drive.quasistatic_reverse()
+        if self.driver_controller.getXButton():
+            self.sysid_drive.dynamic_forward()
+        if self.driver_controller.getYButton():
+            self.sysid_drive.dynamic_reverse()
 
         SmartDashboard.putNumber("Gyro Angle", self.navX.getAngle())
         SmartDashboard.putNumber("Voltage", RobotController.getBatteryVoltage())
