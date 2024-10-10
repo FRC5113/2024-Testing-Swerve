@@ -72,6 +72,9 @@ class MyRobot(magicbot.MagicRobot):
         self.controller_chooser.addOption("Xbox",  XboxController)
 
         SmartDashboard.putData("Controller", self.controller_chooser)
+    def teleopInit(self):
+        self.navX.reset()
+        self.navX.setAngleAdjustment(-90)
 
     def teleopPeriodic(self):
          # Controller selection
@@ -109,12 +112,12 @@ class MyRobot(magicbot.MagicRobot):
         """x is forward/backward, y is left/right. invert both axes for
         correct orientation"""
         left_joy_x = (
-            applyDeadband(-self.driver_controller.getLeftX(), 0.1)
+            applyDeadband(-self.driver_controller.getLeftY(), 0.1)
             * mult
             * self.max_speed
         )
         left_joy_y = (
-            applyDeadband(-self.driver_controller.getLeftY(), 0.1)
+            applyDeadband(self.driver_controller.getLeftX(), 0.1)
             * mult
             * self.max_speed
         )
@@ -147,12 +150,12 @@ class MyRobot(magicbot.MagicRobot):
 
         if left_joy_x != 0 or left_joy_y != 0 or right_joy_x != 0:
             self.swerve_drive.drive(
-                left_joy_x, left_joy_y, right_joy_x, self.max_speed, self.period
+                 left_joy_y, left_joy_x, right_joy_x, self.max_speed, self.period
             )
 
         if self.startbutton:
             self.swerve_drive.reset_gyro()
-            self.navX.setAngleAdjustment(0)
+            self.navX.setAngleAdjustment(-90)
 
         if self.abutton:
             self.sysid_drive.quasistatic_forward()

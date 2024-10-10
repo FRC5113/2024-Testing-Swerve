@@ -87,7 +87,7 @@ class SwerveWheel:
 
     def execute(self) -> None:
         if self.stopped:
-            self.speed_motor.set_control(controls.static_brake.StaticBrake())
+            self.speed_motor.set_control(controls.coast_out.CoastOut())
             self.direction_motor.set_control(controls.coast_out.CoastOut())
             return
 
