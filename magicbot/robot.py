@@ -9,6 +9,7 @@ from components.swerve_drive import SwerveDrive
 from components.swerve_wheel import SwerveWheel
 from phoenix6.hardware import TalonFX
 from phoenix6.hardware import CANcoder
+from phoenix6 import Orchestra
 import magicbot
 import navx
 import wpilib
@@ -72,6 +73,18 @@ class MyRobot(magicbot.MagicRobot):
         self.controller_chooser.addOption("Xbox",  XboxController)
 
         SmartDashboard.putData("Controller", self.controller_chooser)
+
+        #Orchestra
+        self.orchestra = Orchestra()
+
+        self.orchestra.add_instrument(self.front_left_direction_motor)
+        self.orchestra.add_instrument(self.front_right_direction_motor)
+        self.orchestra.add_instrument(self.rear_left_direction_motor)
+        self.orchestra.add_instrument(self.rear_right_direction_motor)
+        status = self.orchestra.load_music("chain.chrp")
+
+        if not status.is_ok():
+            print("Failed to load music: ")
 
     def teleopPeriodic(self):
          # Controller selection
@@ -162,6 +175,8 @@ class MyRobot(magicbot.MagicRobot):
             self.sysid_drive.dynamic_forward()
         if self.ybutton:
             self.sysid_drive.dynamic_reverse()
+        if self.abutton and self.bbutton:
+            self.orchestra.play()
 
         SmartDashboard.putNumber("Gyro Angle", self.navX.getAngle())
         SmartDashboard.putNumber("Voltage", RobotController.getBatteryVoltage())
