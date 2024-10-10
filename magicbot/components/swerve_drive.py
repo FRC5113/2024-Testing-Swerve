@@ -69,7 +69,7 @@ class SwerveDrive(Sendable):
         builder.addDoubleProperty(
             "Robot Angle",
             # Rotate to match field widget
-            lambda: self.navX.getRotation2d().radians(),
+            lambda: self.navX.getRotation2d().degrees(),
             lambda _: None,
         )
         builder.addDoubleProperty(
@@ -79,7 +79,7 @@ class SwerveDrive(Sendable):
         )
         builder.addDoubleProperty(
             "Front Left Angle",
-            lambda: self.swerve_module_states[0].angle.radians(),
+            lambda: self.swerve_module_states[0].angle.degrees(),
             lambda _: None,
         )
         builder.addDoubleProperty(
@@ -89,7 +89,7 @@ class SwerveDrive(Sendable):
         )
         builder.addDoubleProperty(
             "Front Right Angle",
-            lambda: self.swerve_module_states[1].angle.radians(),
+            lambda: self.swerve_module_states[1].angle.degrees(),
             lambda _: None,
         )
         builder.addDoubleProperty(
@@ -99,7 +99,7 @@ class SwerveDrive(Sendable):
         )
         builder.addDoubleProperty(
             "Back Left Angle",
-            lambda: self.swerve_module_states[2].angle.radians(),
+            lambda: self.swerve_module_states[2].angle.degrees(),
             lambda _: None,
         )
         builder.addDoubleProperty(
@@ -109,7 +109,7 @@ class SwerveDrive(Sendable):
         )
         builder.addDoubleProperty(
             "Back Right Angle",
-            lambda: self.swerve_module_states[3].angle.radians(),
+            lambda: self.swerve_module_states[3].angle.degrees(),
             lambda _: None,
         )
 
@@ -164,7 +164,7 @@ class SwerveDrive(Sendable):
         This is used mainly for AdvantageScope's swerve tab"""
         swerve_setpoints = []
         for state in self.swerve_module_states:
-            swerve_setpoints += [state.angle.radians(), state.speed]
+            swerve_setpoints += [state.angle.degrees(), state.speed]
         SmartDashboard.putNumberArray("Swerve Setpoints", swerve_setpoints)
         swerve_measurements = []
         swerve_measurements += self.front_left.getMeasuredState()
