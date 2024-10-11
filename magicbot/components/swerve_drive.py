@@ -1,13 +1,15 @@
 from components.swerve_wheel import SwerveWheel
 import math
 import navx
-from wpilib import SmartDashboard
+from wpilib import SmartDashboard,SendableChooser
 from wpilib.sysid import SysIdRoutineLog
 from wpimath.kinematics import SwerveDrive4Kinematics
 from wpimath.geometry import Translation2d, Rotation2d, Pose2d
 from wpimath.kinematics import ChassisSpeeds, SwerveDrive4Odometry, SwerveModulePosition
 from wpiutil import Sendable, SendableBuilder
 from magicbot import will_reset_to
+
+from util.wrappers import dashoptions
 
 
 class SwerveDrive(Sendable):
@@ -63,6 +65,11 @@ class SwerveDrive(Sendable):
             ),
             Pose2d(x=0, y=0, angle=0),
         )
+        #Field Relative selecter
+        self.fieldRelative = SendableChooser()
+        self.fieldRelative.setDefaultOption("True",  True)
+        self.fieldRelative.addOption("False",  False)
+        SmartDashboard.putData("FieldRelative", self.fieldRelative)
 
     def initSendable(self, builder: SendableBuilder) -> None:
         builder.setSmartDashboardType("SwerveDrive")
@@ -175,6 +182,8 @@ class SwerveDrive(Sendable):
 
     def execute(self) -> None:
         self.sendAdvantageScopeData()
+        # Controller selection
+        self.Relative = self.fieldRelative.getSelected()
 
         if self.stopped:
             # below line is only to keep NT updated
@@ -190,6 +199,8 @@ class SwerveDrive(Sendable):
                     self.rotationX,
                     self.navX.getRotation2d(),
                 )
+                if self.Relative
+                else ChassisSpeeds(self.translationX, self.translationY, self.rotationX)
             ),
             self.period,
         )
