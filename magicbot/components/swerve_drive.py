@@ -188,7 +188,6 @@ class SwerveDrive(Sendable):
                 self.rear_right.getPosition(),
             ),
         )
-        # print(self.front_left.getPosition())
 
         if self.stopped:
             # below line is only to keep NT updated
