@@ -82,7 +82,7 @@ class PhysicsEngine:
                 (self.encoders[1].get_absolute_position().value * -360) % 360,
                 2.5,
                 2.5,
-                9.84,
+                15.52,
             )
             # artificially soften simulated omega
             sim_speeds.omega_dps *= 0.4
