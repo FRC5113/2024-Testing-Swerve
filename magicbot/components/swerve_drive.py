@@ -9,7 +9,6 @@ from wpimath.kinematics import ChassisSpeeds, SwerveDrive4Odometry, SwerveModule
 from wpiutil import Sendable, SendableBuilder
 from magicbot import will_reset_to
 
-from util.wrappers import dashoptions
 
 
 class SwerveDrive(Sendable):
