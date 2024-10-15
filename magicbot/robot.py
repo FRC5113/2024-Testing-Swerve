@@ -13,9 +13,17 @@ import magicbot
 import navx
 import wpilib
 from wpimath import applyDeadband
-from wpilib import SmartDashboard, RobotController, SendableChooser,XboxController,PS5Controller
+from wpilib import (
+    SmartDashboard,
+    RobotController,
+    SendableChooser,
+    XboxController,
+    PS5Controller,
+)
+from wpilib import DriverStation
 
 from util.smart_preference import SmartPreference, SmartProfile
+
 
 class MyRobot(magicbot.MagicRobot):
     sysid_drive: SysIdDrive
@@ -66,26 +74,19 @@ class MyRobot(magicbot.MagicRobot):
         SmartDashboard.putData("Direction Profile", self.direction_profile)
         self.navX.setAngleAdjustment(0)
 
-        # Initialize controller chooser
-        self.controller_chooser = SendableChooser()
-        self.controller_chooser.setDefaultOption("Playstation",  PS5Controller)
-        self.controller_chooser.addOption("Xbox",  XboxController)
+        self.previous_angle = self.navX.getAngle()
 
-        SmartDashboard.putData("Controller", self.controller_chooser)
     def teleopInit(self):
         self.navX.reset()
         self.navX.setAngleAdjustment(-90)
 
     def teleopPeriodic(self):
-         # Controller selection
-        self.controller = self.controller_chooser.getSelected()
+        if DriverStation.getJoystickIsXbox(0):
+            self.driver_controller = XboxController(0)
+        else:
+            self.driver_controller = PS5Controller(0)
 
-        if self.controller ==  XboxController:
-            self.driver_controller =  XboxController(0)
-        elif self.controller ==  PS5Controller:
-            self.driver_controller =  PS5Controller(0)
-        
-        if isinstance(self.driver_controller,  XboxController):
+        if isinstance(self.driver_controller, XboxController):
             self.leftbumper = self.driver_controller.getLeftBumper()
             self.rightbumper = self.driver_controller.getRightBumper()
             self.startbutton = self.driver_controller.getStartButton()
@@ -94,7 +95,7 @@ class MyRobot(magicbot.MagicRobot):
             self.xbutton = self.driver_controller.getXButton()
             self.ybutton = self.driver_controller.getYButton()
 
-        elif isinstance(self.driver_controller,  PS5Controller):
+        elif isinstance(self.driver_controller, PS5Controller):
             self.leftbumper = self.driver_controller.getL1Button()
             self.rightbumper = self.driver_controller.getR1Button()
             self.startbutton = self.driver_controller.getOptionsButton()
@@ -150,7 +151,7 @@ class MyRobot(magicbot.MagicRobot):
 
         if left_joy_x != 0 or left_joy_y != 0 or right_joy_x != 0:
             self.swerve_drive.drive(
-                 -left_joy_y, -left_joy_x, right_joy_x, self.max_speed, self.period
+                -left_joy_y, -left_joy_x, right_joy_x, self.max_speed, self.period
             )
 
         if self.startbutton:
@@ -168,6 +169,16 @@ class MyRobot(magicbot.MagicRobot):
 
         SmartDashboard.putNumber("Gyro Angle", self.navX.getAngle())
         SmartDashboard.putNumber("Voltage", RobotController.getBatteryVoltage())
+
+        if right_joy_x == 0:
+            # If there's no rotational input, calculate the gyro drift
+            current_angle = self.navX.getAngle()
+
+            gyro_drift = current_angle - self.previous_angle
+
+            SmartDashboard.putNumber("Gyro Drift", gyro_drift)
+        else:
+            self.previous_angle = self.navX.getAngle()
 
     # override _do_periodics() to access watchdog
     # DON'T DO ANYTHING ELSE HERE UNLESS YOU KNOW WHAT YOU'RE DOING
