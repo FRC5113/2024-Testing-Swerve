@@ -449,7 +449,7 @@
               "topic": "/SmartDashboard/Swerve Drive",
               "period": 0.06,
               "show_robot_rotation": true,
-              "rotation_unit": "Radians"
+              "rotation_unit": "Degrees"
             }
           },
           {
@@ -546,19 +546,6 @@
             }
           },
           {
-            "title": "FieldRelative",
-            "x": 512.0,
-            "y": 512.0,
-            "width": 128.0,
-            "height": 128.0,
-            "type": "ComboBox Chooser",
-            "properties": {
-              "topic": "/SmartDashboard/FieldRelative",
-              "period": 0.06,
-              "sort_options": false
-            }
-          },
-          {
             "title": "Controller",
             "x": 640.0,
             "y": 512.0,
@@ -609,6 +596,33 @@
               "wrap_value": true,
               "show_pointer": true,
               "show_ticks": true
+            }
+          },
+          {
+            "title": "Gyro Drift",
+            "x": 768.0,
+            "y": 640.0,
+            "width": 256.0,
+            "height": 128.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/SmartDashboard/Gyro Drift",
+              "period": 0.06,
+              "data_type": "double",
+              "show_submit_button": false
+            }
+          },
+          {
+            "title": "FieldRelative",
+            "x": 512.0,
+            "y": 512.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Toggle Switch",
+            "properties": {
+              "topic": "/SmartDashboard/FieldRelative",
+              "period": 0.06,
+              "data_type": "boolean"
             }
           }
         ]
