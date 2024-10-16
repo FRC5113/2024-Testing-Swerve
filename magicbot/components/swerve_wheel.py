@@ -11,6 +11,7 @@ from magicbot import will_reset_to
 
 from util.smart_preference import SmartProfile
 
+from robot import MyRobot
 
 class SwerveWheel:
     drive_gear_ratio: float
@@ -35,7 +36,7 @@ class SwerveWheel:
 
         # apply configs
         self.motor_configs = TalonFXConfiguration()
-        self.motor_configs.motor_output.neutral_mode = NeutralModeValue.BRAKE
+        self.motor_configs.motor_output.neutral_mode = NeutralModeValue.COAST
         self.direction_motor.configurator.apply(self.motor_configs)
         self.speed_motor.configurator.apply(self.motor_configs)
 
@@ -90,6 +91,8 @@ class SwerveWheel:
             self.speed_motor.set_control(controls.coast_out.CoastOut())
             self.direction_motor.set_control(controls.coast_out.CoastOut())
             return
+        
+        
 
         encoder_rotation = Rotation2d(
             self.cancoder.get_absolute_position().value * 2 * math.pi

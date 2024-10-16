@@ -94,6 +94,7 @@ class MyRobot(magicbot.MagicRobot):
             self.bbutton = self.driver_controller.getBButton()
             self.xbutton = self.driver_controller.getXButton()
             self.ybutton = self.driver_controller.getYButton()
+            self.lstickbutton = self.driver_controller.getLeftStickButton()
 
         elif isinstance(self.driver_controller, PS5Controller):
             self.leftbumper = self.driver_controller.getL1Button()
@@ -151,7 +152,7 @@ class MyRobot(magicbot.MagicRobot):
 
         if left_joy_x != 0 or left_joy_y != 0 or right_joy_x != 0:
             self.swerve_drive.drive(
-                -left_joy_y, -left_joy_x, right_joy_x, self.max_speed, self.period
+                left_joy_y, left_joy_x, -right_joy_x, self.max_speed, self.period
             )
 
         if self.startbutton:
@@ -166,6 +167,8 @@ class MyRobot(magicbot.MagicRobot):
             self.sysid_drive.dynamic_forward()
         if self.ybutton:
             self.sysid_drive.dynamic_reverse()
+        if self.lstickbutton:
+            self.spee
 
         SmartDashboard.putNumber("Gyro Angle", self.navX.getAngle())
         SmartDashboard.putNumber("Voltage", RobotController.getBatteryVoltage())

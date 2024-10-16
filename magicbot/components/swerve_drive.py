@@ -195,7 +195,7 @@ class SwerveDrive(Sendable):
                     self.navX.getRotation2d(),
                 )
                 if self.Relative
-                else ChassisSpeeds(self.translationX, self.translationY, self.rotationX)
+                else ChassisSpeeds(self.translationY, self.translationX, self.rotationX)
             ),
             self.period,
         )
