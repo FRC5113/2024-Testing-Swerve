@@ -114,7 +114,7 @@ class MyRobot(magicbot.MagicRobot):
         """x is forward/backward, y is left/right. invert both axes for
         correct orientation"""
         left_joy_x = (
-            applyDeadband(-self.driver_controller.getLeftY(), 0.1)
+            applyDeadband(self.driver_controller.getLeftY(), 0.1)
             * mult
             * self.max_speed
         )
@@ -141,7 +141,7 @@ class MyRobot(magicbot.MagicRobot):
         # Update the joystick values based on the POV value if it's in the mapping
         if pov_value in pov_mapping:
             left_joy_x, left_joy_y = pov_mapping[pov_value]
-            left_joy_x *= mult * self.max_speed
+            left_joy_x *= mult * self.max_speed * -1
             left_joy_y *= mult * self.max_speed * -1
 
         # calculate max angular speed based on max_speed (cool math here)
@@ -152,7 +152,7 @@ class MyRobot(magicbot.MagicRobot):
 
         if left_joy_x != 0 or left_joy_y != 0 or right_joy_x != 0:
             self.swerve_drive.drive(
-                left_joy_y, left_joy_x, -right_joy_x, self.max_speed, self.period
+                -left_joy_y, left_joy_x, -right_joy_x, self.max_speed, self.period
             )
 
         if self.startbutton:
