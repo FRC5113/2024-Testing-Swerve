@@ -23,6 +23,7 @@ from wpilib import (
 from wpilib import DriverStation
 
 from util.smart_preference import SmartPreference, SmartProfile
+from util.wrappers import SmartController
 
 
 class MyRobot(magicbot.MagicRobot):
@@ -82,20 +83,20 @@ class MyRobot(magicbot.MagicRobot):
 
     def teleopPeriodic(self):
         mult = 1
-        if self.leftbumper:
+        if SmartController.leftbumper:
             mult *= 0.5
-        if self.rightbumper:
+        if SmartController.rightbumper:
             mult *= 0.5
 
         """x is forward/backward, y is left/right. invert both axes for
         correct orientation"""
         left_joy_x = (
-            applyDeadband(self.driver_controller.getLeftY(), 0.1)
+            applyDeadband(SmartController.lefty, 0.1)
             * mult
             * self.max_speed
         )
         left_joy_y = (
-            applyDeadband(self.driver_controller.getLeftX(), 0.1)
+            applyDeadband(SmartController.leftx, 0.1)
             * mult
             * self.max_speed
         )
@@ -112,7 +113,7 @@ class MyRobot(magicbot.MagicRobot):
         }
 
         # Get the current POV from the controller
-        pov_value = self.driver_controller.getPOV()
+        pov_value = SmartController.pov()
 
         # Update the joystick values based on the POV value if it's in the mapping
         if pov_value in pov_mapping:
@@ -123,7 +124,7 @@ class MyRobot(magicbot.MagicRobot):
         # calculate max angular speed based on max_speed (cool math here)
         omega = self.max_speed / math.dist((0, 0), (self.offset_x, self.offset_y))
         right_joy_x = (
-            applyDeadband(self.driver_controller.getRightX(), 0.1) * mult * omega
+            applyDeadband(SmartController.rightx, 0.1) * mult * omega
         )
 
         if left_joy_x != 0 or left_joy_y != 0 or right_joy_x != 0:
@@ -131,20 +132,19 @@ class MyRobot(magicbot.MagicRobot):
                 -left_joy_y, left_joy_x, -right_joy_x, self.max_speed, self.period
             )
 
-        if self.startbutton:
+        if SmartController.startbutton:
             self.swerve_drive.reset_gyro()
             self.navX.setAngleAdjustment(-90)
 
-        if self.abutton:
+        if SmartController.abutton:
             self.sysid_drive.quasistatic_forward()
-        if self.bbutton:
+        if SmartController.bbutton:
             self.sysid_drive.quasistatic_reverse()
-        if self.xbutton:
+        if SmartController.xbutton:
             self.sysid_drive.dynamic_forward()
-        if self.ybutton:
+        if SmartController.ybutton:
             self.sysid_drive.dynamic_reverse()
-        if self.lstickbutton:
-            self.spee
+
 
         SmartDashboard.putNumber("Gyro Angle", self.navX.getAngle())
         SmartDashboard.putNumber("Voltage", RobotController.getBatteryVoltage())
