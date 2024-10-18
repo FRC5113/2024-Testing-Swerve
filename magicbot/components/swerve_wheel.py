@@ -1,12 +1,11 @@
 from phoenix6.hardware import CANcoder, TalonFX
 import math
-import wpilib
 from wpilib import SmartDashboard
 from phoenix6.signals import NeutralModeValue
 from phoenix6.configs import TalonFXConfiguration
-from wpimath.kinematics import SwerveModuleState, SwerveModulePosition
+from wpimath.kinematics import SwerveModuleState
 from wpimath.geometry import Rotation2d
-from phoenix6 import configs, controls
+from phoenix6 import controls
 from magicbot import will_reset_to
 
 from util.smart_preference import SmartProfile
@@ -26,7 +25,6 @@ class SwerveWheel:
     loop, otherwise it defaults to stopped for safety.
     """
     stopped = will_reset_to(True)
-    update = will_reset_to(False)
 
     def setup(self) -> None:
         """
@@ -59,8 +57,8 @@ class SwerveWheel:
         """Retrieve list of measured angle and velocity
         (used for AdvantageScope)
         """
-        # if self.stopped:
-        #     return [0, 0]
+        if self.stopped:
+            return [0, 0]
         return [
             self.cancoder.get_absolute_position().value * 360,
             self.speed_motor.get_velocity().value

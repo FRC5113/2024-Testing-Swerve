@@ -1,7 +1,12 @@
 import math
 
-import wpilib
 import wpilib.shuffleboard
+from phoenix6.hardware import TalonFX
+from phoenix6.hardware import CANcoder
+import magicbot
+import navx
+import wpilib
+from wpimath import applyDeadband
 from wpilib import (
     SmartDashboard,
     RobotController,
@@ -9,10 +14,10 @@ from wpilib import (
     PS5Controller,
     DriverStation,
 )
-from wpimath import applyDeadband
-from phoenix6.hardware import TalonFX, CANcoder
 
-
+from components.swerve_drive import SwerveDrive
+from components.swerve_wheel import SwerveWheel
+from util.alerts import Alert, AlertType, AlertManager
 from util.smart_preference import SmartPreference, SmartProfile
 from util.wrappers import SmartController
 
@@ -27,8 +32,6 @@ from util.smart_preference import SmartPreference, SmartProfile
 from container import RobotContainer
 
 class MyRobot(magicbot.MagicRobot):
-    sysid_drive: SysIdDrive
-
     swerve_drive: SwerveDrive
     front_left: SwerveWheel
     front_right: SwerveWheel
@@ -79,6 +82,11 @@ class MyRobot(magicbot.MagicRobot):
 
         self.previous_angle = self.navX.getAngle()
 
+        # alerts
+        SmartDashboard.putData("Alerts", AlertManager(self.logger))
+        self.navx_alert = Alert("NavX heading has been reset", AlertType.INFO, timeout=3.0)
+        self.drift_alert = Alert("Robot has drifted", AlertType.WARNING)
+
     def teleopInit(self):
         self.navX.reset()
         self.navX.setAngleAdjustment(-90)
@@ -108,23 +116,13 @@ class MyRobot(magicbot.MagicRobot):
             applyDeadband(smart_controller.leftx(), 0.1) * mult * self.max_speed
         )
 
-        # Define the POV-to-(left_joy_x, left_joy_y) mapping
-        pov_mapping = {
-            0: (1, 0),
-            45: (0.707, -0.707),
-            90: (0, -1),
-            135: (-0.707, -0.707),
-            180: (-1, 0),
-            225: (-0.707, 0.707),
-            270: (0, 1),
-            315: (0.707, 0.707),
-        }
+        # Get the current POV from the controller
+        pov_value = self.driver_controller.getPOV()
 
         # Update the joystick values based on the POV value if it's in the mapping
-        if pov_value in pov_mapping:
-            left_joy_x, left_joy_y = pov_mapping[pov_value]
-            left_joy_x *= mult * self.max_speed * -1
-            left_joy_y *= mult * self.max_speed * -1
+        if pov_value >= 0:
+            left_joy_x = math.cos(pov_value) * mult * self.max_speed
+            left_joy_y = -math.sin(pov_value) * mult * self.max_speed * -1
 
         # calculate max angular speed based on max_speed (cool math here)
         omega = self.max_speed / math.dist((0, 0), (self.offset_x, self.offset_y))
@@ -156,6 +154,11 @@ class MyRobot(magicbot.MagicRobot):
             current_angle = self.navX.getAngle()
             gyro_drift = current_angle - self.previous_angle
             SmartDashboard.putNumber("Gyro Drift", gyro_drift)
+            if abs(gyro_drift) > 10:
+                self.drift_alert.set(True)
+                self.drift_alert.set_text(f"Robot has drifted {gyro_drift} degrees")
+            else:
+                self.drift_alert.set(False)
         else:
             self.previous_angle = self.navX.getAngle()
 
