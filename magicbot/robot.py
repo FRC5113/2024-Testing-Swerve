@@ -5,12 +5,12 @@ import wpilib.shuffleboard
 from wpilib import (
     SmartDashboard,
     RobotController,
-    SendableChooser,
     XboxController,
     PS5Controller,
     DriverStation,
 )
 from wpimath import applyDeadband
+from phoenix6.hardware import TalonFX, CANcoder
 
 import magicbot
 import navx
@@ -18,16 +18,8 @@ import navx
 from components.sysid_drive import SysIdDrive
 from components.swerve_drive import SwerveDrive
 from components.swerve_wheel import SwerveWheel
-from phoenix6.hardware import TalonFX, CANcoder
-
 from util.smart_preference import SmartPreference, SmartProfile
-from pathplannerlib.auto import PathPlannerAuto, NamedCommands, AutoBuilder
-from pathplannerlib.path import PathPlannerPath, PathConstraints
-from pathplannerlib.config import (
-    HolonomicPathFollowerConfig,
-    ReplanningConfig,
-    PIDConstants,
-)
+from container import RobotContainer
 
 class MyRobot(magicbot.MagicRobot):
     sysid_drive: SysIdDrive
@@ -44,6 +36,8 @@ class MyRobot(magicbot.MagicRobot):
     max_speed = SmartPreference(3.0)
 
     def createObjects(self):
+
+        self.contanier = RobotContainer()
         self.debug = True
 
         # Swerve Motor IDs
