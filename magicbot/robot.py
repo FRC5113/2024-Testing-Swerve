@@ -12,8 +12,13 @@ from wpilib import (
 from wpimath import applyDeadband
 from phoenix6.hardware import TalonFX, CANcoder
 
+
+from util.smart_preference import SmartPreference, SmartProfile
+from util.wrappers import SmartController
+
 import magicbot
 import navx
+
 
 from components.sysid_drive import SysIdDrive
 from components.swerve_drive import SwerveDrive
@@ -79,47 +84,30 @@ class MyRobot(magicbot.MagicRobot):
         self.navX.setAngleAdjustment(-90)
 
     def teleopPeriodic(self):
-        if DriverStation.getJoystickIsXbox(0):
-            self.driver_controller = XboxController(0)
-        else:
-            self.driver_controller = PS5Controller(0)
 
-        if isinstance(self.driver_controller, XboxController):
-            self.leftbumper = self.driver_controller.getLeftBumper()
-            self.rightbumper = self.driver_controller.getRightBumper()
-            self.startbutton = self.driver_controller.getStartButton()
-            self.abutton = self.driver_controller.getAButton()
-            self.bbutton = self.driver_controller.getBButton()
-            self.xbutton = self.driver_controller.getXButton()
-            self.ybutton = self.driver_controller.getYButton()
+        port_number = 0
+        smart_controller = SmartController(port_number)
 
-        elif isinstance(self.driver_controller, PS5Controller):
-            self.leftbumper = self.driver_controller.getL1Button()
-            self.rightbumper = self.driver_controller.getR1Button()
-            self.startbutton = self.driver_controller.getOptionsButton()
-            self.abutton = self.driver_controller.getCrossButton()
-            self.bbutton = self.driver_controller.getCircleButton()
-            self.xbutton = self.driver_controller.getSquareButton()
-            self.ybutton = self.driver_controller.getTriangleButton()
+        # Get the current POV from the controller
+        pov_value = smart_controller.pov()  # Call the method on the instance
+  
+
 
         mult = 1
-        if self.leftbumper:
+        # Call bumper methods on the instance
+        if smart_controller.leftbumper():  # Corrected to use the instance
             mult *= 0.5
-        if self.rightbumper:
+        if smart_controller.rightbumper():  # Corrected to use the instance
             mult *= 0.5
 
-        """x is forward/backward, y is left/right. invert both axes for
-        correct orientation"""
+        # Get joystick values
         left_joy_x = (
-            applyDeadband(self.driver_controller.getLeftY(), 0.1)
-            * mult
-            * self.max_speed
+            applyDeadband(smart_controller.lefty(), 0.1) * mult * self.max_speed
         )
         left_joy_y = (
-            applyDeadband(self.driver_controller.getLeftX(), 0.1)
-            * mult
-            * self.max_speed
+            applyDeadband(smart_controller.leftx(), 0.1) * mult * self.max_speed
         )
+
         # Define the POV-to-(left_joy_x, left_joy_y) mapping
         pov_mapping = {
             0: (1, 0),
@@ -132,9 +120,6 @@ class MyRobot(magicbot.MagicRobot):
             315: (0.707, 0.707),
         }
 
-        # Get the current POV from the controller
-        pov_value = self.driver_controller.getPOV()
-
         # Update the joystick values based on the POV value if it's in the mapping
         if pov_value in pov_mapping:
             left_joy_x, left_joy_y = pov_mapping[pov_value]
@@ -143,26 +128,24 @@ class MyRobot(magicbot.MagicRobot):
 
         # calculate max angular speed based on max_speed (cool math here)
         omega = self.max_speed / math.dist((0, 0), (self.offset_x, self.offset_y))
-        right_joy_x = (
-            applyDeadband(self.driver_controller.getRightX(), 0.1) * mult * omega
-        )
+        right_joy_x = applyDeadband(smart_controller.rightx(), 0.1) * mult * omega
 
         if left_joy_x != 0 or left_joy_y != 0 or right_joy_x != 0:
             self.swerve_drive.drive(
                 -left_joy_y, left_joy_x, -right_joy_x, self.max_speed, self.period
             )
 
-        if self.startbutton:
+        if smart_controller.startbutton():  # Corrected to use the instance
             self.swerve_drive.reset_gyro()
             self.navX.setAngleAdjustment(-90)
 
-        if self.abutton:
+        if smart_controller.abutton():  # Corrected to use the instance
             self.sysid_drive.quasistatic_forward()
-        if self.bbutton:
+        if smart_controller.bbutton():  # Corrected to use the instance
             self.sysid_drive.quasistatic_reverse()
-        if self.xbutton:
+        if smart_controller.xbutton():  # Corrected to use the instance
             self.sysid_drive.dynamic_forward()
-        if self.ybutton:
+        if smart_controller.ybutton():  # Corrected to use the instance
             self.sysid_drive.dynamic_reverse()
 
         SmartDashboard.putNumber("Gyro Angle", self.navX.getAngle())
@@ -171,9 +154,7 @@ class MyRobot(magicbot.MagicRobot):
         if right_joy_x == 0:
             # If there's no rotational input, calculate the gyro drift
             current_angle = self.navX.getAngle()
-
             gyro_drift = current_angle - self.previous_angle
-
             SmartDashboard.putNumber("Gyro Drift", gyro_drift)
         else:
             self.previous_angle = self.navX.getAngle()
