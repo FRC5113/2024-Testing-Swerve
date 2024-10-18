@@ -1,29 +1,33 @@
 import math
 
-import wpilib.shuffleboard
-
-import wpilib.shuffleboard
-
-from components.sysid_drive import SysIdDrive
-from components.swerve_drive import SwerveDrive
-from components.swerve_wheel import SwerveWheel
-from phoenix6.hardware import TalonFX
-from phoenix6.hardware import CANcoder
-import magicbot
-import navx
 import wpilib
-from wpimath import applyDeadband
+import wpilib.shuffleboard
 from wpilib import (
     SmartDashboard,
     RobotController,
     SendableChooser,
     XboxController,
     PS5Controller,
+    DriverStation,
 )
-from wpilib import DriverStation
+from wpimath import applyDeadband
+
+import magicbot
+import navx
+
+from components.sysid_drive import SysIdDrive
+from components.swerve_drive import SwerveDrive
+from components.swerve_wheel import SwerveWheel
+from phoenix6.hardware import TalonFX, CANcoder
 
 from util.smart_preference import SmartPreference, SmartProfile
-
+from pathplannerlib.auto import PathPlannerAuto, NamedCommands, AutoBuilder
+from pathplannerlib.path import PathPlannerPath, PathConstraints
+from pathplannerlib.config import (
+    HolonomicPathFollowerConfig,
+    ReplanningConfig,
+    PIDConstants,
+)
 
 class MyRobot(magicbot.MagicRobot):
     sysid_drive: SysIdDrive
@@ -94,7 +98,6 @@ class MyRobot(magicbot.MagicRobot):
             self.bbutton = self.driver_controller.getBButton()
             self.xbutton = self.driver_controller.getXButton()
             self.ybutton = self.driver_controller.getYButton()
-            self.lstickbutton = self.driver_controller.getLeftStickButton()
 
         elif isinstance(self.driver_controller, PS5Controller):
             self.leftbumper = self.driver_controller.getL1Button()
@@ -167,8 +170,6 @@ class MyRobot(magicbot.MagicRobot):
             self.sysid_drive.dynamic_forward()
         if self.ybutton:
             self.sysid_drive.dynamic_reverse()
-        if self.lstickbutton:
-            self.spee
 
         SmartDashboard.putNumber("Gyro Angle", self.navX.getAngle())
         SmartDashboard.putNumber("Voltage", RobotController.getBatteryVoltage())
@@ -188,6 +189,8 @@ class MyRobot(magicbot.MagicRobot):
     def _do_periodics(self):
         super()._do_periodics()
         self.period = max(0.02, self.watchdog.getTime())
+
+
 
 
 if __name__ == "__main__":
