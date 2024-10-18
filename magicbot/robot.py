@@ -82,24 +82,28 @@ class MyRobot(magicbot.MagicRobot):
         self.navX.setAngleAdjustment(-90)
 
     def teleopPeriodic(self):
+        port_number = 0
+        smart_controller = SmartController(port_number)
+
+        # Get the current POV from the controller
+        pov_value = smart_controller.pov()  # Call the method on the instance
+        print(f"POV Value: {smart_controller.leftx()}")
+
         mult = 1
-        if SmartController.leftbumper:
+        # Call bumper methods on the instance
+        if smart_controller.leftbumper():  # Corrected to use the instance
             mult *= 0.5
-        if SmartController.rightbumper:
+        if smart_controller.rightbumper():  # Corrected to use the instance
             mult *= 0.5
 
-        """x is forward/backward, y is left/right. invert both axes for
-        correct orientation"""
+        # Get joystick values
         left_joy_x = (
-            applyDeadband(SmartController.lefty, 0.1)
-            * mult
-            * self.max_speed
+            applyDeadband(smart_controller.lefty(), 0.1) * mult * self.max_speed
         )
         left_joy_y = (
-            applyDeadband(SmartController.leftx, 0.1)
-            * mult
-            * self.max_speed
+            applyDeadband(smart_controller.leftx(), 0.1) * mult * self.max_speed
         )
+
         # Define the POV-to-(left_joy_x, left_joy_y) mapping
         pov_mapping = {
             0: (1, 0),
@@ -112,9 +116,6 @@ class MyRobot(magicbot.MagicRobot):
             315: (0.707, 0.707),
         }
 
-        # Get the current POV from the controller
-        pov_value = SmartController.pov()
-
         # Update the joystick values based on the POV value if it's in the mapping
         if pov_value in pov_mapping:
             left_joy_x, left_joy_y = pov_mapping[pov_value]
@@ -123,28 +124,25 @@ class MyRobot(magicbot.MagicRobot):
 
         # calculate max angular speed based on max_speed (cool math here)
         omega = self.max_speed / math.dist((0, 0), (self.offset_x, self.offset_y))
-        right_joy_x = (
-            applyDeadband(SmartController.rightx, 0.1) * mult * omega
-        )
+        right_joy_x = applyDeadband(smart_controller.rightx(), 0.1) * mult * omega
 
         if left_joy_x != 0 or left_joy_y != 0 or right_joy_x != 0:
             self.swerve_drive.drive(
                 -left_joy_y, left_joy_x, -right_joy_x, self.max_speed, self.period
             )
 
-        if SmartController.startbutton:
+        if smart_controller.startbutton():  # Corrected to use the instance
             self.swerve_drive.reset_gyro()
             self.navX.setAngleAdjustment(-90)
 
-        if SmartController.abutton:
+        if smart_controller.abutton():  # Corrected to use the instance
             self.sysid_drive.quasistatic_forward()
-        if SmartController.bbutton:
+        if smart_controller.bbutton():  # Corrected to use the instance
             self.sysid_drive.quasistatic_reverse()
-        if SmartController.xbutton:
+        if smart_controller.xbutton():  # Corrected to use the instance
             self.sysid_drive.dynamic_forward()
-        if SmartController.ybutton:
+        if smart_controller.ybutton():  # Corrected to use the instance
             self.sysid_drive.dynamic_reverse()
-
 
         SmartDashboard.putNumber("Gyro Angle", self.navX.getAngle())
         SmartDashboard.putNumber("Voltage", RobotController.getBatteryVoltage())
@@ -152,9 +150,7 @@ class MyRobot(magicbot.MagicRobot):
         if right_joy_x == 0:
             # If there's no rotational input, calculate the gyro drift
             current_angle = self.navX.getAngle()
-
             gyro_drift = current_angle - self.previous_angle
-
             SmartDashboard.putNumber("Gyro Drift", gyro_drift)
         else:
             self.previous_angle = self.navX.getAngle()
