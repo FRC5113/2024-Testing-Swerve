@@ -20,6 +20,8 @@ class PhysicsEngine:
             robot.rear_left_speed_motor.sim_state,
             robot.rear_right_speed_motor.sim_state,
         )
+        for sim_state in self.speed_sim_states:
+            sim_state.set_supply_voltage(12.0)
         self.speed_falcon_sims = (
             DCMotorSim(DCMotor.falcon500(1), 6.75, 0.01),
             DCMotorSim(DCMotor.falcon500(1), 6.75, 0.01),
@@ -32,6 +34,8 @@ class PhysicsEngine:
             robot.rear_left_direction_motor.sim_state,
             robot.rear_right_direction_motor.sim_state,
         )
+        for sim_state in self.direction_sim_states:
+            sim_state.set_supply_voltage(12.0)
         self.direction_falcon_sims = (
             DCMotorSim(DCMotor.falcon500(1), 150 / 7, 0.01),
             DCMotorSim(DCMotor.falcon500(1), 150 / 7, 0.01),
@@ -49,9 +53,7 @@ class PhysicsEngine:
         if DriverStation.isEnabled():
             unmanaged.feed_enable(100)
         if not self.robot.swerve_drive.stopped:
-            battery_v = RobotController.getBatteryVoltage()
             for i in range(4):
-                self.speed_sim_states[i].set_supply_voltage(battery_v)
                 self.speed_falcon_sims[i].setInputVoltage(
                     self.speed_sim_states[i].motor_voltage
                 )
@@ -59,7 +61,6 @@ class PhysicsEngine:
                 self.speed_sim_states[i].set_rotor_velocity(
                     self.speed_falcon_sims[i].getAngularVelocity()
                 )
-                self.direction_sim_states[i].set_supply_voltage(battery_v)
                 self.direction_falcon_sims[i].setInputVoltage(
                     self.direction_sim_states[i].motor_voltage
                 )
@@ -71,10 +72,10 @@ class PhysicsEngine:
                 )
 
             sim_speeds = four_motor_swerve_drivetrain(
-                self.speed_sim_states[2].motor_voltage / battery_v,
-                self.speed_sim_states[3].motor_voltage / battery_v,
-                self.speed_sim_states[0].motor_voltage / battery_v,
-                self.speed_sim_states[1].motor_voltage / battery_v,
+                self.speed_sim_states[2].motor_voltage / 12.0,
+                self.speed_sim_states[3].motor_voltage / 12.0,
+                self.speed_sim_states[0].motor_voltage / 12.0,
+                self.speed_sim_states[1].motor_voltage / 12.0,
                 (self.encoders[2].get_absolute_position().value * -360) % 360,
                 (self.encoders[3].get_absolute_position().value * -360) % 360,
                 (self.encoders[0].get_absolute_position().value * -360) % 360,

@@ -1,12 +1,6 @@
 import math
 
 import wpilib.shuffleboard
-
-import wpilib.shuffleboard
-
-from components.sysid_drive import SysIdDrive
-from components.swerve_drive import SwerveDrive
-from components.swerve_wheel import SwerveWheel
 from phoenix6.hardware import TalonFX
 from phoenix6.hardware import CANcoder
 import magicbot
@@ -16,18 +10,18 @@ from wpimath import applyDeadband
 from wpilib import (
     SmartDashboard,
     RobotController,
-    SendableChooser,
     XboxController,
     PS5Controller,
+    DriverStation,
 )
-from wpilib import DriverStation
 
+from components.swerve_drive import SwerveDrive
+from components.swerve_wheel import SwerveWheel
+from util.alerts import Alert, AlertType, AlertManager
 from util.smart_preference import SmartPreference, SmartProfile
 
 
 class MyRobot(magicbot.MagicRobot):
-    sysid_drive: SysIdDrive
-
     swerve_drive: SwerveDrive
     front_left: SwerveWheel
     front_right: SwerveWheel
@@ -76,33 +70,39 @@ class MyRobot(magicbot.MagicRobot):
 
         self.previous_angle = self.navX.getAngle()
 
+        # alerts
+        SmartDashboard.putData("Alerts", AlertManager(self.logger))
+        self.navx_alert = Alert("NavX heading has been reset", AlertType.INFO, timeout=3.0)
+        self.drift_alert = Alert("Robot has drifted", AlertType.WARNING)
+
     def teleopInit(self):
         self.navX.reset()
         self.navX.setAngleAdjustment(-90)
 
     def teleopPeriodic(self):
-        if DriverStation.getJoystickIsXbox(0):
+        if DriverStation.getJoystickIsXbox(0) or self.isSimulation():
             self.driver_controller = XboxController(0)
         else:
             self.driver_controller = PS5Controller(0)
 
-        if isinstance(self.driver_controller, XboxController):
-            self.leftbumper = self.driver_controller.getLeftBumper()
-            self.rightbumper = self.driver_controller.getRightBumper()
-            self.startbutton = self.driver_controller.getStartButton()
-            self.abutton = self.driver_controller.getAButton()
-            self.bbutton = self.driver_controller.getBButton()
-            self.xbutton = self.driver_controller.getXButton()
-            self.ybutton = self.driver_controller.getYButton()
+        with self.consumeExceptions():
+            if isinstance(self.driver_controller, XboxController):
+                self.leftbumper = self.driver_controller.getLeftBumper()
+                self.rightbumper = self.driver_controller.getRightBumper()
+                self.startbutton = self.driver_controller.getStartButton()
+                self.abutton = self.driver_controller.getAButton()
+                self.bbutton = self.driver_controller.getBButton()
+                self.xbutton = self.driver_controller.getXButton()
+                self.ybutton = self.driver_controller.getYButton()
 
-        elif isinstance(self.driver_controller, PS5Controller):
-            self.leftbumper = self.driver_controller.getL1Button()
-            self.rightbumper = self.driver_controller.getR1Button()
-            self.startbutton = self.driver_controller.getOptionsButton()
-            self.abutton = self.driver_controller.getCrossButton()
-            self.bbutton = self.driver_controller.getCircleButton()
-            self.xbutton = self.driver_controller.getSquareButton()
-            self.ybutton = self.driver_controller.getTriangleButton()
+            elif isinstance(self.driver_controller, PS5Controller):
+                self.leftbumper = self.driver_controller.getL1Button()
+                self.rightbumper = self.driver_controller.getR1Button()
+                self.startbutton = self.driver_controller.getOptionsButton()
+                self.abutton = self.driver_controller.getCrossButton()
+                self.bbutton = self.driver_controller.getCircleButton()
+                self.xbutton = self.driver_controller.getSquareButton()
+                self.ybutton = self.driver_controller.getTriangleButton()
 
         mult = 1
         if self.leftbumper:
@@ -122,26 +122,14 @@ class MyRobot(magicbot.MagicRobot):
             * mult
             * self.max_speed
         )
-        # Define the POV-to-(left_joy_x, left_joy_y) mapping
-        pov_mapping = {
-            0: (1, 0),
-            45: (0.707, -0.707),
-            90: (0, -1),
-            135: (-0.707, -0.707),
-            180: (-1, 0),
-            225: (-0.707, 0.707),
-            270: (0, 1),
-            315: (0.707, 0.707),
-        }
 
         # Get the current POV from the controller
         pov_value = self.driver_controller.getPOV()
 
         # Update the joystick values based on the POV value if it's in the mapping
-        if pov_value in pov_mapping:
-            left_joy_x, left_joy_y = pov_mapping[pov_value]
-            left_joy_x *= mult * self.max_speed
-            left_joy_y *= mult * self.max_speed * -1
+        if pov_value >= 0:
+            left_joy_x = math.cos(pov_value) * mult * self.max_speed
+            left_joy_y = -math.sin(pov_value) * mult * self.max_speed * -1
 
         # calculate max angular speed based on max_speed (cool math here)
         omega = self.max_speed / math.dist((0, 0), (self.offset_x, self.offset_y))
@@ -155,17 +143,9 @@ class MyRobot(magicbot.MagicRobot):
             )
 
         if self.startbutton:
-            self.swerve_drive.reset_gyro()
+            self.navX.reset()
             self.navX.setAngleAdjustment(-90)
-
-        if self.abutton:
-            self.sysid_drive.quasistatic_forward()
-        if self.bbutton:
-            self.sysid_drive.quasistatic_reverse()
-        if self.xbutton:
-            self.sysid_drive.dynamic_forward()
-        if self.ybutton:
-            self.sysid_drive.dynamic_reverse()
+            self.navx_alert.set(True)
 
         SmartDashboard.putNumber("Gyro Angle", self.navX.getAngle())
         SmartDashboard.putNumber("Voltage", RobotController.getBatteryVoltage())
@@ -177,6 +157,11 @@ class MyRobot(magicbot.MagicRobot):
             gyro_drift = current_angle - self.previous_angle
 
             SmartDashboard.putNumber("Gyro Drift", gyro_drift)
+            if abs(gyro_drift) > 10:
+                self.drift_alert.set(True)
+                self.drift_alert.set_text(f"Robot has drifted {gyro_drift} degrees")
+            else:
+                self.drift_alert.set(False)
         else:
             self.previous_angle = self.navX.getAngle()
 

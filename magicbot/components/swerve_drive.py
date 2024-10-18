@@ -122,21 +122,6 @@ class SwerveDrive(Sendable):
     (like updating translationX from 0 -> 1)
     """
 
-    def sysid_drive(self, volts: float):
-        self.drive(volts, 0, 0, 3.0, 0.02)
-
-    def sysid_log(self, log: SysIdRoutineLog) -> None:
-        # Record a frame for the left motors.  Since these share an encoder, we consider
-        # the entire group to be one motor.
-        log.motor("drive-left").voltage(self.front_left.getDriveVoltage()).position(
-            self.front_left.getDrivePosition()
-        ).velocity(self.front_left.getDriveVelocity())
-        # Record a frame for the right motors.  Since these share an encoder, we consider
-        # the entire group to be one motor.
-        log.motor("drive-right").voltage(self.front_right.getDriveVoltage()).position(
-            self.front_right.getDrivePosition()
-        ).velocity(self.front_right.getDriveVelocity())
-
     def drive(
         self,
         translationX: float,
@@ -151,9 +136,6 @@ class SwerveDrive(Sendable):
         self.max_speed = max_speed
         self.period = period
         self.stopped = False
-
-    def reset_gyro(self) -> None:
-        self.navX.reset()
 
     """
     EXECUTE
