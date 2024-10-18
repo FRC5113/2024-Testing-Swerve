@@ -1,30 +1,30 @@
 import math
 
-import wpilib.shuffleboard
-
-import wpilib.shuffleboard
-
-from components.sysid_drive import SysIdDrive
-from components.swerve_drive import SwerveDrive
-from components.swerve_wheel import SwerveWheel
-from phoenix6.hardware import TalonFX
-from phoenix6.hardware import CANcoder
-import magicbot
-import navx
 import wpilib
-from wpimath import applyDeadband
+import wpilib.shuffleboard
 from wpilib import (
     SmartDashboard,
     RobotController,
-    SendableChooser,
     XboxController,
     PS5Controller,
+    DriverStation,
 )
-from wpilib import DriverStation
+from wpimath import applyDeadband
+from phoenix6.hardware import TalonFX, CANcoder
+
 
 from util.smart_preference import SmartPreference, SmartProfile
 from util.wrappers import SmartController
 
+import magicbot
+import navx
+
+
+from components.sysid_drive import SysIdDrive
+from components.swerve_drive import SwerveDrive
+from components.swerve_wheel import SwerveWheel
+from util.smart_preference import SmartPreference, SmartProfile
+from container import RobotContainer
 
 class MyRobot(magicbot.MagicRobot):
     sysid_drive: SysIdDrive
@@ -41,6 +41,8 @@ class MyRobot(magicbot.MagicRobot):
     max_speed = SmartPreference(3.0)
 
     def createObjects(self):
+
+        self.contanier = RobotContainer()
         self.debug = True
 
         # Swerve Motor IDs
@@ -82,12 +84,14 @@ class MyRobot(magicbot.MagicRobot):
         self.navX.setAngleAdjustment(-90)
 
     def teleopPeriodic(self):
+
         port_number = 0
         smart_controller = SmartController(port_number)
 
         # Get the current POV from the controller
         pov_value = smart_controller.pov()  # Call the method on the instance
-        print(f"POV Value: {smart_controller.leftx()}")
+  
+
 
         mult = 1
         # Call bumper methods on the instance
@@ -160,6 +164,8 @@ class MyRobot(magicbot.MagicRobot):
     def _do_periodics(self):
         super()._do_periodics()
         self.period = max(0.02, self.watchdog.getTime())
+
+
 
 
 if __name__ == "__main__":
