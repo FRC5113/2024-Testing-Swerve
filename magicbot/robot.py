@@ -81,30 +81,6 @@ class MyRobot(magicbot.MagicRobot):
         self.navX.setAngleAdjustment(-90)
 
     def teleopPeriodic(self):
-        if DriverStation.getJoystickIsXbox(0):
-            self.driver_controller = XboxController(0)
-        else:
-            self.driver_controller = PS5Controller(0)
-
-        if isinstance(self.driver_controller, XboxController):
-            self.leftbumper = self.driver_controller.getLeftBumper()
-            self.rightbumper = self.driver_controller.getRightBumper()
-            self.startbutton = self.driver_controller.getStartButton()
-            self.abutton = self.driver_controller.getAButton()
-            self.bbutton = self.driver_controller.getBButton()
-            self.xbutton = self.driver_controller.getXButton()
-            self.ybutton = self.driver_controller.getYButton()
-            self.lstickbutton = self.driver_controller.getLeftStickButton()
-
-        elif isinstance(self.driver_controller, PS5Controller):
-            self.leftbumper = self.driver_controller.getL1Button()
-            self.rightbumper = self.driver_controller.getR1Button()
-            self.startbutton = self.driver_controller.getOptionsButton()
-            self.abutton = self.driver_controller.getCrossButton()
-            self.bbutton = self.driver_controller.getCircleButton()
-            self.xbutton = self.driver_controller.getSquareButton()
-            self.ybutton = self.driver_controller.getTriangleButton()
-
         mult = 1
         if self.leftbumper:
             mult *= 0.5
