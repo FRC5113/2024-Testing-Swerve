@@ -1,33 +1,18 @@
 import math
 
-import wpilib.shuffleboard
 from phoenix6.hardware import TalonFX
 from phoenix6.hardware import CANcoder
 import magicbot
 import navx
 import wpilib
 from wpimath import applyDeadband
-from wpilib import (
-    SmartDashboard,
-    RobotController,
-    XboxController,
-    PS5Controller,
-    DriverStation,
-)
+from wpilib import SmartDashboard, RobotController
 
 from components.swerve_drive import SwerveDrive
 from components.swerve_wheel import SwerveWheel
 from util.alerts import Alert, AlertType, AlertManager
 from util.smart_preference import SmartPreference, SmartProfile
 from util.wrappers import SmartController
-
-import magicbot
-import navx
-
-
-from components.swerve_drive import SwerveDrive
-from components.swerve_wheel import SwerveWheel
-from util.smart_preference import SmartPreference, SmartProfile
 from container import RobotContainer
 
 
@@ -94,57 +79,38 @@ class MyRobot(magicbot.MagicRobot):
         self.navX.setAngleAdjustment(-90)
 
     def teleopPeriodic(self):
-
-        port_number = 0
-        smart_controller = SmartController(port_number)
-
-        # Get the current POV from the controller
-        pov_value = smart_controller.pov()  # Call the method on the instance
+        controller = SmartController(0)
 
         mult = 1
         # Call bumper methods on the instance
-        if smart_controller.leftbumper():  # Corrected to use the instance
+        if controller.leftbumper():
             mult *= 0.5
-        if smart_controller.rightbumper():  # Corrected to use the instance
+        if controller.rightbumper():
             mult *= 0.5
 
         # Get joystick values
-        left_joy_x = (
-            applyDeadband(smart_controller.lefty(), 0.1) * mult * self.max_speed
-        )
-        left_joy_y = (
-            applyDeadband(smart_controller.leftx(), 0.1) * mult * self.max_speed
-        )
+        left_joy_x = applyDeadband(controller.lefty(), 0.1) * mult * self.max_speed
+        left_joy_y = applyDeadband(controller.leftx(), 0.1) * mult * self.max_speed
 
         # Get the current POV from the controller
-        pov_value = smart_controller.pov()
-
-        # Update the joystick values based on the POV value if it's in the mapping
+        pov_value = controller.pov()
         if pov_value >= 0:
             left_joy_x = math.cos(pov_value) * mult * self.max_speed
             left_joy_y = -math.sin(pov_value) * mult * self.max_speed * -1
 
         # calculate max angular speed based on max_speed (cool math here)
         omega = self.max_speed / math.dist((0, 0), (self.offset_x, self.offset_y))
-        right_joy_x = applyDeadband(smart_controller.rightx(), 0.1) * mult * omega
+        right_joy_x = applyDeadband(controller.rightx(), 0.1) * mult * omega
 
         if left_joy_x != 0 or left_joy_y != 0 or right_joy_x != 0:
             self.swerve_drive.drive(
                 -left_joy_y, left_joy_x, -right_joy_x, self.max_speed, self.period
             )
 
-        if smart_controller.startbutton():  # Corrected to use the instance
-            self.swerve_drive.reset_gyro()
+        if controller.startbutton():
+            self.navX.reset()
             self.navX.setAngleAdjustment(-90)
-
-        if smart_controller.abutton():  # Corrected to use the instance
-            self.sysid_drive.quasistatic_forward()
-        if smart_controller.bbutton():  # Corrected to use the instance
-            self.sysid_drive.quasistatic_reverse()
-        if smart_controller.xbutton():  # Corrected to use the instance
-            self.sysid_drive.dynamic_forward()
-        if smart_controller.ybutton():  # Corrected to use the instance
-            self.sysid_drive.dynamic_reverse()
+            self.navx_alert.set(True)
 
         SmartDashboard.putNumber("Gyro Angle", self.navX.getAngle())
         SmartDashboard.putNumber("Voltage", RobotController.getBatteryVoltage())
@@ -161,6 +127,7 @@ class MyRobot(magicbot.MagicRobot):
                 self.drift_alert.set(False)
         else:
             self.previous_angle = self.navX.getAngle()
+            SmartDashboard.putNumber("Gyro Drift", 0)
 
     # override _do_periodics() to access watchdog
     # DON'T DO ANYTHING ELSE HERE UNLESS YOU KNOW WHAT YOU'RE DOING

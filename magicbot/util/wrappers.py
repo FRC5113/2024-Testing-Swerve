@@ -1,8 +1,6 @@
 from wpilib import (
     PS5Controller,
     XboxController,
-    SendableChooser,
-    SmartDashboard,
     DriverStation,
 )
 from wpilib.interfaces import MotorController
