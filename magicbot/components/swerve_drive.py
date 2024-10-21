@@ -2,7 +2,6 @@ from components.swerve_wheel import SwerveWheel
 import math
 import navx
 from wpilib import SmartDashboard, SendableChooser
-from wpilib.sysid import SysIdRoutineLog
 from wpimath.kinematics import SwerveDrive4Kinematics
 from wpimath.geometry import Translation2d, Rotation2d, Pose2d
 from wpimath.kinematics import ChassisSpeeds, SwerveDrive4Odometry, SwerveModulePosition
@@ -11,12 +10,12 @@ from magicbot import will_reset_to
 from wpilib import DriverStation
 
 # Objects needed for Auto setup (AutoBuilder)
-from pathplannerlib.auto import AutoBuilder
-from pathplannerlib.config import (
-    HolonomicPathFollowerConfig,
-    ReplanningConfig,
-    PIDConstants,
-)
+# from pathplannerlib.auto import AutoBuilder
+# from pathplannerlib.config import (
+#     HolonomicPathFollowerConfig,
+#     ReplanningConfig,
+#     PIDConstants,
+# )
 
 
 class SwerveDrive(Sendable):
@@ -34,6 +33,7 @@ class SwerveDrive(Sendable):
     translationX = will_reset_to(0)
     translationY = will_reset_to(0)
     rotationX = will_reset_to(0)
+    field_relative = will_reset_to(True)
 
     def __init__(self) -> None:
         Sendable.__init__(self)
@@ -72,29 +72,27 @@ class SwerveDrive(Sendable):
             ),
             Pose2d(x=0, y=0, angle=0),
         )
-        # Field Relative selecter
-        SmartDashboard.putBoolean("FieldRelative", True)
 
-        # Configure the AutoBuilder last
-        AutoBuilder.configureHolonomic(
-            Pose2d,  # Robot pose supplier
-            Pose2d(
-                x=0, y=0, angle=0
-            ),  # Method to reset odometry (will be called if your auto has a starting pose)
-            ChassisSpeeds(
-                self.translationY, self.translationX, self.rotationX
-            ),  # ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-            self.drive,  # Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
-            HolonomicPathFollowerConfig(  # HolonomicPathFollowerConfig, this should likely live in your Constants class
-                PIDConstants(1.0, 0.0, 0.0),  # Translation PID constants
-                PIDConstants(0.4, 0.0, 0.0),  # Rotation PID constants
-                self.max_speed,  # Max module speed, in m/s
-                0.381,  # Drive base radius in meters. Distance from robot center to furthest module.
-                ReplanningConfig(),  # Default path replanning config. See the API for the options here
-            ),
-            self.shouldFlipPath,  # Supplier to control path flipping based on alliance color
-            self,  # Reference to this subsystem to set requirements
-        )
+        # # Configure the AutoBuilder last
+        # AutoBuilder.configureHolonomic(
+        #     Pose2d,  # Robot pose supplier
+        #     Pose2d(
+        #         x=0, y=0, angle=0
+        #     ),  # Method to reset odometry (will be called if your auto has a starting pose)
+        #     ChassisSpeeds(
+        #         self.translationY, self.translationX, self.rotationX
+        #     ),  # ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+        #     self.drive,  # Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
+        #     HolonomicPathFollowerConfig(  # HolonomicPathFollowerConfig, this should likely live in your Constants class
+        #         PIDConstants(1.0, 0.0, 0.0),  # Translation PID constants
+        #         PIDConstants(0.4, 0.0, 0.0),  # Rotation PID constants
+        #         self.max_speed,  # Max module speed, in m/s
+        #         0.381,  # Drive base radius in meters. Distance from robot center to furthest module.
+        #         ReplanningConfig(),  # Default path replanning config. See the API for the options here
+        #     ),
+        #     self.shouldFlipPath,  # Supplier to control path flipping based on alliance color
+        #     self,  # Reference to this subsystem to set requirements
+        # )
 
     def onRedAlliance(self):
         # Returns boolean that equals true if we are on the Red Alliance
@@ -168,6 +166,7 @@ class SwerveDrive(Sendable):
         translationY: float,
         rotationX: float,
         max_speed: float,
+        field_relative: bool,
         period: float,
     ):
         self.translationX = translationX
@@ -175,6 +174,7 @@ class SwerveDrive(Sendable):
         self.rotationX = rotationX
         self.max_speed = max_speed
         self.period = period
+        self.field_relative = field_relative
         self.stopped = False
 
     """
@@ -199,8 +199,6 @@ class SwerveDrive(Sendable):
 
     def execute(self) -> None:
         self.sendAdvantageScopeData()
-        # Controller selection
-        self.Relative = SmartDashboard.getBoolean("FieldRelative", True)
 
         if self.stopped:
             # below line is only to keep NT updated
@@ -216,8 +214,13 @@ class SwerveDrive(Sendable):
                     self.rotationX,
                     self.navX.getRotation2d(),
                 )
-                if self.Relative
-                else ChassisSpeeds(self.translationY, self.translationX, self.rotationX)
+                if self.field_relative
+                else ChassisSpeeds.fromFieldRelativeSpeeds(
+                    self.translationX,
+                    self.translationY,
+                    self.rotationX,
+                    Rotation2d(math.pi / 2),
+                )
             ),
             self.period,
         )

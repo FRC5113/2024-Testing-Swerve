@@ -13,7 +13,8 @@ from components.swerve_wheel import SwerveWheel
 from util.alerts import Alert, AlertType, AlertManager
 from util.smart_preference import SmartPreference, SmartProfile
 from util.wrappers import SmartController
-from container import RobotContainer
+
+# from container import RobotContainer
 
 
 class MyRobot(magicbot.MagicRobot):
@@ -30,7 +31,7 @@ class MyRobot(magicbot.MagicRobot):
 
     def createObjects(self):
 
-        self.contanier = RobotContainer()
+        # self.contanier = RobotContainer()
         self.debug = True
 
         # Swerve Motor IDs
@@ -72,7 +73,6 @@ class MyRobot(magicbot.MagicRobot):
         self.navx_alert = Alert(
             "NavX heading has been reset", AlertType.INFO, timeout=3.0
         )
-        self.drift_alert = Alert("Robot has drifted", AlertType.WARNING)
 
     def teleopInit(self):
         self.navX.reset()
@@ -83,8 +83,8 @@ class MyRobot(magicbot.MagicRobot):
 
         mult = 1
         # Call bumper methods on the instance
-        if controller.leftbumper():
-            mult *= 0.5
+        # if controller.leftbumper():
+        #     mult *= 0.5
         if controller.rightbumper():
             mult *= 0.5
 
@@ -104,7 +104,12 @@ class MyRobot(magicbot.MagicRobot):
 
         if left_joy_x != 0 or left_joy_y != 0 or right_joy_x != 0:
             self.swerve_drive.drive(
-                -left_joy_y, left_joy_x, -right_joy_x, self.max_speed, self.period
+                -left_joy_y,
+                left_joy_x,
+                -right_joy_x,
+                self.max_speed,
+                not controller.leftbumper(),
+                self.period,
             )
 
         if controller.startbutton():
@@ -114,20 +119,6 @@ class MyRobot(magicbot.MagicRobot):
 
         SmartDashboard.putNumber("Gyro Angle", self.navX.getAngle())
         SmartDashboard.putNumber("Voltage", RobotController.getBatteryVoltage())
-
-        if right_joy_x == 0:
-            # If there's no rotational input, calculate the gyro drift
-            current_angle = self.navX.getAngle()
-            gyro_drift = current_angle - self.previous_angle
-            SmartDashboard.putNumber("Gyro Drift", gyro_drift)
-            if abs(gyro_drift) > 10:
-                self.drift_alert.set(True)
-                self.drift_alert.set_text(f"Robot has drifted {gyro_drift} degrees")
-            else:
-                self.drift_alert.set(False)
-        else:
-            self.previous_angle = self.navX.getAngle()
-            SmartDashboard.putNumber("Gyro Drift", 0)
 
     # override _do_periodics() to access watchdog
     # DON'T DO ANYTHING ELSE HERE UNLESS YOU KNOW WHAT YOU'RE DOING
