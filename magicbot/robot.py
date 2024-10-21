@@ -25,11 +25,11 @@ import magicbot
 import navx
 
 
-from components.sysid_drive import SysIdDrive
 from components.swerve_drive import SwerveDrive
 from components.swerve_wheel import SwerveWheel
 from util.smart_preference import SmartPreference, SmartProfile
 from container import RobotContainer
+
 
 class MyRobot(magicbot.MagicRobot):
     swerve_drive: SwerveDrive
@@ -84,7 +84,9 @@ class MyRobot(magicbot.MagicRobot):
 
         # alerts
         SmartDashboard.putData("Alerts", AlertManager(self.logger))
-        self.navx_alert = Alert("NavX heading has been reset", AlertType.INFO, timeout=3.0)
+        self.navx_alert = Alert(
+            "NavX heading has been reset", AlertType.INFO, timeout=3.0
+        )
         self.drift_alert = Alert("Robot has drifted", AlertType.WARNING)
 
     def teleopInit(self):
@@ -98,8 +100,6 @@ class MyRobot(magicbot.MagicRobot):
 
         # Get the current POV from the controller
         pov_value = smart_controller.pov()  # Call the method on the instance
-  
-
 
         mult = 1
         # Call bumper methods on the instance
@@ -117,7 +117,7 @@ class MyRobot(magicbot.MagicRobot):
         )
 
         # Get the current POV from the controller
-        pov_value = self.driver_controller.getPOV()
+        pov_value = smart_controller.pov()
 
         # Update the joystick values based on the POV value if it's in the mapping
         if pov_value >= 0:
@@ -167,8 +167,6 @@ class MyRobot(magicbot.MagicRobot):
     def _do_periodics(self):
         super()._do_periodics()
         self.period = max(0.02, self.watchdog.getTime())
-
-
 
 
 if __name__ == "__main__":

@@ -9,6 +9,7 @@ from wpimath.kinematics import ChassisSpeeds, SwerveDrive4Odometry, SwerveModule
 from wpiutil import Sendable, SendableBuilder
 from magicbot import will_reset_to
 from wpilib import DriverStation
+
 # Objects needed for Auto setup (AutoBuilder)
 from pathplannerlib.auto import AutoBuilder
 from pathplannerlib.config import (
@@ -16,6 +17,7 @@ from pathplannerlib.config import (
     ReplanningConfig,
     PIDConstants,
 )
+
 
 class SwerveDrive(Sendable):
     offset_x: float
@@ -73,11 +75,15 @@ class SwerveDrive(Sendable):
         # Field Relative selecter
         SmartDashboard.putBoolean("FieldRelative", True)
 
-         # Configure the AutoBuilder last
+        # Configure the AutoBuilder last
         AutoBuilder.configureHolonomic(
             Pose2d,  # Robot pose supplier
-            Pose2d(x=0, y=0, angle=0),  # Method to reset odometry (will be called if your auto has a starting pose)
-            ChassisSpeeds(self.translationY, self.translationX, self.rotationX),  # ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+            Pose2d(
+                x=0, y=0, angle=0
+            ),  # Method to reset odometry (will be called if your auto has a starting pose)
+            ChassisSpeeds(
+                self.translationY, self.translationX, self.rotationX
+            ),  # ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
             self.drive,  # Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
             HolonomicPathFollowerConfig(  # HolonomicPathFollowerConfig, this should likely live in your Constants class
                 PIDConstants(1.0, 0.0, 0.0),  # Translation PID constants
@@ -89,6 +95,7 @@ class SwerveDrive(Sendable):
             self.shouldFlipPath,  # Supplier to control path flipping based on alliance color
             self,  # Reference to this subsystem to set requirements
         )
+
     def onRedAlliance(self):
         # Returns boolean that equals true if we are on the Red Alliance
         return DriverStation.getAlliance() == DriverStation.Alliance.kRed

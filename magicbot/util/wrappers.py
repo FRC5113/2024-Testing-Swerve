@@ -72,7 +72,7 @@ class WPI_TalonFX(phoenix6.hardware.TalonFX, MotorController):
 
 
 class SmartController:
-    """Wrapper class for the XboxController and PS5Controller classes that allows to use 
+    """Wrapper class for the XboxController and PS5Controller classes that allows to use
     both xbox and ps5 controllers automatically
     without chaging the code.
     Must be called in TeleopPeriodic or AutonomousPeriodic to get the values of the controller for example:
@@ -115,7 +115,7 @@ class SmartController:
     def leftbumper(self):
         """
         Returns the state of the left bumper button.
-        
+
         Returns:
             bool: The state of the left bumper button (pressed or not).
         """
@@ -124,7 +124,7 @@ class SmartController:
     def rightbumper(self):
         """
         Returns the state of the right bumper button.
-        
+
         Returns:
             bool: The state of the right bumper button (pressed or not).
         """
@@ -133,7 +133,7 @@ class SmartController:
     def startbutton(self):
         """
         Returns the state of the start button.
-        
+
         Returns:
             bool: The state of the start button (pressed or not).
         """
@@ -142,7 +142,7 @@ class SmartController:
     def abutton(self):
         """
         Returns the state of the 'A' button.
-        
+
         Returns:
             bool: The state of the 'A' button (pressed or not).
         """
@@ -151,7 +151,7 @@ class SmartController:
     def bbutton(self):
         """
         Returns the state of the 'B' button.
-        
+
         Returns:
             bool: The state of the 'B' button (pressed or not).
         """
@@ -160,7 +160,7 @@ class SmartController:
     def xbutton(self):
         """
         Returns the state of the 'X' button.
-        
+
         Returns:
             bool: The state of the 'X' button (pressed or not).
         """
@@ -169,7 +169,7 @@ class SmartController:
     def ybutton(self):
         """
         Returns the state of the 'Y' button.
-        
+
         Returns:
             bool: The state of the 'Y' button (pressed or not).
         """
@@ -178,7 +178,7 @@ class SmartController:
     def lstickbutton(self):
         """
         Returns the state of the left stick button.
-        
+
         Returns:
             bool: The state of the left stick button (pressed or not).
         """
@@ -187,7 +187,7 @@ class SmartController:
     def rstickbutton(self):
         """
         Returns the state of the right stick button.
-        
+
         Returns:
             bool: The state of the right stick button (pressed or not).
         """
@@ -196,7 +196,7 @@ class SmartController:
     def leftx(self) -> float:
         """
         Returns the X-axis value of the left joystick.
-        
+
         Returns:
             float: The X-axis value of the left joystick, ranging from -1.0 to 1.0.
         """
@@ -205,7 +205,7 @@ class SmartController:
     def lefty(self) -> float:
         """
         Returns the Y-axis value of the left joystick.
-        
+
         Returns:
             float: The Y-axis value of the left joystick, ranging from -1.0 to 1.0.
         """
@@ -214,7 +214,7 @@ class SmartController:
     def rightx(self) -> float:
         """
         Returns the X-axis value of the right joystick.
-        
+
         Returns:
             float: The X-axis value of the right joystick, ranging from -1.0 to 1.0.
         """
@@ -223,7 +223,7 @@ class SmartController:
     def righty(self) -> float:
         """
         Returns the Y-axis value of the right joystick.
-        
+
         Returns:
             float: The Y-axis value of the right joystick, ranging from -1.0 to 1.0.
         """
@@ -232,7 +232,7 @@ class SmartController:
     def pov(self) -> int:
         """
         Returns the Point of View (POV) value as an integer.
-        
+
         Returns:
             int: The current POV value. Returns -1 if no POV is pressed.
         """

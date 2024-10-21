@@ -35,7 +35,11 @@ class Alert:
         self.active = active
 
     def set_text(self, text: str):
-        if self.active and self.text != text and Timer.getFPGATimestamp() - self.last_log > 1.0:
+        if (
+            self.active
+            and self.text != text
+            and Timer.getFPGATimestamp() - self.last_log > 1.0
+        ):
             self.last_log = Timer.getFPGATimestamp()
             match self.type:
                 case AlertType.ERROR:
@@ -61,7 +65,9 @@ class AlertManager(Sendable):
             "errors", lambda: AlertManager.get_strings(AlertType.ERROR), lambda _: None
         )
         builder.addStringArrayProperty(
-            "warnings", lambda: AlertManager.get_strings(AlertType.WARNING), lambda _: None
+            "warnings",
+            lambda: AlertManager.get_strings(AlertType.WARNING),
+            lambda _: None,
         )
         builder.addStringArrayProperty(
             "infos", lambda: AlertManager.get_strings(AlertType.INFO), lambda _: None
@@ -79,7 +85,10 @@ class AlertManager(Sendable):
                     continue
             if alert.type == type:
                 alerts.append(alert)
-        return [alert.text for alert in sorted(alerts, key=lambda alert: alert.active_start_time)]
+        return [
+            alert.text
+            for alert in sorted(alerts, key=lambda alert: alert.active_start_time)
+        ]
 
     def add_alert(alert: Alert):
         AlertManager.alerts.append(alert)

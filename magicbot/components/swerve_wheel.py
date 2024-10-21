@@ -11,6 +11,7 @@ from magicbot import will_reset_to
 from util.smart_preference import SmartProfile
 from util.wrappers import SmartController
 
+
 class SwerveWheel:
     drive_gear_ratio: float
     wheel_radius: float
@@ -78,7 +79,6 @@ class SwerveWheel:
     def setDesiredState(self, state: SwerveModuleState):
         self.stopped = False
         self.desired_state = state
-    
 
     """
     EXECUTE
@@ -92,7 +92,6 @@ class SwerveWheel:
                 self.speed_motor.set_control(controls.StaticBrake())
             self.direction_motor.set_control(controls.StaticBrake())
             return
-
 
         encoder_rotation = Rotation2d(
             self.cancoder.get_absolute_position().value * 2 * math.pi
