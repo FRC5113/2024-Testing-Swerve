@@ -4,9 +4,6 @@ import wpilib.shuffleboard
 
 import wpilib.shuffleboard
 
-from components.sysid_drive import SysIdDrive
-from components.swerve_drive import SwerveDrive
-from components.swerve_wheel import SwerveWheel
 from phoenix6.hardware import TalonFX
 from phoenix6.hardware import CANcoder
 import magicbot
@@ -14,8 +11,14 @@ import navx
 import wpilib
 from wpimath import applyDeadband
 from wpilib import SmartDashboard, RobotController, SendableChooser
+from robotpy_apriltag import AprilTagField, loadAprilTagLayoutField
 
+from components.sysid_drive import SysIdDrive
+from components.swerve_drive import SwerveDrive
+from components.swerve_wheel import SwerveWheel
+from components.vision import Vision
 from util.smart_preference import SmartPreference, SmartProfile
+from util.wrappers import LemonCamera
 
 
 class MyRobot(magicbot.MagicRobot):
@@ -26,6 +29,7 @@ class MyRobot(magicbot.MagicRobot):
     front_right: SwerveWheel
     rear_left: SwerveWheel
     rear_right: SwerveWheel
+    vision: Vision
 
     """This should be the max speed (m/s) at which the drive motors can
     run, NOT the max speed that the robot should go (ie. use a curve
@@ -66,6 +70,12 @@ class MyRobot(magicbot.MagicRobot):
         SmartDashboard.putData("Speed Profile", self.speed_profile)
         SmartDashboard.putData("Direction Profile", self.direction_profile)
 
+        # vision
+        self.camera = LemonCamera(
+
+        )
+        self.field_layout = loadAprilTagLayoutField(AprilTagField.k2024Crescendo)
+
         # controller chooser
         self.controller = SendableChooser()
         self.controller.setDefaultOption("Playstation", wpilib.PS5Controller)
@@ -76,6 +86,10 @@ class MyRobot(magicbot.MagicRobot):
         self.estimated_field = wpilib.Field2d()
 
     def teleopPeriodic(self):
+        # update camera
+        if self.isReal():
+            self.camera.update()
+
         if self.controller.getSelected() == wpilib.XboxController:
             self.driver_controller = wpilib.XboxController(0)
         elif self.controller.getSelected() == wpilib.PS5Controller:
@@ -109,26 +123,12 @@ class MyRobot(magicbot.MagicRobot):
             * mult
             * self.max_speed
         )
-        # Define the POV-to-(left_joy_x, left_joy_y) mapping
-        pov_mapping = {
-            0: (1, 0),
-            45: (0.707, -0.707),
-            90: (0, -1),
-            135: (-0.707, -0.707),
-            180: (-1, 0),
-            225: (-0.707, 0.707),
-            270: (0, 1),
-            315: (0.707, 0.707),
-        }
 
         # Get the current POV from the controller
         pov_value = self.driver_controller.getPOV()
-
-        # Update the joystick values based on the POV value if it's in the mapping
-        if pov_value in pov_mapping:
-            left_joy_x, left_joy_y = pov_mapping[pov_value]
-            left_joy_x *= mult * self.max_speed
-            left_joy_y *= mult * self.max_speed
+        if pov_value >= 0:
+            left_joy_x = math.cos(pov_value * math.pi / 180) * mult * self.max_speed
+            left_joy_x = -math.sin(pov_value * math.pi / 180) * mult * self.max_speed
 
         # calculate max angular speed based on max_speed (cool math here)
         omega = self.max_speed / math.dist((0, 0), (self.offset_x, self.offset_y))
