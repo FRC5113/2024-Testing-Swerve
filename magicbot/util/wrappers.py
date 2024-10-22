@@ -1,5 +1,4 @@
 import math
-import numpy as np
 
 from wpilib import (
     PS5Controller,
@@ -8,9 +7,10 @@ from wpilib import (
 )
 from wpilib.interfaces import MotorController
 from wpimath.filter import MedianFilter
-from wpimath.geometry import Translation2d
+from wpimath.geometry import Translation2d, Rotation2d, Pose2d
 import phoenix6
 from photonlibpy.photonCamera import PhotonCamera
+from robotpy_apriltag import AprilTagFieldLayout
 
 
 class LemonTalonFX(phoenix6.hardware.TalonFX, MotorController):
@@ -252,7 +252,7 @@ class LemonCamera(PhotonCamera):
     def __init__(
         self,
         camera_name: str,
-        rc: tuple[float],
+        rc: Translation2d,
         tilt: float = 0,
         filter_window: int = 10,
         sought_ids: list[int] = None,
@@ -269,7 +269,7 @@ class LemonCamera(PhotonCamera):
             finds with non-sought ids will be ignored.
         """
         PhotonCamera.__init__(self, camera_name)
-        self.rc = np.array(rc)
+        self.rc = rc
         self.tilt = tilt
         self.filter_window = filter_window
         self.x = 0
@@ -311,59 +311,71 @@ class LemonCamera(PhotonCamera):
         else:
             self.drought += 1
 
+    def _check_drought(func):
+        def inner(self: LemonCamera):
+            if self.hasTargets():
+                return func(self)
+            else:
+                return None
+        return inner
+
     def hasTargets(self) -> bool:
         return self.drought < self.filter_window
 
+    @_check_drought
     def getX(self) -> float | None:
-        if self.drought < self.filter_window:
-            return self.x
-        return None
+        return self.x
 
+    @_check_drought
     def getY(self) -> float | None:
-        if self.drought < self.filter_window:
-            return self.y
-        return None
+        return self.y
 
+    @_check_drought
     def getZ(self) -> float | None:
-        if self.drought < self.filter_window:
-            return self.z
-        return None
+        return self.z
 
+    @_check_drought
     def getId(self) -> int | None:
-        if self.drought < self.filter_window:
-            return self.id
-        return None
+        return self.id
 
+    @_check_drought
     def getLatency(self) -> float | None:
-        if self.drought < self.filter_window:
-            return self.latency
-        return None
+        return self.latency
 
-    # returns angle that robot must turn to face tag
-    def getHeading(self) -> float | None:
-        if self.drought < self.filter_window:
-            return math.atan2(-self.y, self.x) * 180 / math.pi
-        return None
+    @_check_drought
+    def getHeading(self) -> Rotation2d | None:
+        """returns angle that robot must turn to face tag"""
+        return Rotation2d(math.atan2(-self.y, self.x))
 
+    @_check_drought
     def getAdjustedHeading(self) -> float | None:
         """Returns the angle from the center of the robot to the tag"""
-        if self.drought < self.filter_window:
-            ct = np.array([self.x, self.y, self.z])
-            rt = self.rc + ct
-            theta = math.atan2(rt[1], rt[0])
-            theta *= 180 / math.pi
-            return -theta
-        return None
+        ct = Translation2d(self.x, self.y)
+        rt = self.rc + ct
+        return Rotation2d(math.atan2(rt.y, rt.x))
     
+    @_check_drought
     def getAdjustedTranslation(self) -> Translation2d | None:
         """Returns the translation from the center of the robot to the tag
         (Relative to the robot)
         """
-        if self.drought < self.filter_window:
-            ct = np.array([self.x, self.y, self.z])
-            rt = self.rc + ct
-            return Translation2d(rt[0], rt[1])
+        ct = Translation2d(self.x, self.y)
+        rt = self.rc + ct
+        return Translation2d(rt.x, rt.y)
 
 
     def setSoughtIds(self, sought_ids):
         self.sought_ids = sought_ids
+
+
+class SimLemonCamera(LemonCamera):
+    def __init__(self, field_layout: AprilTagFieldLayout, fov, rc, tilt, filter_window=10, sought_ids=None):
+        LemonCamera.__init__(self, "Sim", rc, tilt, filter_window, sought_ids)
+        self.field_layout = field_layout
+        self.fov = fov
+
+    def update(self, pose: Pose2d):
+        result = []
+        for tag in self.field_layout.getTags():
+            pass
+        # TODO: finish everything lol

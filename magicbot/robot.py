@@ -7,12 +7,14 @@ import navx
 import wpilib
 from wpimath import applyDeadband
 from wpilib import SmartDashboard, RobotController
+from robotpy_apriltag import AprilTagField, loadAprilTagLayoutField
 
+from components.vision import Vision
 from components.swerve_drive import SwerveDrive
 from components.swerve_wheel import SwerveWheel
 from util.alerts import Alert, AlertType, AlertManager
 from util.smart_preference import SmartPreference, SmartProfile
-from util.wrappers import SmartController
+from util.wrappers import LemonCamera, SmartController
 
 # from container import RobotContainer
 
@@ -23,6 +25,7 @@ class MyRobot(magicbot.MagicRobot):
     front_right: SwerveWheel
     rear_left: SwerveWheel
     rear_right: SwerveWheel
+    vision: Vision
 
     """This should be the max speed (m/s) at which the drive motors can
     run, NOT the max speed that the robot should go (ie. use a curve
@@ -64,6 +67,12 @@ class MyRobot(magicbot.MagicRobot):
         )
         SmartDashboard.putData("Speed Profile", self.speed_profile)
         SmartDashboard.putData("Direction Profile", self.direction_profile)
+
+        # vision
+        self.camera = LemonCamera(
+
+        )
+        self.field_layout = loadAprilTagLayoutField(AprilTagField.k2024Crescendo)
         self.navX.setAngleAdjustment(0)
 
         self.previous_angle = self.navX.getAngle()
@@ -80,9 +89,11 @@ class MyRobot(magicbot.MagicRobot):
 
         self.estimated_field = wpilib.Field2d()
 
-        self.estimated_field = wpilib.Field2d()
-
     def teleopPeriodic(self):
+        # update camera
+        if self.isReal():
+            self.camera.update()
+
         controller = SmartController(0)
 
         mult = 1
