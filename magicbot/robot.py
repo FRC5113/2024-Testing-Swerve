@@ -6,16 +6,16 @@ import magicbot
 import navx
 import wpilib
 from wpimath import applyDeadband
-from wpilib import SmartDashboard, RobotController
+from wpilib import SmartDashboard, RobotController,SendableChooser
+from pathplannerlib.auto import PathPlannerAuto
+from pathplannerlib.auto import AutoBuilder
+from wpilib.shuffleboard import Shuffleboard, BuiltInWidgets
 
 from components.swerve_drive import SwerveDrive
 from components.swerve_wheel import SwerveWheel
 from util.alerts import Alert, AlertType, AlertManager
 from util.smart_preference import SmartPreference, SmartProfile
 from util.wrappers import SmartController
-
-# from container import RobotContainer
-
 
 class MyRobot(magicbot.MagicRobot):
     swerve_drive: SwerveDrive
@@ -73,6 +73,21 @@ class MyRobot(magicbot.MagicRobot):
         self.navx_alert = Alert(
             "NavX heading has been reset", AlertType.INFO, timeout=3.0
         )
+        self.No_auto_alert = Alert(
+            "No Auto Selected, doing nothing :(", AlertType.INFO, timeout=3.0
+        )
+
+        self.auto_chooser = SendableChooser()
+        self.auto_chooser.setDefaultOption("Move Forward", PathPlannerAuto("MoveForward"))
+        self.auto_chooser.addOption("Do Nothing :(", None)
+
+        # Send to Shuffleboard
+        Shuffleboard.getTab("Main").add("Auto Selector", self.auto_chooser).withWidget(BuiltInWidgets.kComboBoxChooser)
+
+    def get_selected_auto(self) -> PathPlannerAuto | None:
+        """Returns the selected auto."""
+        
+        return self.auto_chooser.getSelected()
 
     def teleopInit(self):
         self.navX.reset()
@@ -119,7 +134,17 @@ class MyRobot(magicbot.MagicRobot):
 
         SmartDashboard.putNumber("Gyro Angle", self.navX.getAngle())
         SmartDashboard.putNumber("Voltage", RobotController.getBatteryVoltage())
+    def autonomousInit(self):
+        # Get the selected auto
+        self.selected_auto = self.get_selected_auto()
 
+        if self.selected_auto is None:
+            self.No_auto_alert.set(True)
+        else:
+            self.selected_auto.schedule()
+
+    def autonomousPeriodic(self) -> None:
+        pass
     # override _do_periodics() to access watchdog
     # DON'T DO ANYTHING ELSE HERE UNLESS YOU KNOW WHAT YOU'RE DOING
     def _do_periodics(self):

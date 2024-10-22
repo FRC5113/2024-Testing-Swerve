@@ -8,14 +8,13 @@ from wpimath.kinematics import ChassisSpeeds, SwerveDrive4Odometry, SwerveModule
 from wpiutil import Sendable, SendableBuilder
 from magicbot import will_reset_to
 from wpilib import DriverStation
-
-# Objects needed for Auto setup (AutoBuilder)
-# from pathplannerlib.auto import AutoBuilder
-# from pathplannerlib.config import (
-#     HolonomicPathFollowerConfig,
-#     ReplanningConfig,
-#     PIDConstants,
-# )
+from pathplannerlib.auto import AutoBuilder, HolonomicPathFollowerConfig, ReplanningConfig
+from pathplannerlib.commands import PathfindThenFollowPathHolonomic
+from pathplannerlib.controller import PPHolonomicDriveController
+from pathplannerlib.config import HolonomicPathFollowerConfig
+from pathplannerlib.logging import PathPlannerLogging
+from pathplannerlib.path import PathConstraints, PathPlannerPath
+from pathplannerlib.controller import PIDConstants
 
 
 class SwerveDrive(Sendable):
@@ -35,10 +34,42 @@ class SwerveDrive(Sendable):
     rotationX = will_reset_to(0)
     field_relative = will_reset_to(True)
 
+
+    # PathPlanner Config
+    path_follower_config = HolonomicPathFollowerConfig(
+        # Holonomic-specific config
+        PIDConstants( # PID for translation
+            Constants.PathPlanner.k_translation_p,
+            Constants.PathPlanner.k_translation_i,
+            Constants.PathPlanner.k_translation_d,
+            Constants.PathPlanner.k_translation_i_zone
+        ), 
+        PIDConstants( # PID for rotation
+            Constants.PathPlanner.k_rotation_p,
+            Constants.PathPlanner.k_rotation_i,
+            Constants.PathPlanner.k_rotation_d,
+            Constants.PathPlanner.k_rotation_i_zone
+        ), 
+        Constants.Drivetrain.k_max_attainable_speed, # Max module speed (matches the one in PathPlanner)
+        Constants.Drivetrain.k_drive_base_radius, # Distance from center of the robot to a swerve module
+        ReplanningConfig() # Replanning Config (check the docs, this is hard to explain)
+    )
+
     def __init__(self) -> None:
         Sendable.__init__(self)
         self.max_speed = 1.0
         self.period = 0.02
+
+        # Configure PathPlanner
+        AutoBuilder.configureHolonomic(
+            self.odometry.getPose,
+            lambda pose: self.navX.reset(),
+            self.kinematics.toChassisSpeeds(ChassisSpeeds.fromRobotRelativeSpeeds(0, 0, 0)),
+            lambda speeds: self.drive_robot_centric(speeds),
+            self.path_follower_config,
+            lambda: DriverStation.getAlliance() == DriverStation.Alliance.kRed, # "Hey Caden, when do we flip the path?"
+            self # "Yes, this is the drivetrain. Why would I configure an AutoBuilder for an intake, pathplannerlib?"
+        )
 
     def setup(self) -> None:
         """
@@ -73,26 +104,6 @@ class SwerveDrive(Sendable):
             Pose2d(x=0, y=0, angle=0),
         )
 
-        # # Configure the AutoBuilder last
-        # AutoBuilder.configureHolonomic(
-        #     Pose2d,  # Robot pose supplier
-        #     Pose2d(
-        #         x=0, y=0, angle=0
-        #     ),  # Method to reset odometry (will be called if your auto has a starting pose)
-        #     ChassisSpeeds(
-        #         self.translationY, self.translationX, self.rotationX
-        #     ),  # ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-        #     self.drive,  # Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
-        #     HolonomicPathFollowerConfig(  # HolonomicPathFollowerConfig, this should likely live in your Constants class
-        #         PIDConstants(1.0, 0.0, 0.0),  # Translation PID constants
-        #         PIDConstants(0.4, 0.0, 0.0),  # Rotation PID constants
-        #         self.max_speed,  # Max module speed, in m/s
-        #         0.381,  # Drive base radius in meters. Distance from robot center to furthest module.
-        #         ReplanningConfig(),  # Default path replanning config. See the API for the options here
-        #     ),
-        #     self.shouldFlipPath,  # Supplier to control path flipping based on alliance color
-        #     self,  # Reference to this subsystem to set requirements
-        # )
 
     def onRedAlliance(self):
         # Returns boolean that equals true if we are on the Red Alliance
