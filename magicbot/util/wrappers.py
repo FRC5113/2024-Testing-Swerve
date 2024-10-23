@@ -96,6 +96,7 @@ class SmartController:
                 "getLeftBumper": "getL1Button",
                 "getRightBumper": "getR1Button",
                 "getStartButton": "getOptionsButton",
+                "getBackButton": "getCreateButton",
                 "getAButton": "getCrossButton",
                 "getBButton": "getCircleButton",
                 "getXButton": "getSquareButton",
@@ -107,8 +108,22 @@ class SmartController:
                 "getRightX": "getRightX",
                 "getRightY": "getRightY",
                 "getPOV": "getPOV",
+                "getLeftTriggerAxis": "getL2Axis",
+                "getRightTriggerAxis": "getR2Axis",
             }
             return getattr(self.driver_controller, ps5_method_mapping[method_name])()
+
+    def type(self):
+        """
+        Returns the type of controller.
+
+        Returns:
+            str: The type of controller (Xbox or PS5).
+        """
+        if isinstance(self.driver_controller, XboxController):
+            return "Xbox"
+        elif isinstance(self.driver_controller, PS5Controller):
+            return "PS5"
 
     def leftbumper(self):
         """
@@ -136,6 +151,15 @@ class SmartController:
             bool: The state of the start button (pressed or not).
         """
         return self._get_button_method("getStartButton")
+
+    def backbutton(self):
+        """
+        Returns the state of the back button.
+
+        Returns:
+            bool: The state of the back button (pressed or not).
+        """
+        return self._get_button_method("getBackButton")
 
     def abutton(self):
         """
@@ -235,3 +259,79 @@ class SmartController:
             int: The current POV value. Returns -1 if no POV is pressed.
         """
         return int(self._get_button_method("getPOV"))
+
+    def righttrigger(self) -> float:
+        """
+        Returns the state of the right trigger button.
+
+        Returns:
+            float: The state of the right trigger button ranging from 0.0 to 1.0.
+        """
+        return self._get_button_method("getRightTriggerAxis")
+
+    def lefttrigger(self) -> float:
+        """
+        Returns the state of the left trigger button.
+
+        Returns:
+            float: The state of the left trigger button ranging from 0.0 to 1.0.
+        """
+        return self._get_button_method("getLeftTriggerAxis")
+
+    def __pov_xy(self):
+        """
+        Returns the X and Y values of the POV as a tuple.
+
+        Returns:
+            tuple: The X and Y values of the POV as a tuple.
+        """
+        pov_value = self.pov()
+        pov_mapping = {
+            0: (1, 0),
+            45: (0.707, -0.707),
+            90: (0, -1),
+            135: (-0.707, -0.707),
+            180: (-1, 0),
+            225: (-0.707, 0.707),
+            270: (0, 1),
+            315: (0.707, 0.707),
+        }
+        return pov_mapping.get(
+            pov_value, (0, 0)
+        )  # Return (0, 0) for unmapped POV values
+
+    def pov_x(self) -> float:
+        """
+        Returns the X-axis value of the POV (Point of View) of a joystick.
+
+        Example:
+        ```
+        controller = SmartController(0)
+
+        if controller.pov() >= 0:
+            left_joy_x = controller.pov_x()
+            left_joy_y = controller.pov_y()
+        ```
+
+        Returns:
+            float: The X-axis value of the POV.
+        """
+        return self.__pov_xy()[0]
+
+    def pov_y(self) -> float:
+        """
+        Returns the Y-axis value of the POV (Point of View) of a joystick.
+
+        Example:
+        ```
+        controller = SmartController(0)
+
+        if controller.pov() >= 0:
+            left_joy_x = controller.pov_x()
+            left_joy_y = controller.pov_y()
+        ```
+
+        Returns:
+            float: The Y-axis value of the POV.
+        """
+        return self.__pov_xy()[1]

@@ -83,9 +83,9 @@ class MyRobot(magicbot.MagicRobot):
 
         mult = 1
         # Call bumper methods on the instance
-        # if controller.leftbumper():
-        #     mult *= 0.5
-        if controller.rightbumper():
+        if controller.lefttrigger():
+            mult *= 0.5
+        if controller.righttrigger():
             mult *= 0.5
 
         # Get joystick values
@@ -93,10 +93,9 @@ class MyRobot(magicbot.MagicRobot):
         left_joy_y = applyDeadband(controller.leftx(), 0.1) * mult * self.max_speed
 
         # Get the current POV from the controller
-        pov_value = controller.pov()
-        if pov_value >= 0:
-            left_joy_x = math.cos(pov_value) * mult * self.max_speed
-            left_joy_y = -math.sin(pov_value) * mult * self.max_speed * -1
+        if controller.pov() >= 0:
+            left_joy_x = -controller.pov_x() * mult * self.max_speed
+            left_joy_y = -controller.pov_y() * mult * self.max_speed
 
         # calculate max angular speed based on max_speed (cool math here)
         omega = self.max_speed / math.dist((0, 0), (self.offset_x, self.offset_y))
