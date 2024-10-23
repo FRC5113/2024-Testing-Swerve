@@ -10,7 +10,8 @@ import magicbot
 import navx
 import wpilib
 from wpimath import applyDeadband
-from wpilib import SmartDashboard, RobotController, SendableChooser
+from wpimath.geometry import Translation2d, Pose2d
+from wpilib import SmartDashboard, RobotController, SendableChooser, Timer
 from robotpy_apriltag import AprilTagField, loadAprilTagLayoutField
 
 from components.sysid_drive import SysIdDrive
@@ -18,7 +19,7 @@ from components.swerve_drive import SwerveDrive
 from components.swerve_wheel import SwerveWheel
 from components.vision import Vision
 from util.smart_preference import SmartPreference, SmartProfile
-from util.wrappers import LemonCamera
+from util.wrappers import SimLemonCamera
 
 
 class MyRobot(magicbot.MagicRobot):
@@ -71,8 +72,11 @@ class MyRobot(magicbot.MagicRobot):
         SmartDashboard.putData("Direction Profile", self.direction_profile)
 
         # vision
-        self.camera = LemonCamera(
-
+        self.camera = SimLemonCamera(
+            loadAprilTagLayoutField(AprilTagField.k2024Crescendo),
+            120,
+            Translation2d(0, 0),
+            0,
         )
         self.field_layout = loadAprilTagLayoutField(AprilTagField.k2024Crescendo)
 
@@ -84,13 +88,16 @@ class MyRobot(magicbot.MagicRobot):
         SmartDashboard.putData("Controller", self.controller)
 
         self.estimated_field = wpilib.Field2d()
+        self.tag_object = self.estimated_field.getObject("tag")
 
     def teleopPeriodic(self):
         # update camera
-        if self.isReal():
-            self.camera.update()
+        # self.camera.update(self.swerve_drive.get_estimated_pose())
 
-        if self.controller.getSelected() == wpilib.XboxController:
+        if (
+            self.controller.getSelected() == wpilib.XboxController
+            or self.isSimulation()
+        ):
             self.driver_controller = wpilib.XboxController(0)
         elif self.controller.getSelected() == wpilib.PS5Controller:
             self.driver_controller = wpilib.PS5Controller(0)
@@ -156,6 +163,15 @@ class MyRobot(magicbot.MagicRobot):
 
         SmartDashboard.putNumber("Gyro Angle", self.navX.getAngle())
         SmartDashboard.putNumber("Voltage", RobotController.getBatteryVoltage())
+        if self.camera.getId():
+            self.tag_object.setPose(
+                self.field_layout.getTagPose(self.camera.getId()).toPose2d()
+            )
+            self.swerve_drive.add_vision_measurement(
+                self.vision.get_estimated_pose(), Timer.getFPGATimestamp()
+            )
+        else:
+            self.tag_object.setPose(Pose2d())
         self.estimated_field.setRobotPose(self.swerve_drive.get_estimated_pose())
         SmartDashboard.putData("Estimated Field", self.estimated_field)
 

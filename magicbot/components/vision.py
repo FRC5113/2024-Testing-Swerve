@@ -21,4 +21,5 @@ class Vision:
         return Pose2d(ot - rt, theta)
 
     def execute(self):
-        self.camera.update()
+        pass
+        # self.camera.update()
