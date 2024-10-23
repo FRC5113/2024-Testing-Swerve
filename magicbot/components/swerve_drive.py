@@ -181,6 +181,12 @@ class SwerveDrive(Sendable):
         self.field_relative = field_relative
         self.stopped = False
 
+    def reset_gyro(self) -> None:
+        self.navX.reset()
+
+    def add_vision_measurement(self, pose, timestamp):
+        self.pose_estimator.addVisionMeasurement(pose, timestamp)
+
     """
     EXECUTE
     This is ran every "tick" of the robot. This is where we update all 

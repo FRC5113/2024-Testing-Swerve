@@ -9,6 +9,7 @@ from wpilib.interfaces import MotorController
 from wpimath.filter import MedianFilter
 from wpimath.geometry import Translation2d, Rotation2d, Pose2d
 import phoenix6
+from photonlibpy.photonTrackedTarget import PhotonTrackedTarget
 from photonlibpy.photonCamera import PhotonCamera
 from robotpy_apriltag import AprilTagFieldLayout
 
@@ -291,7 +292,8 @@ class LemonCamera(PhotonCamera):
             if self.sought_ids is not None:
                 potential_targets = list(
                     filter(
-                        lambda t: t.getFiducialId() in self.sought_ids, potential_targets
+                        lambda t: t.getFiducialId() in self.sought_ids,
+                        potential_targets,
                     )
                 )
             if len(potential_targets) == 0:
@@ -312,11 +314,12 @@ class LemonCamera(PhotonCamera):
             self.drought += 1
 
     def _check_drought(func):
-        def inner(self: LemonCamera):
+        def inner(self):
             if self.hasTargets():
                 return func(self)
             else:
                 return None
+
         return inner
 
     def hasTargets(self) -> bool:
@@ -353,7 +356,7 @@ class LemonCamera(PhotonCamera):
         ct = Translation2d(self.x, self.y)
         rt = self.rc + ct
         return Rotation2d(math.atan2(rt.y, rt.x))
-    
+
     @_check_drought
     def getAdjustedTranslation(self) -> Translation2d | None:
         """Returns the translation from the center of the robot to the tag
@@ -363,19 +366,53 @@ class LemonCamera(PhotonCamera):
         rt = self.rc + ct
         return Translation2d(rt.x, rt.y)
 
-
     def setSoughtIds(self, sought_ids):
         self.sought_ids = sought_ids
 
 
 class SimLemonCamera(LemonCamera):
-    def __init__(self, field_layout: AprilTagFieldLayout, fov, rc, tilt, filter_window=10, sought_ids=None):
+    def __init__(
+        self,
+        field_layout: AprilTagFieldLayout,
+        fov: float,
+        rc: Translation2d,
+        tilt: float,
+        filter_window=10,
+        sought_ids=None,
+    ):
         LemonCamera.__init__(self, "Sim", rc, tilt, filter_window, sought_ids)
         self.field_layout = field_layout
         self.fov = fov
 
-    def update(self, pose: Pose2d):
-        result = []
+    def update(self, robot_pose: Pose2d):
+        best_ambiguity = 0
+        best_pose = None
+        best_id = -1
         for tag in self.field_layout.getTags():
-            pass
-        # TODO: finish everything lol
+            tag_pose = tag.pose.toPose2d()
+            relative_pose = tag_pose.relativeTo(robot_pose)
+            dist = relative_pose.translation().norm()
+            # calculate estimated tag ambiguity based on distance and angle
+            ambiguity = (
+                -(tag_pose.rotation() - robot_pose.rotation()).cos() / dist / dist
+            )
+            # check that robot is facing tag and that tag is turned toward robot
+            # NOTE: this assumes camera is at center of robot looking forward
+            if (
+                abs(relative_pose.translation().angle().degrees()) < self.fov / 2
+                and ambiguity > 0
+                and ambiguity > best_ambiguity
+            ):
+                best_ambiguity = ambiguity
+                best_pose = relative_pose
+                best_id = tag.ID
+
+        if best_pose is not None:
+            self.latency = 0.02
+            self.id = best_id
+            self.x = best_pose.x
+            self.y = best_pose.y
+            self.z = 0
+            self.drought = 0
+        else:
+            self.drought += 1
