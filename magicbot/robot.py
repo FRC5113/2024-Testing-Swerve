@@ -30,7 +30,6 @@ class MyRobot(magicbot.MagicRobot):
     front_right: SwerveWheel
     rear_left: SwerveWheel
     rear_right: SwerveWheel
-    controler: LemonInput
 
     """This should be the max speed (m/s) at which the drive motors can
     run, NOT the max speed that the robot should go (ie. use a curve
