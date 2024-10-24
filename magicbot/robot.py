@@ -12,7 +12,7 @@ from components.swerve_drive import SwerveDrive
 from components.swerve_wheel import SwerveWheel
 from util.alerts import Alert, AlertType, AlertManager
 from util.smart_preference import SmartPreference, SmartProfile
-from util.wrappers import SmartController
+from util.wrappers import LemonInput
 
 # from container import RobotContainer
 
@@ -23,6 +23,7 @@ class MyRobot(magicbot.MagicRobot):
     front_right: SwerveWheel
     rear_left: SwerveWheel
     rear_right: SwerveWheel
+    controler: LemonInput
 
     """This should be the max speed (m/s) at which the drive motors can
     run, NOT the max speed that the robot should go (ie. use a curve
@@ -79,7 +80,7 @@ class MyRobot(magicbot.MagicRobot):
         self.navX.setAngleAdjustment(-90)
 
     def teleopPeriodic(self):
-        controller = SmartController(0)
+        controller = LemonInput(0)
 
         mult = 1
         # Call bumper methods on the instance

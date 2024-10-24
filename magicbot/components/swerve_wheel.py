@@ -9,7 +9,7 @@ from phoenix6 import controls
 from magicbot import will_reset_to
 
 from util.smart_preference import SmartProfile
-from util.wrappers import SmartController
+from util.wrappers import LemonInput
 
 
 class SwerveWheel:
@@ -89,7 +89,7 @@ class SwerveWheel:
             self.speed_motor.set_control(controls.coast_out.CoastOut())
             self.direction_motor.set_control(controls.coast_out.CoastOut())
             return
-        if SmartController.rightbumper:
+        if LemonInput.rightbumper:
             self.speed_motor.set_control(controls.static_brake.StaticBrake())
             self.direction_motor.set_control(controls.static_brake.StaticBrake())
             return

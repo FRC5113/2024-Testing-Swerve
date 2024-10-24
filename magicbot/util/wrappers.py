@@ -69,7 +69,7 @@ class WPI_TalonFX(phoenix6.hardware.TalonFX, MotorController):
         self.set(0)
 
 
-class SmartController:
+class LemonInput:
     """Wrapper class for the XboxController and PS5Controller classes that allows to use
     both xbox and ps5 controllers automatically
     without chaging the code.
