@@ -1,17 +1,21 @@
 import math
 
+import pyfrc.mains
+import pyfrc.util
 from wpilib import (
     PS5Controller,
     XboxController,
     DriverStation,
 )
 from wpilib.interfaces import MotorController
+from wpilib import RobotBase
 from wpimath.filter import MedianFilter
 from wpimath.geometry import Translation2d, Rotation2d, Pose2d
 import phoenix6
 from photonlibpy.photonTrackedTarget import PhotonTrackedTarget
 from photonlibpy.photonCamera import PhotonCamera
 from robotpy_apriltag import AprilTagFieldLayout
+import pyfrc
 
 
 class LemonTalonFX(phoenix6.hardware.TalonFX, MotorController):
@@ -89,10 +93,12 @@ class LemonInput:
     """
 
     def __init__(self, port_number: int):
-        if DriverStation.getJoystickIsXbox(port_number):
+        if DriverStation.getJoystickIsXbox(port_number) or RobotBase.isSimulation:
             self.driver_controller = XboxController(port_number)
+            self.trigger_fix = 0.0
         else:
             self.driver_controller = PS5Controller(port_number)
+            self.trigger_fix = 1.0
 
     def _get_button_method(self, method_name: str):
         """Helper method to get the appropriate button method based on controller type."""
@@ -274,7 +280,7 @@ class LemonInput:
         Returns:
             float: The state of the right trigger button ranging from 0.0 to 1.0.
         """
-        return self._get_button_method("getRightTriggerAxis")
+        return self._get_button_method("getRightTriggerAxis") + self.trigger_fix
 
     def lefttrigger(self) -> float:
         """
@@ -283,7 +289,7 @@ class LemonInput:
         Returns:
             float: The state of the left trigger button ranging from 0.0 to 1.0.
         """
-        return self._get_button_method("getLeftTriggerAxis")
+        return self._get_button_method("getLeftTriggerAxis") + self.trigger_fix
 
     def __pov_xy(self):
         """

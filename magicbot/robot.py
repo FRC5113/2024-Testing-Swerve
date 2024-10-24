@@ -82,7 +82,6 @@ class MyRobot(magicbot.MagicRobot):
         else:
             self.camera = LemonCamera("USB_Camera", Translation2d(0, 0), 0)
         self.field_layout = loadAprilTagLayoutField(AprilTagField.k2024Crescendo)
-        self.navX.setAngleAdjustment(0)
 
         # alerts
         SmartDashboard.putData("Alerts", AlertManager(self.logger))
@@ -101,7 +100,7 @@ class MyRobot(magicbot.MagicRobot):
         # Call bumper methods on the instance
         if controller.lefttrigger() >= 0.8:
             mult *= 0.5
-        if controller.righttrigger()  >= 0.8:
+        if controller.righttrigger() >= 0.8:
             mult *= 0.5
 
         # Get joystick values
