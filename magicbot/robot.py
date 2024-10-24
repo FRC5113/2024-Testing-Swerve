@@ -17,7 +17,7 @@ from components.swerve_drive import SwerveDrive
 from components.swerve_wheel import SwerveWheel
 from util.alerts import Alert, AlertType, AlertManager
 from util.smart_preference import SmartPreference, SmartProfile
-from util.wrappers import LemonCamera, LemonCameraSim, SmartController
+from util.wrappers import LemonCamera, LemonCameraSim, LemonInput
 
 # from container import RobotContainer
 
@@ -30,6 +30,7 @@ class MyRobot(magicbot.MagicRobot):
     front_right: SwerveWheel
     rear_left: SwerveWheel
     rear_right: SwerveWheel
+    controler: LemonInput
 
     """This should be the max speed (m/s) at which the drive motors can
     run, NOT the max speed that the robot should go (ie. use a curve
@@ -95,13 +96,13 @@ class MyRobot(magicbot.MagicRobot):
         self.navX.setAngleAdjustment(-90)
 
     def teleopPeriodic(self):
-        controller = SmartController(0)
+        controller = LemonInput(0)
 
         mult = 1
         # Call bumper methods on the instance
-        # if controller.leftbumper():
-        #     mult *= 0.5
-        if controller.rightbumper():
+        if controller.lefttrigger():
+            mult *= 0.5
+        if controller.righttrigger():
             mult *= 0.5
 
         # Get joystick values
@@ -109,10 +110,9 @@ class MyRobot(magicbot.MagicRobot):
         left_joy_y = applyDeadband(controller.leftx(), 0.1) * mult * self.max_speed
 
         # Get the current POV from the controller
-        pov_value = controller.pov()
-        if pov_value >= 0:
-            left_joy_x = math.cos(pov_value) * mult * self.max_speed
-            left_joy_y = -math.sin(pov_value) * mult * self.max_speed * -1
+        if controller.pov() >= 0:
+            left_joy_x = -controller.pov_x() * mult * self.max_speed
+            left_joy_y = -controller.pov_y() * mult * self.max_speed
 
         # calculate max angular speed based on max_speed (cool math here)
         omega = self.max_speed / math.dist((0, 0), (self.offset_x, self.offset_y))
