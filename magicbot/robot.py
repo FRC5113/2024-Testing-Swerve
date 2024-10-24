@@ -1,5 +1,7 @@
 import math
 
+from components.swerve_drive import SwerveDrive
+from components.swerve_wheel import SwerveWheel
 from phoenix6.hardware import TalonFX
 from phoenix6.hardware import CANcoder
 import magicbot
