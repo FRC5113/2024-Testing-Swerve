@@ -127,7 +127,7 @@ class LemonCamera(PhotonCamera):
             if len(potential_targets) == 0:
                 self.drought += 1
                 return
-            target = min(potential_targets, key=lambda t: t.getPoseAmbiguity())
+            target = min(potential_targets, key=lambda t: t.getPoseclarity())
             transform = target.getBestCameraToTarget()
             self.id = target.getFiducialId()
             self.latency = result.getLatencyMillis() / 1000
@@ -198,40 +198,66 @@ class LemonCamera(PhotonCamera):
         self.sought_ids = sought_ids
 
 
-class SimLemonCamera(LemonCamera):
+class LemonCameraSim(LemonCamera):
+    """Simulated version of a LemonCamera. This class functions exactly
+    the same in code except for the following:
+    1. Must be initialized with an `AprilTagFieldLayout` and an FOV
+    2. `set_robot_pose()` must be called periodically to update the pose
+    of the robot. This should not be taken from a pose estimator that
+    uses vision updates, but rather a pose simulated in physics.py
+    3. This simulation assumes that the camera is at the center of the
+    robot looking directly forward, but this should not make a difference
+    """
+
     def __init__(
         self,
         field_layout: AprilTagFieldLayout,
         fov: float,
-        rc: Translation2d,
-        tilt: float,
-        filter_window=10,
-        sought_ids=None,
+        filter_window: int = 10,
+        sought_ids: tuple[int] = None,
     ):
-        LemonCamera.__init__(self, "Sim", rc, tilt, filter_window, sought_ids)
+        """Args:
+        field_layout (AprilTagFieldLayout): layout of the tags on the field, such as
+            `AprilTagField.k2024Crescendo`
+        fov (float): horizontal range of vision (degrees)
+        filter_window (int, optional): Inherited from LemonCamera. Defaults to 10.
+        sought_ids (tuple[int], optional): IDs that won't be ignored.
+            Defaults to None.
+        """
+        LemonCamera.__init__(self, "Sim", sought_ids)
         self.field_layout = field_layout
         self.fov = fov
+        self.robot_pose = None
+        self.rc = Translation2d()
+        self.tilt = 0
+        self.filter_window = filter_window
+        self.sought_ids = sought_ids
 
-    def update(self, robot_pose: Pose2d):
-        best_ambiguity = 0
+    def set_robot_pose(self, pose: Pose2d):
+        self.robot_pose = pose
+
+    def update(self):
+        if self.robot_pose is None:
+            return
+        best_clarity = 0
         best_pose = None
         best_id = -1
         for tag in self.field_layout.getTags():
             tag_pose = tag.pose.toPose2d()
-            relative_pose = tag_pose.relativeTo(robot_pose)
+            relative_pose = tag_pose.relativeTo(self.robot_pose)
             dist = relative_pose.translation().norm()
-            # calculate estimated tag ambiguity based on distance and angle
-            ambiguity = (
-                -(tag_pose.rotation() - robot_pose.rotation()).cos() / dist / dist
+            # calculate estimated tag clarity based on distance and angle
+            clarity = (
+                -(tag_pose.rotation() - self.robot_pose.rotation()).cos() / dist / dist
             )
-            # check that robot is facing tag and that tag is turned toward robot
-            # NOTE: this assumes camera is at center of robot looking forward
+            # check that tag is inside of camera's fov and is sought
+            # this chooses the tag with the highest clarity
             if (
                 abs(relative_pose.translation().angle().degrees()) < self.fov / 2
-                and ambiguity > 0
-                and ambiguity > best_ambiguity
+                and clarity > best_clarity
+                and (self.sought_ids is None or tag.ID in self.sought_ids)
             ):
-                best_ambiguity = ambiguity
+                best_clarity = clarity
                 best_pose = relative_pose
                 best_id = tag.ID
 
