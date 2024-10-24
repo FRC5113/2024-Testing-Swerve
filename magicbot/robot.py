@@ -99,9 +99,9 @@ class MyRobot(magicbot.MagicRobot):
 
         mult = 1
         # Call bumper methods on the instance
-        if controller.lefttrigger():
+        if controller.lefttrigger() >= 0.8:
             mult *= 0.5
-        if controller.righttrigger():
+        if controller.righttrigger()  >= 0.8:
             mult *= 0.5
 
         # Get joystick values

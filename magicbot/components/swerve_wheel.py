@@ -96,13 +96,10 @@ class SwerveWheel:
 
     def execute(self) -> None:
         if self.stopped:
-            self.speed_motor.set_control(controls.coast_out.CoastOut())
+            self.speed_motor.set_control(controls.static_brake.StaticBrake())
             self.direction_motor.set_control(controls.coast_out.CoastOut())
             return
-        if LemonInput.rightbumper:
-            self.speed_motor.set_control(controls.static_brake.StaticBrake())
-            self.direction_motor.set_control(controls.static_brake.StaticBrake())
-            return
+            
 
         encoder_rotation = Rotation2d(
             self.cancoder.get_absolute_position().value * 2 * math.pi
