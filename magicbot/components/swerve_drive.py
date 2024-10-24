@@ -1,7 +1,7 @@
 from components.swerve_wheel import SwerveWheel
 import math
 import navx
-from wpilib import SmartDashboard, SendableChooser
+from wpilib import SmartDashboard
 from wpimath.kinematics import SwerveDrive4Kinematics
 from wpimath.geometry import Translation2d, Rotation2d, Pose2d
 from wpimath.kinematics import ChassisSpeeds, SwerveModulePosition

@@ -6,8 +6,8 @@ import magicbot
 import navx
 import wpilib
 from wpimath import applyDeadband
-from wpimath.geometry import Translation2d, Pose2d
-from wpilib import SmartDashboard, RobotController, Timer
+from wpimath.geometry import Translation2d
+from wpilib import SmartDashboard, RobotController
 from robotpy_apriltag import AprilTagField, loadAprilTagLayoutField
 
 from components.vision import Vision
@@ -82,8 +82,6 @@ class MyRobot(magicbot.MagicRobot):
         self.field_layout = loadAprilTagLayoutField(AprilTagField.k2024Crescendo)
         self.navX.setAngleAdjustment(0)
 
-        self.previous_angle = self.navX.getAngle()
-
         # alerts
         SmartDashboard.putData("Alerts", AlertManager(self.logger))
         self.navx_alert = Alert(
@@ -95,9 +93,6 @@ class MyRobot(magicbot.MagicRobot):
         self.navX.setAngleAdjustment(-90)
 
     def teleopPeriodic(self):
-        # update camera
-        # self.camera.update(self.swerve_drive.get_estimated_pose())
-
         controller = SmartController(0)
 
         mult = 1

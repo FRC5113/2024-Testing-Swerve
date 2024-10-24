@@ -3,13 +3,12 @@ import math
 from wpilib import SmartDashboard
 from phoenix6.signals import NeutralModeValue
 from phoenix6.configs import TalonFXConfiguration
-from wpimath.kinematics import SwerveModuleState
+from wpimath.kinematics import SwerveModuleState, SwerveModulePosition
 from wpimath.geometry import Rotation2d
 from phoenix6 import controls
 from magicbot import will_reset_to
 
 from util.smart_preference import SmartProfile
-from util.wrappers import SmartController
 
 
 class SwerveWheel:

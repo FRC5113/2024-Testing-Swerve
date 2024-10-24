@@ -75,6 +75,7 @@ class LemonTalonFX(phoenix6.hardware.TalonFX, MotorController):
     def stopMotor(self):
         self.set(0)
 
+
 class SmartController:
     """Wrapper class for the XboxController and PS5Controller classes that allows to use
     both xbox and ps5 controllers automatically
