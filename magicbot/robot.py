@@ -7,16 +7,17 @@ from magicbot import feedback
 import navx
 import wpilib
 from wpimath import applyDeadband, units
-from wpimath.geometry import Translation2d
-from wpilib import SmartDashboard, RobotController
+from wpimath.geometry import Transform3d
+from wpilib import RobotController
 from robotpy_apriltag import AprilTagField, loadAprilTagLayoutField
 
 from components.odometry import Odometry
 from components.swerve_drive import SwerveDrive
 from components.swerve_wheel import SwerveWheel
-from util.alerts import Alert, AlertType, AlertManager
+from util.alerts import AlertType, AlertManager
 from util.smart_preference import SmartPreference, SmartProfile
-from util.wrappers import LemonCamera, LemonCameraSim, LemonInput
+from util.camera import LemonCamera, LemonCameraSim
+from util.input import LemonInput
 
 # from container import RobotContainer
 
@@ -30,7 +31,7 @@ class MyRobot(magicbot.MagicRobot):
     rear_left: SwerveWheel
     rear_right: SwerveWheel
 
-    low_bandwidth = True
+    low_bandwidth = False
     # greatest speed that chassis should move (not greatest possible speed)
     top_speed = SmartPreference(3.0)
     top_omega = SmartPreference(6.0)
@@ -82,7 +83,7 @@ class MyRobot(magicbot.MagicRobot):
                 loadAprilTagLayoutField(AprilTagField.k2024Crescendo), 120
             )
         else:
-            self.camera = LemonCamera("USB_Camera", Translation2d(0, 0), 0)
+            self.camera = LemonCamera("USB_Camera", Transform3d())
         self.field_layout = loadAprilTagLayoutField(AprilTagField.k2024Crescendo)
 
         # initialize AlertManager with logger (kinda bad code)

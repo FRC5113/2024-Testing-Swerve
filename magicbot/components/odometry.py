@@ -4,7 +4,7 @@ from navx import AHRS
 from robotpy_apriltag import AprilTagFieldLayout
 
 from components.swerve_drive import SwerveDrive
-from util.wrappers import LemonCamera
+from util.camera import LemonCamera
 
 
 class Odometry:
@@ -19,23 +19,23 @@ class Odometry:
         SmartDashboard.putData("Estimated Field", self.estimated_field)
 
     def get_estimated_pose(self) -> None | Pose2d:
-        if not self.camera.hasTargets():
+        if not self.camera.has_targets():
             return
-        rt = self.camera.getAdjustedTranslation()
+        rt = self.camera.get_pose().translation()
         theta = self.navX.getRotation2d()
         rt = rt.rotateBy(theta)
-        tag_pose = self.field_layout.getTagPose(self.camera.getId())
+        tag_pose = self.field_layout.getTagPose(self.camera.get_best_id())
         ot = Translation2d(tag_pose.x, tag_pose.y)
         return Pose2d(ot - rt, theta)
 
     def execute(self):
         self.camera.update()
-        if self.camera.hasTargets():
+        if self.camera.has_targets():
             self.swerve_drive.add_vision_measurement(
                 self.get_estimated_pose(), Timer.getFPGATimestamp()
             )
             self.tag_object.setPose(
-                self.field_layout.getTagPose(self.camera.getId()).toPose2d()
+                self.field_layout.getTagPose(self.camera.get_best_id()).toPose2d()
             )
         else:
             self.tag_object.setPose(Pose2d())

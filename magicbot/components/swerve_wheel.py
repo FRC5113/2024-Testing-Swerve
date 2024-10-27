@@ -9,7 +9,6 @@ from phoenix6 import controls
 from magicbot import will_reset_to
 
 from util.smart_preference import SmartProfile
-from util.wrappers import LemonInput
 
 
 class SwerveWheel:
