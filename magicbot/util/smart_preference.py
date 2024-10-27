@@ -1,4 +1,4 @@
-from wpilib import Preferences
+from wpilib import Preferences, SmartDashboard
 from wpimath.trajectory import TrapezoidProfile
 from wpimath.controller import ProfiledPIDController, SimpleMotorFeedforwardMeters
 from wpiutil import Sendable, SendableBuilder
@@ -202,6 +202,7 @@ class SmartProfile(Sendable):
             ),
         )
         self.continuous_range = continuous_range
+        SmartDashboard.putData(f"{key}_profile", self)
 
     def initSendable(self, builder: SendableBuilder) -> None:
         builder.setSmartDashboardType("SmartProfile")

@@ -1,5 +1,5 @@
-from components.swerve_wheel import SwerveWheel
 import math
+
 import navx
 from wpilib import SmartDashboard
 from wpimath.kinematics import SwerveDrive4Kinematics
@@ -7,16 +7,10 @@ from wpimath.geometry import Translation2d, Rotation2d, Pose2d
 from wpimath.kinematics import ChassisSpeeds, SwerveModulePosition
 from wpimath.estimator import SwerveDrive4PoseEstimator
 from wpiutil import Sendable, SendableBuilder
-from magicbot import will_reset_to
-from wpilib import DriverStation
+from magicbot import will_reset_to, feedback
 
-# Objects needed for Auto setup (AutoBuilder)
-# from pathplannerlib.auto import AutoBuilder
-# from pathplannerlib.config import (
-#     HolonomicPathFollowerConfig,
-#     ReplanningConfig,
-#     PIDConstants,
-# )
+from components.swerve_wheel import SwerveWheel
+from util.alerts import Alert, AlertType
 
 
 class SwerveDrive(Sendable):
@@ -24,13 +18,13 @@ class SwerveDrive(Sendable):
     offset_y: float
     drive_gear_ratio: float
     wheel_radius: float
+    max_speed: float
     front_left: SwerveWheel
     front_right: SwerveWheel
     rear_left: SwerveWheel
     rear_right: SwerveWheel
     navX: navx.AHRS
 
-    stopped = will_reset_to(True)
     translationX = will_reset_to(0)
     translationY = will_reset_to(0)
     rotationX = will_reset_to(0)
@@ -38,7 +32,6 @@ class SwerveDrive(Sendable):
 
     def __init__(self) -> None:
         Sendable.__init__(self)
-        self.max_speed = 1.0
         self.period = 0.02
 
     def setup(self) -> None:
@@ -74,36 +67,10 @@ class SwerveDrive(Sendable):
             Pose2d(x=0, y=0, angle=0),
         )
 
-        # # Configure the AutoBuilder last
-        # AutoBuilder.configureHolonomic(
-        #     Pose2d,  # Robot pose supplier
-        #     Pose2d(
-        #         x=0, y=0, angle=0
-        #     ),  # Method to reset odometry (will be called if your auto has a starting pose)
-        #     ChassisSpeeds(
-        #         self.translationY, self.translationX, self.rotationX
-        #     ),  # ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-        #     self.drive,  # Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
-        #     HolonomicPathFollowerConfig(  # HolonomicPathFollowerConfig, this should likely live in your Constants class
-        #         PIDConstants(1.0, 0.0, 0.0),  # Translation PID constants
-        #         PIDConstants(0.4, 0.0, 0.0),  # Rotation PID constants
-        #         self.max_speed,  # Max module speed, in m/s
-        #         0.381,  # Drive base radius in meters. Distance from robot center to furthest module.
-        #         ReplanningConfig(),  # Default path replanning config. See the API for the options here
-        #     ),
-        #     self.shouldFlipPath,  # Supplier to control path flipping based on alliance color
-        #     self,  # Reference to this subsystem to set requirements
-        # )
-
-    def onRedAlliance(self):
-        # Returns boolean that equals true if we are on the Red Alliance
-        return DriverStation.getAlliance() == DriverStation.Alliance.kRed
-
-    def shouldFlipPath(self):
-        # Boolean supplier that controls when the path will be mirrored for the red alliance
-        # This will flip the path being followed to the red side of the field.
-        # THE ORIGIN WILL REMAIN ON THE BLUE SIDE
-        return self.onRedAlliance()
+        SmartDashboard.putData("Gyro", self.navX)
+        self.navx_alert = Alert(
+            "NavX heading has been reset", AlertType.INFO, timeout=3.0
+        )
 
     def initSendable(self, builder: SendableBuilder) -> None:
         builder.setSmartDashboardType("SwerveDrive")
@@ -169,29 +136,22 @@ class SwerveDrive(Sendable):
         translationX: float,
         translationY: float,
         rotationX: float,
-        max_speed: float,
         field_relative: bool,
         period: float,
     ):
         self.translationX = translationX
         self.translationY = translationY
         self.rotationX = rotationX
-        self.max_speed = max_speed
         self.period = period
         self.field_relative = field_relative
-        self.stopped = False
 
     def reset_gyro(self) -> None:
         self.navX.reset()
+        self.navX.setAngleAdjustment(-90)
+        self.navx_alert.set(True)
 
     def add_vision_measurement(self, pose, timestamp):
         self.pose_estimator.addVisionMeasurement(pose, timestamp)
-
-    """
-    EXECUTE
-    This is ran every "tick" of the robot. This is where we update all 
-    the wheels speed and direction.
-    """
 
     def sendAdvantageScopeData(self):
         """Put swerve module setpoints and measurements to NT.
@@ -207,6 +167,16 @@ class SwerveDrive(Sendable):
         swerve_measurements += self.rear_right.getMeasuredState()
         SmartDashboard.putNumberArray("Swerve Measurements", swerve_measurements)
 
+    """
+    EXECUTE
+    This is ran every "tick" of the robot. This is where we update all 
+    the wheels speed and direction.
+    """
+
+    def on_enable(self):
+        self.navX.reset()
+        self.navX.setAngleAdjustment(-90)
+
     def execute(self) -> None:
         self.sendAdvantageScopeData()
         self.pose_estimator.update(
@@ -219,7 +189,7 @@ class SwerveDrive(Sendable):
             ),
         )
 
-        if self.stopped:
+        if self.translationX == self.translationY == self.rotationX == 0:
             # below line is only to keep NT updated
             self.swerve_module_states = self.still_states
             self.chassis_speeds = ChassisSpeeds()

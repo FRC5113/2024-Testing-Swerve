@@ -1,4 +1,4 @@
-from wpilib import Timer, FieldObject2d
+from wpilib import Timer, Field2d, SmartDashboard
 from wpimath.geometry import Pose2d, Translation2d
 from navx import AHRS
 from robotpy_apriltag import AprilTagFieldLayout
@@ -7,12 +7,16 @@ from components.swerve_drive import SwerveDrive
 from util.wrappers import LemonCamera
 
 
-class Vision:
+class Odometry:
     camera: LemonCamera
     navX: AHRS
     field_layout: AprilTagFieldLayout
     swerve_drive: SwerveDrive
-    tag_object: FieldObject2d
+
+    def setup(self):
+        self.estimated_field = Field2d()
+        self.tag_object = self.estimated_field.getObject("tag")
+        SmartDashboard.putData("Estimated Field", self.estimated_field)
 
     def get_estimated_pose(self) -> None | Pose2d:
         if not self.camera.hasTargets():
@@ -35,3 +39,4 @@ class Vision:
             )
         else:
             self.tag_object.setPose(Pose2d())
+        self.estimated_field.setRobotPose(self.swerve_drive.get_estimated_pose())

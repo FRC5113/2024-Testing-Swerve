@@ -20,7 +20,6 @@ class SwerveWheel:
     direction_motor: TalonFX
     direction_profile: SmartProfile
     cancoder: CANcoder
-    debug: bool
 
     """Module must be explicitly told to move (via setDesiredState) each
     loop, otherwise it defaults to stopped for safety.
@@ -51,7 +50,7 @@ class SwerveWheel:
         self.desired_state = None
 
     """
-    CONTROL METHODS
+    INFORMATIONAL METHODS
     """
 
     def getMeasuredState(self):
@@ -67,24 +66,19 @@ class SwerveWheel:
             / self.drive_gear_ratio,
         ]
 
-    def getDriveVoltage(self) -> float:
-        return self.speed_controller.getOutput()
-
-    def getDrivePosition(self) -> float:
-        return self.speed_motor.get_position().value
-
-    def getDriveVelocity(self) -> float:
-        return self.speed_motor.get_velocity().value
-
     def getPosition(self) -> SwerveModulePosition:
         return SwerveModulePosition(
-            self.getDrivePosition()
+            self.speed_motor.get_position().value
             / self.drive_gear_ratio
             * (self.wheel_radius * 2 * math.pi),
             Rotation2d(
                 self.cancoder.get_absolute_position().value * math.tau + math.pi / 2
             ),
         )
+
+    """
+    CONTROL METHODS
+    """
 
     def setDesiredState(self, state: SwerveModuleState):
         self.stopped = False

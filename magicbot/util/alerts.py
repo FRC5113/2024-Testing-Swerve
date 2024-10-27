@@ -3,7 +3,7 @@ from typing import List
 from logging import Logger
 
 from wpiutil import Sendable, SendableBuilder
-from wpilib import Timer
+from wpilib import Timer, SmartDashboard
 
 
 class AlertType(Enum):
@@ -58,6 +58,7 @@ class AlertManager(Sendable):
     def __init__(self, logger):
         Sendable.__init__(self)
         AlertManager.logger = logger
+        SmartDashboard.putData("Alerts", self)
 
     def initSendable(self, builder: SendableBuilder) -> None:
         builder.setSmartDashboardType("Alerts")
