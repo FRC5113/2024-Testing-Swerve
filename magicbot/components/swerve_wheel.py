@@ -37,14 +37,11 @@ class SwerveWheel:
         self.direction_motor.configurator.apply(self.motor_configs)
         self.speed_motor.configurator.apply(self.motor_configs)
 
-        self.speed_controller = self.speed_profile.create_controller()
-        self.direction_controller = self.direction_profile.create_controller()
-        SmartDashboard.putData(
-            f"{self.speed_motor.device_id} Speed Controller", self.speed_controller
+        self.speed_controller = self.speed_profile.create_controller(
+            f"{self.speed_motor.device_id}_speed"
         )
-        SmartDashboard.putData(
-            f"{self.direction_motor.device_id} Direction Controller",
-            self.direction_controller,
+        self.direction_controller = self.direction_profile.create_controller(
+            f"{self.direction_motor.device_id}_direction"
         )
 
         self.desired_state = None

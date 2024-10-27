@@ -20,7 +20,7 @@ class Alert:
         self.active = False
         self.active_start_time = 0.0
         self.last_log = 0.0
-        AlertManager.add_alert(self)
+        AlertManager.alerts.append(self)
 
     def set(self, active: bool):
         if active and not self.active:
@@ -33,6 +33,12 @@ class Alert:
                 case AlertType.INFO:
                     AlertManager.logger.info(self.text)
         self.active = active
+
+    def enable(self):
+        self.set(True)
+
+    def disable(self):
+        self.set(False)
 
     def set_text(self, text: str):
         if (
@@ -91,5 +97,7 @@ class AlertManager(Sendable):
             for alert in sorted(alerts, key=lambda alert: alert.active_start_time)
         ]
 
-    def add_alert(alert: Alert):
-        AlertManager.alerts.append(alert)
+    def instant_alert(text: str, type: AlertType, timeout: float = 0.0):
+        """Add new alert and instantly enable it"""
+        alert = Alert(text, type, timeout)
+        alert.enable()

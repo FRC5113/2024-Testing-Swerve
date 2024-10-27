@@ -30,6 +30,7 @@ class MyRobot(magicbot.MagicRobot):
     rear_left: SwerveWheel
     rear_right: SwerveWheel
 
+    low_bandwidth = True
     # greatest speed that chassis should move (not greatest possible speed)
     top_speed = SmartPreference(3.0)
     top_omega = SmartPreference(6.0)
@@ -69,13 +70,11 @@ class MyRobot(magicbot.MagicRobot):
         self.wheel_radius = 0.0508
         self.max_speed = 4.7
 
-        # swerve modules profiles
+        # swerve module profiles
         self.speed_profile = SmartProfile("speed")
         self.direction_profile = SmartProfile(
             "direction", continuous_range=(0, math.tau)
         )
-        SmartDashboard.putData("Speed Profile", self.speed_profile)
-        SmartDashboard.putData("Direction Profile", self.direction_profile)
 
         # odometry
         if self.isSimulation():
@@ -88,6 +87,10 @@ class MyRobot(magicbot.MagicRobot):
 
         # initialize AlertManager with logger (kinda bad code)
         AlertManager(self.logger)
+        if self.low_bandwidth:
+            AlertManager.instant_alert(
+                "Low Bandwidth Mode is active! Tuning is disabled.", AlertType.WARNING
+            )
 
     def teleopPeriodic(self):
         controller = LemonInput(0)

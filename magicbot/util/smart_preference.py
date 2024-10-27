@@ -7,18 +7,24 @@ from wpiutil import Sendable, SendableBuilder
 class SmartGain:
     """Used internally by SmartProfile and SmartController"""
 
-    def __init__(self, key, value, updater):
-        Preferences.initDouble(key, value)
+    def __init__(self, key, value, updater, low_bandwidth):
+        if not low_bandwidth:
+            Preferences.initDouble(key, value)
         self.key = key
-        self.value = Preferences.getDouble(key, value)
+        self.value = value if low_bandwidth else Preferences.getDouble(key, value)
         self.updater = updater
+        self.low_bandwidth = low_bandwidth
 
     def set(self, value):
         if value != self.value:
             self.value = value
+            if self.low_bandwidth:
+                return
             Preferences.setDouble(self.key, self.value)
 
     def get(self):
+        if self.low_bandwidth:
+            return self.value
         from_preferences = Preferences.getDouble(self.key, self.value)
         if self.value != from_preferences:
             self.value = from_preferences
@@ -35,9 +41,9 @@ class SmartController(ProfiledPIDController, Sendable):
     method in `SmartProfile`
     """
 
-    def __init__(self, gains, period=0.02) -> None:
+    def __init__(self, key, gains, low_bandwidth) -> None:
         ProfiledPIDController.__init__(
-            self, 0, 0, 0, TrapezoidProfile.Constraints(0, 0), period
+            self, 0, 0, 0, TrapezoidProfile.Constraints(0, 0), 0.02
         )
         self.feedforward = SimpleMotorFeedforwardMeters(0, 0, 0)
         Sendable.__init__(self)
@@ -46,6 +52,8 @@ class SmartController(ProfiledPIDController, Sendable):
             gain.update_controller(self)
         self._measurement = None
         self._output = 0
+        if not low_bandwidth:
+            SmartDashboard.putData(f"{key}_controller", self)
 
     def initSendable(self, builder: SendableBuilder) -> None:
         builder.setSmartDashboardType("SmartController")
@@ -151,6 +159,7 @@ class SmartProfile(Sendable):
         kMaxV=0.0,
         kMaxA=0.0,
         continuous_range: tuple[float] = None,
+        low_bandwidth: bool = False,
     ) -> None:
         """Create a SmartProfile with the designated gains. There will
         only be a trapezoidal profile if `kMaxV` and `kMaxA` are set.
@@ -173,36 +182,58 @@ class SmartProfile(Sendable):
         Sendable.__init__(self)
         self._gains = (
             SmartGain(
-                f"{key}_kP", kP, (lambda controller, value: controller.setP(value))
+                f"{key}_kP",
+                kP,
+                (lambda controller, value: controller.setP(value)),
+                low_bandwidth,
             ),
             SmartGain(
-                f"{key}_kI", kI, (lambda controller, value: controller.setI(value))
+                f"{key}_kI",
+                kI,
+                (lambda controller, value: controller.setI(value)),
+                low_bandwidth,
             ),
             SmartGain(
-                f"{key}_kD", kD, (lambda controller, value: controller.setD(value))
+                f"{key}_kD",
+                kD,
+                (lambda controller, value: controller.setD(value)),
+                low_bandwidth,
             ),
             SmartGain(
-                f"{key}_kS", kS, (lambda controller, value: controller.setS(value))
+                f"{key}_kS",
+                kS,
+                (lambda controller, value: controller.setS(value)),
+                low_bandwidth,
             ),
             SmartGain(
-                f"{key}_kV", kV, (lambda controller, value: controller.setV(value))
+                f"{key}_kV",
+                kV,
+                (lambda controller, value: controller.setV(value)),
+                low_bandwidth,
             ),
             SmartGain(
-                f"{key}_kA", kA, (lambda controller, value: controller.setA(value))
+                f"{key}_kA",
+                kA,
+                (lambda controller, value: controller.setA(value)),
+                low_bandwidth,
             ),
             SmartGain(
                 f"{key}_kMaxV",
                 kMaxV,
                 (lambda controller, value: controller.setMaxV(value)),
+                low_bandwidth,
             ),
             SmartGain(
                 f"{key}_kMaxA",
                 kMaxA,
                 (lambda controller, value: controller.setMaxA(value)),
+                low_bandwidth,
             ),
         )
         self.continuous_range = continuous_range
-        SmartDashboard.putData(f"{key}_profile", self)
+        self.low_bandwidth = low_bandwidth
+        if not low_bandwidth:
+            SmartDashboard.putData(f"{key}_profile", self)
 
     def initSendable(self, builder: SendableBuilder) -> None:
         builder.setSmartDashboardType("SmartProfile")
@@ -215,17 +246,17 @@ class SmartProfile(Sendable):
         # used to avoid late binding
         return lambda x: self._gains[index].set(x)
 
-    def create_controller(self, period=0.02) -> SmartController:
+    def create_controller(self, key) -> SmartController:
         """Creates new `SmartController` with synchronized gains. This
         should be the only way that SmartControllers are created.
 
         Args:
-            period (float, optional): Delta time. Defaults to 0.02.
+            period_getter: function that returns period
 
         Returns:
             SmartController: Created SmartController
         """
-        controller = SmartController(self._gains, period)
+        controller = SmartController(key, self._gains, self.low_bandwidth)
         if self.continuous_range is not None:
             controller.enableContinuousInput(
                 self.continuous_range[0], self.continuous_range[1]
@@ -234,12 +265,14 @@ class SmartProfile(Sendable):
 
 
 class SmartPreference(object):
-    """Wrapper for wpilib Preferences that improves it in three ways:
+    """Wrapper for wpilib Preferences that improves it in a few ways:
     1. Previous values from NetworkTables are remembered if connection
     is lost instead of defaulting to the values set in code
     2. Everything is done dynamically so there is no need to specify
     type. However, because of NT limitations, the type must stay the
     same throughout the entirety of the code
+    3. Including `low_bandwidth = True` as a class attribute will stop
+    the `SmartPreference` from referencing NT and simply use defaults
     3. Initializing, getting, and setting Preferences is made much
     easier and enables this class to be a drop-in replacement for normal
     values. For example:
@@ -272,7 +305,13 @@ class SmartPreference(object):
             )
 
     def __set_name__(self, obj, name):
+        try:
+            self._low_bandwidth = obj.low_bandwidth
+        except:
+            self._low_bandwidth = False
         self._key = name
+        if self._low_bandwidth:
+            return
         if self._type == int or self._type == float:
             Preferences.initDouble(self._key, self._value)
         elif self._type == str:
@@ -281,6 +320,8 @@ class SmartPreference(object):
             Preferences.initBoolean(self._key, self._value)
 
     def __get__(self, obj, objtype=None):
+        if self._low_bandwidth:
+            return self._value
         new = None
         if self._type == int or self._type == float:
             new = Preferences.getDouble(self._key, self._value)
@@ -300,6 +341,8 @@ class SmartPreference(object):
             )
         self._value = value
         self._type = type(value)
+        if self._low_bandwidth:
+            return
         if self._type == int or self._type == float:
             self._value = Preferences.setDouble(self._key, self._value)
         elif self._type == str:

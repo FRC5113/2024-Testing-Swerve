@@ -69,7 +69,7 @@ class SwerveDrive(Sendable):
 
         SmartDashboard.putData("Gyro", self.navX)
         self.navx_alert = Alert(
-            "NavX heading has been reset", AlertType.INFO, timeout=3.0
+            "NavX heading has been reset.", AlertType.INFO, timeout=3.0
         )
 
     def initSendable(self, builder: SendableBuilder) -> None:
@@ -148,7 +148,7 @@ class SwerveDrive(Sendable):
     def reset_gyro(self) -> None:
         self.navX.reset()
         self.navX.setAngleAdjustment(-90)
-        self.navx_alert.set(True)
+        self.navx_alert.enable()
 
     def add_vision_measurement(self, pose, timestamp):
         self.pose_estimator.addVisionMeasurement(pose, timestamp)
