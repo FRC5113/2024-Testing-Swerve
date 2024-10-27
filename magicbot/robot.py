@@ -72,9 +72,11 @@ class MyRobot(magicbot.MagicRobot):
         self.max_speed = 4.7
 
         # swerve module profiles
-        self.speed_profile = SmartProfile("speed")
+        self.speed_profile = SmartProfile("speed", low_bandwidth=self.low_bandwidth)
         self.direction_profile = SmartProfile(
-            "direction", continuous_range=(0, math.tau)
+            "direction",
+            continuous_range=(0, math.tau),
+            low_bandwidth=self.low_bandwidth,
         )
 
         # odometry
@@ -85,6 +87,12 @@ class MyRobot(magicbot.MagicRobot):
         else:
             self.camera = LemonCamera("USB_Camera", Transform3d())
         self.field_layout = loadAprilTagLayoutField(AprilTagField.k2024Crescendo)
+        self.theta_profile = SmartProfile(
+            "theta",
+            kP=0.05,
+            continuous_range=(-180, 180),
+            low_bandwidth=self.low_bandwidth,
+        )
 
         # initialize AlertManager with logger (kinda bad code)
         AlertManager(self.logger)
@@ -120,6 +128,9 @@ class MyRobot(magicbot.MagicRobot):
                 not controller.leftbumper(),
                 self.period,
             )
+
+        if controller.abutton():
+            self.odometry.face_tag()
 
         if controller.startbutton():
             self.swerve_drive.reset_gyro()

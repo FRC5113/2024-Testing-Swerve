@@ -11,6 +11,7 @@ from magicbot import will_reset_to, feedback
 
 from components.swerve_wheel import SwerveWheel
 from util.alerts import Alert, AlertType
+from util.smart_preference import SmartProfile
 
 
 class SwerveDrive(Sendable):
@@ -32,7 +33,6 @@ class SwerveDrive(Sendable):
 
     def __init__(self) -> None:
         Sendable.__init__(self)
-        self.period = 0.02
 
     def setup(self) -> None:
         """
@@ -64,8 +64,9 @@ class SwerveDrive(Sendable):
                 SwerveModulePosition(),
                 SwerveModulePosition(),
             ),
-            Pose2d(x=0, y=0, angle=0),
+            Pose2d(),
         )
+        self.period = 0.02
 
         SmartDashboard.putData("Gyro", self.navX)
         self.navx_alert = Alert(
@@ -130,6 +131,9 @@ class SwerveDrive(Sendable):
     These essentially set up variables and info before execute is ran 
     (like updating translationX from 0 -> 1)
     """
+
+    def set_rotationX(self, value: float):
+        self.rotationX = value
 
     def drive(
         self,
