@@ -4,6 +4,8 @@ from wpilib import SmartDashboard
 from phoenix6.signals import NeutralModeValue
 from phoenix6.configs import TalonFXConfiguration
 from wpimath.kinematics import SwerveModuleState, SwerveModulePosition
+from wpimath.controller import HolonomicDriveController, PIDController, ProfiledPIDControllerRadians
+from wpimath.trajectory import TrapezoidProfileRadians
 from wpimath.geometry import Rotation2d
 from phoenix6 import controls
 from magicbot import will_reset_to
@@ -14,6 +16,7 @@ from util.smart_preference import SmartProfile
 class SwerveWheel:
     drive_gear_ratio: float
     wheel_radius: float
+    max_speed: float
     speed_motor: TalonFX
     speed_profile: SmartProfile
     direction_motor: TalonFX
@@ -44,6 +47,15 @@ class SwerveWheel:
         )
 
         self.desired_state = None
+
+        # Initialize controllers for trajectory following
+        self.x_controller = PIDController(1.0, 0.0, 0.0)
+        self.y_controller = PIDController(1.0, 0.0, 0.0)
+        self.theta_controller = ProfiledPIDControllerRadians(
+            1.0, 0.0, 0.0,
+            TrapezoidProfileRadians.Constraints(self.max_speed * 2 * math.pi, 3.14 )
+        )
+        self.holonomic_controller = HolonomicDriveController(self.x_controller, self.y_controller, self.theta_controller)
 
     """
     INFORMATIONAL METHODS
