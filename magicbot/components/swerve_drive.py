@@ -75,15 +75,6 @@ class SwerveDrive(Sendable):
             "NavX heading has been reset.", AlertType.INFO, timeout=3.0
         )
          # Initialize controllers for trajectory following
-        self.x_controller = PIDController(1.0, 0.0, 0.0)
-        self.y_controller = PIDController(1.0, 0.0, 0.0)
-        self.theta_controller = ProfiledPIDControllerRadians(
-            1.0, 0.0, 0.0,
-            TrapezoidProfileRadians.Constraints(
-                self.max_speed * 2 * math.pi, 3.14
-            )
-        )
-        self.holonomic_controller = HolonomicDriveController(self.x_controller, self.y_controller, self.theta_controller)
 
     def initSendable(self, builder: SendableBuilder) -> None:
         builder.setSmartDashboardType("SwerveDrive")
@@ -231,9 +222,7 @@ class SwerveDrive(Sendable):
         self.swerve_module_states = self.kinematics.toSwerveModuleStates(
             self.chassis_speeds
         )
-        self.adjustedSpeeds = self.holonomic_controller.calculate(
-        self.get_estimated_pose, self.swerve_module_states[0], Rotation2d()
-        )
+        
         self.swerve_module_states = SwerveDrive4Kinematics.desaturateWheelSpeeds(
             self.adjustedSpeeds,
             self.max_speed,

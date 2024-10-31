@@ -78,6 +78,8 @@ class MyRobot(magicbot.MagicRobot):
             continuous_range=(0, math.tau),
             low_bandwidth=self.low_bandwidth,
         )
+        self.transx_profile = SmartProfile("TransX",low_bandwidth=self.low_bandwidth)
+        self.transy_profile = SmartProfile("TransY",low_bandwidth=self.low_bandwidth)
 
         # odometry
         if self.isSimulation():
