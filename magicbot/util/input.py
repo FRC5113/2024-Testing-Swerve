@@ -1,72 +1,68 @@
 from wpilib import DriverStation, RobotBase, XboxController, PS5Controller
+from wpilib.interfaces import GenericHID
 
 
 class LemonInput:
-    """Wrapper class for the XboxController and PS5Controller classes that allows to use
-    both xbox and ps5 controllers automatically
-    without chaging the code.
-    Must be called in TeleopPeriodic or AutonomousPeriodic to get the values of the controller for example:
-    ```
-    def teleopPeriodic(self):
-                port_number = 0
-                smart_controller = SmartController(port_number)
-    ```
-    """
+    """Wrapper class for Xbox and PS5 controllers allowing automatic detection and use in code."""
+
+    xbox_buttons = {
+        'kLeftTrigger': 2,
+        'kLeftX': 0,
+        'kLeftY': 1,
+        'kRightTrigger': 3,
+        'kRightX': 4,
+        'kRightY': 5,
+        'kA': 1,
+        'kB': 2,
+        'kBack': 7,
+        'kLeftBumper': 5,
+        'kLeftStick': 9,
+        'kRightBumper': 6,
+        'kRightStick': 10,
+        'kStart': 8,
+        'kX': 3,
+        'kY': 4
+    }
+
+    ps5_buttons = {
+        'kLeftTrigger': 3,
+        'kLeftX': 0,
+        'kLeftY': 1,
+        'kRightTrigger': 4,
+        'kRightX': 2,
+        'kRightY': 5,
+        'kA': 2,
+        'kB': 3,
+        'kBack': 9,
+        'kLeftBumper': 5,
+        'kLeftTrigger': 7,
+        'kLeftStick': 11,
+        'kStart': 10,
+        'kPS': 13,
+        'kRightBumper': 6,
+        'kRightTrigger': 8,
+        'kRightStick': 12,
+        'kX': 1,
+        'kTouchpad': 14,
+        'kY': 4
+    }
 
     def __init__(self, port_number: int):
+        self.con = GenericHID(port_number)
         if DriverStation.getJoystickIsXbox(port_number) or RobotBase.isSimulation:
-            self.driver_controller = XboxController(port_number)
-            self.trigger_fix = 0.0
+            self.button_map = self.xbox_buttons
+            self.contype = "Xbox"
         else:
-            self.driver_controller = PS5Controller(port_number)
-            self.trigger_fix = 1.0
-
-    def _get_button_method(self, method_name: str):
-        """Helper method to get the appropriate button method based on controller type."""
-        if isinstance(self.driver_controller, XboxController):
-            return getattr(self.driver_controller, method_name)()
-        elif isinstance(self.driver_controller, PS5Controller):
-            ps5_method_mapping = {
-                "getLeftBumper": "getL1Button",
-                "getRightBumper": "getR1Button",
-                "getStartButton": "getOptionsButton",
-                "getBackButton": "getCreateButton",
-                "getAButton": "getCrossButton",
-                "getBButton": "getCircleButton",
-                "getXButton": "getSquareButton",
-                "getYButton": "getTriangleButton",
-                "getLeftStickButton": "getL3Button",
-                "getRightStickButton": "getR3Button",
-                "getLeftX": "getLeftX",
-                "getLeftY": "getLeftY",
-                "getRightX": "getRightX",
-                "getRightY": "getRightY",
-                "getPOV": "getPOV",
-                "getLeftTriggerAxis": "getL2Axis",
-                "getRightTriggerAxis": "getR2Axis",
-            }
-            return getattr(self.driver_controller, ps5_method_mapping[method_name])()
+            self.button_map = self.ps5_buttons
+            self.contype = "PS5"
 
     def type(self):
-        """
-        Returns the type of controller.
-
-        Returns:
-            str: The type of controller (Xbox or PS5).
-        """
-        if isinstance(self.driver_controller, XboxController):
-            return "Xbox"
-        elif isinstance(self.driver_controller, PS5Controller):
-            return "PS5"
+        """Returns the type of controller (Xbox or PS5)."""
+        return self.contype
 
     def leftbumper(self):
-        """
-        Returns the state of the left bumper button.
-
-        Returns:
-            bool: The state of the left bumper button (pressed or not).
-        """
-        return self._get_button_method("getLeftBumper")
+        """Returns the state of the left bumper button."""
+        return self.con.getRawButton(self.button_map['kLeftBumper'])
 
     def rightbumper(self):
         """
@@ -75,7 +71,7 @@ class LemonInput:
         Returns:
             bool: The state of the right bumper button (pressed or not).
         """
-        return self._get_button_method("getRightBumper")
+        return self.con.getRawButton(self.button_map['kRightBumper'])
 
     def startbutton(self):
         """
@@ -84,7 +80,7 @@ class LemonInput:
         Returns:
             bool: The state of the start button (pressed or not).
         """
-        return self._get_button_method("getStartButton")
+        return self.con.getRawButton(self.button_map['kStart'])
 
     def backbutton(self):
         """
@@ -93,7 +89,7 @@ class LemonInput:
         Returns:
             bool: The state of the back button (pressed or not).
         """
-        return self._get_button_method("getBackButton")
+        return self.con.getRawButton(self.button_map['kBack'])
 
     def abutton(self):
         """
@@ -102,7 +98,7 @@ class LemonInput:
         Returns:
             bool: The state of the 'A' button (pressed or not).
         """
-        return self._get_button_method("getAButton")
+        return self.con.getRawButton(self.button_map['kA'])
 
     def bbutton(self):
         """
@@ -111,7 +107,7 @@ class LemonInput:
         Returns:
             bool: The state of the 'B' button (pressed or not).
         """
-        return self._get_button_method("getBButton")
+        return self.con.getRawButton(self.button_map['kB'])
 
     def xbutton(self):
         """
@@ -120,7 +116,7 @@ class LemonInput:
         Returns:
             bool: The state of the 'X' button (pressed or not).
         """
-        return self._get_button_method("getXButton")
+        return self.con.getRawButton(self.button_map['kX'])
 
     def ybutton(self):
         """
@@ -129,7 +125,7 @@ class LemonInput:
         Returns:
             bool: The state of the 'Y' button (pressed or not).
         """
-        return self._get_button_method("getYButton")
+        return self.con.getRawButton(self.button_map['kY'])
 
     def lstickbutton(self):
         """
@@ -138,7 +134,7 @@ class LemonInput:
         Returns:
             bool: The state of the left stick button (pressed or not).
         """
-        return self._get_button_method("getLeftStickButton")
+        return self.con.getRawButton(self.button_map['kLeftStick'])
 
     def rstickbutton(self):
         """
@@ -147,7 +143,7 @@ class LemonInput:
         Returns:
             bool: The state of the right stick button (pressed or not).
         """
-        return self._get_button_method("getRightStickButton")
+        return self.con.getRawButton(self.button_map['kRightStick'])
 
     def leftx(self) -> float:
         """
@@ -156,7 +152,7 @@ class LemonInput:
         Returns:
             float: The X-axis value of the left joystick, ranging from -1.0 to 1.0.
         """
-        return float(self._get_button_method("getLeftX"))
+        return self.con.getRawAxis(self.button_map['kLeftX'])
 
     def lefty(self) -> float:
         """
@@ -165,7 +161,7 @@ class LemonInput:
         Returns:
             float: The Y-axis value of the left joystick, ranging from -1.0 to 1.0.
         """
-        return float(self._get_button_method("getLeftY"))
+        return self.con.getRawAxis(self.button_map['kLeftY'])
 
     def rightx(self) -> float:
         """
@@ -174,7 +170,7 @@ class LemonInput:
         Returns:
             float: The X-axis value of the right joystick, ranging from -1.0 to 1.0.
         """
-        return float(self._get_button_method("getRightX"))
+        return self.con.getRawAxis(self.button_map['kRightX'])
 
     def righty(self) -> float:
         """
@@ -183,7 +179,7 @@ class LemonInput:
         Returns:
             float: The Y-axis value of the right joystick, ranging from -1.0 to 1.0.
         """
-        return float(self._get_button_method("getRightY"))
+        return self.con.getRawAxis(self.button_map['kRightY'])
 
     def pov(self) -> int:
         """
@@ -192,7 +188,7 @@ class LemonInput:
         Returns:
             int: The current POV value. Returns -1 if no POV is pressed.
         """
-        return int(self._get_button_method("getPOV"))
+        return self.con.getPOV()
 
     def righttrigger(self) -> float:
         """
@@ -201,7 +197,7 @@ class LemonInput:
         Returns:
             float: The state of the right trigger button ranging from 0.0 to 1.0.
         """
-        return self._get_button_method("getRightTriggerAxis") + self.trigger_fix
+        return self.con.getRawAxis(self.button_map['kRightTrigger'])
 
     def lefttrigger(self) -> float:
         """
@@ -210,7 +206,7 @@ class LemonInput:
         Returns:
             float: The state of the left trigger button ranging from 0.0 to 1.0.
         """
-        return self._get_button_method("getLeftTriggerAxis") + self.trigger_fix
+        return self.con.getRawAxis(self.button_map['kLeftTrigger'])
 
     def __pov_xy(self):
         """

@@ -122,8 +122,8 @@ class MyRobot(magicbot.MagicRobot):
         else:
             # otherwise steer with joysticks
             self.swerve_drive.drive(
-                -applyDeadband(controller.lefty(), 0.1) * mult * self.top_speed,
-                applyDeadband(controller.leftx(), 0.1) * mult * self.top_speed,
+                -applyDeadband(controller.leftx(), 0.1) * mult * self.top_speed,
+                applyDeadband(controller.lefty(), 0.1) * mult * self.top_speed,
                 -applyDeadband(controller.rightx(), 0.1) * mult * self.top_omega,
                 not controller.leftbumper(),
                 self.period,
