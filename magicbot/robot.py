@@ -103,6 +103,8 @@ class MyRobot(magicbot.MagicRobot):
                 "Low Bandwidth Mode is active! Tuning is disabled.", AlertType.WARNING
             )
 
+    
+
     def teleopPeriodic(self):
         controller = LemonInput(0)
 

@@ -11,7 +11,8 @@ from phoenix6 import controls
 from magicbot import will_reset_to
 
 from util.smart_preference import SmartProfile
-from components.odometry import Odometry
+
+
 
 
 class SwerveWheel:
@@ -23,8 +24,7 @@ class SwerveWheel:
     direction_motor: TalonFX
     direction_profile: SmartProfile
     cancoder: CANcoder
-    transx_profile: SmartProfile
-    transy_profile: SmartProfile
+
 
     """Module must be explicitly told to move (via setDesiredState) each
     loop, otherwise it defaults to stopped for safety.
@@ -48,23 +48,8 @@ class SwerveWheel:
         self.direction_controller = self.direction_profile.create_controller(
             f"{self.direction_motor.device_id}_direction"
         )
-        self.transx_controller = self.transx_profile.create_controller(
-            "Transx"
-        )
-        self.transy_controller = self.transy_profile.create_controller(
-            "TransY"
-        )
 
         self.desired_state = None
-
-        # Initialize controllers for trajectory following
-        self.x_controller = PIDController(1.0, 0.0, 0.0)
-        self.y_controller = PIDController(1.0, 0.0, 0.0)
-        self.theta_controller = ProfiledPIDControllerRadians(
-            1.0, 0.0, 0.0,
-            TrapezoidProfileRadians.Constraints(self.max_speed * 2 * math.pi, 3.14 )
-        )
-        self.holonomic_controller = HolonomicDriveController(self.x_controller, self.y_controller, self.theta_controller)
 
     """
     INFORMATIONAL METHODS

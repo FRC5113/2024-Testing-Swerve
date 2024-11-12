@@ -14,6 +14,7 @@ from wpimath.trajectory import TrapezoidProfileRadians
 from components.swerve_wheel import SwerveWheel
 from util.alerts import Alert, AlertType
 from util.smart_preference import SmartProfile
+from components.drive_control import Holocontroller
 
 
 class SwerveDrive(Sendable):
@@ -220,11 +221,11 @@ class SwerveDrive(Sendable):
             self.period,
         )
         self.swerve_module_states = self.kinematics.toSwerveModuleStates(
-            self.chassis_speeds
+            Holocontroller.adjustedSpeeds
         )
         
         self.swerve_module_states = SwerveDrive4Kinematics.desaturateWheelSpeeds(
-            self.adjustedSpeeds,
+            self.swerve_module_states,
             self.max_speed,
         )
         self.front_left.setDesiredState(self.swerve_module_states[0])
