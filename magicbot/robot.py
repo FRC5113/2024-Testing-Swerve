@@ -8,7 +8,7 @@ import navx
 import wpilib
 from wpimath import applyDeadband, units
 from wpimath.geometry import Transform3d
-from wpilib import RobotController
+from wpilib import RobotController, PS5Controller
 from robotpy_apriltag import AprilTagField, loadAprilTagLayoutField
 
 from components.odometry import Odometry
@@ -18,6 +18,7 @@ from util.alerts import AlertType, AlertManager
 from util.smart_preference import SmartPreference, SmartProfile
 from util.camera import LemonCamera, LemonCameraSim
 from util.input import LemonInput
+from util.curve import curve
 
 # from container import RobotContainer
 
@@ -79,6 +80,9 @@ class MyRobot(magicbot.MagicRobot):
             low_bandwidth=self.low_bandwidth,
         )
 
+        # driving curve
+        self.sammi_curve = curve(lambda x: 1.89 * x**3 + 0.61 * x, 0.0, deadband=0.1, max_mag=1.0)
+
         # odometry
         if self.isSimulation():
             self.camera = LemonCameraSim(
@@ -103,6 +107,7 @@ class MyRobot(magicbot.MagicRobot):
 
     def teleopPeriodic(self):
         controller = LemonInput(0)
+        # print(controller.leftx(),controller.lefty(),controller.rightx(),controller.righty())
 
         mult = 1
         if controller.lefttrigger() >= 0.8:
@@ -122,18 +127,30 @@ class MyRobot(magicbot.MagicRobot):
         else:
             # otherwise steer with joysticks
             self.swerve_drive.drive(
+                -applyDeadband(controller.lefty(), 0.1) * mult * self.top_speed,
                 -applyDeadband(controller.leftx(), 0.1) * mult * self.top_speed,
-                applyDeadband(controller.lefty(), 0.1) * mult * self.top_speed,
                 -applyDeadband(controller.rightx(), 0.1) * mult * self.top_omega,
                 not controller.leftbumper(),
                 self.period,
             )
 
-        if controller.abutton():
-            self.odometry.face_tag()
+        print(
+            -applyDeadband(controller.lefty(), 0.1) * mult * self.top_speed,
+            applyDeadband(controller.leftx(), 0.1) * mult * self.top_speed,
+            -applyDeadband(controller.rightx(), 0.1) * mult * self.top_omega,
+        )
+
+        # if controller.abutton():
+        #     self.odometry.face_tag()
 
         if controller.startbutton():
             self.swerve_drive.reset_gyro()
+    
+    def testPeriodic(self):
+        controller = LemonInput(0)
+        print("li",controller.leftx(), controller.lefty(), controller.rightx(), controller.righty())
+        ps5 = PS5Controller(0)
+        print("ps5",ps5.getLeftX(), ps5.getLeftY(), ps5.getRightX(), ps5.getRightY())
 
     @feedback
     def get_voltage(self) -> units.volts:
