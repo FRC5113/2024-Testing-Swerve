@@ -1,4 +1,5 @@
 import math
+from pathlib import Path
 
 from phoenix6.hardware import TalonFX
 from phoenix6.hardware import CANcoder
@@ -9,7 +10,7 @@ import wpilib
 from wpimath import applyDeadband, units
 from wpimath.geometry import Transform3d
 from wpilib import RobotController
-from robotpy_apriltag import AprilTagField, loadAprilTagLayoutField
+from robotpy_apriltag import AprilTagField, loadAprilTagLayoutField, AprilTagFieldLayout
 
 from components.odometry import Odometry
 from components.swerve_drive import SwerveDrive
@@ -80,13 +81,16 @@ class MyRobot(magicbot.MagicRobot):
         )
 
         # odometry
+        self.field_layout = AprilTagFieldLayout(
+            str(Path(__file__).parent.resolve()) + "\\test_field.json"
+        )
         if self.isSimulation():
             self.camera = LemonCameraSim(
-                loadAprilTagLayoutField(AprilTagField.k2024Crescendo), 120
+                # loadAprilTagLayoutField(AprilTagField.k2024Crescendo), 120
+                self.field_layout, 120
             )
         else:
             self.camera = LemonCamera("USB_Camera", Transform3d())
-        self.field_layout = loadAprilTagLayoutField(AprilTagField.k2024Crescendo)
         self.theta_profile = SmartProfile(
             "theta",
             kP=0.05,
