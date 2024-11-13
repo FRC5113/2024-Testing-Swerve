@@ -82,16 +82,19 @@ class MyRobot(magicbot.MagicRobot):
         )
 
         # driving curve
-        self.sammi_curve = curve(lambda x: 1.89 * x**3 + 0.61 * x, 0.0, deadband=0.1, max_mag=1.0)
+        self.sammi_curve = curve(
+            lambda x: 1.89 * x**3 + 0.61 * x, 0.0, deadband=0.1, max_mag=1.0
+        )
 
         # odometry
         self.field_layout = AprilTagFieldLayout(
-            str(Path(__file__).parent.resolve()) + "\\test_field.json"
+            str(Path(__file__).parent.resolve() / "test_field.json")
         )
         if self.isSimulation():
             self.camera = LemonCameraSim(
                 # loadAprilTagLayoutField(AprilTagField.k2024Crescendo), 120
-                self.field_layout, 120
+                self.field_layout,
+                120,
             )
         else:
             self.camera = LemonCamera("USB_Camera", Transform3d())
@@ -138,23 +141,11 @@ class MyRobot(magicbot.MagicRobot):
                 self.period,
             )
 
-        print(
-            -applyDeadband(controller.lefty(), 0.1) * mult * self.top_speed,
-            applyDeadband(controller.leftx(), 0.1) * mult * self.top_speed,
-            -applyDeadband(controller.rightx(), 0.1) * mult * self.top_omega,
-        )
-
         # if controller.abutton():
         #     self.odometry.face_tag()
 
         if controller.startbutton():
             self.swerve_drive.reset_gyro()
-    
-    def testPeriodic(self):
-        controller = LemonInput(0)
-        print("li",controller.leftx(), controller.lefty(), controller.rightx(), controller.righty())
-        ps5 = PS5Controller(0)
-        print("ps5",ps5.getLeftX(), ps5.getLeftY(), ps5.getRightX(), ps5.getRightY())
 
     @feedback
     def get_voltage(self) -> units.volts:

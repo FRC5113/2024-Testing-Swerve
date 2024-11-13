@@ -39,7 +39,6 @@ class Odometry:
 
     def execute(self):
         self.camera.update()
-        print(self.camera.get_pose())
         if self.camera.has_targets():
             self.swerve_drive.add_vision_measurement(
                 self.get_estimated_pose(), Timer.getFPGATimestamp()
@@ -66,7 +65,7 @@ class Odometry:
         if not self.camera.has_targets():
             return 0
         return self.camera.get_pose().translation().x
-    
+
     @feedback
     def get_best_y(self):
         if not self.camera.has_targets():
