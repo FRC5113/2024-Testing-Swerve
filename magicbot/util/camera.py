@@ -27,7 +27,7 @@ class LemonCamera(PhotonCamera):
         result = self.getLatestResult()
         self.tag_poses = {}
         self.tag_ambiguities = {}
-        self.latency = result.getLatencyMillis / 1000
+        self.latency = result.getLatencyMillis() / 1000
         if result.hasTargets():
             targets = result.getTargets()
             for target in targets:
@@ -36,7 +36,7 @@ class LemonCamera(PhotonCamera):
                 self.tag_poses[target.getFiducialId()] = (
                     Pose3d()
                     # transform origin in tag space to camera space
-                    .transformBy(target.getBestCameraToTarget().inverse())
+                    .transformBy(target.getBestCameraToTarget())
                     # transform tag pose in camera space to robot space
                     .transformBy(self.camera_to_bot)
                     # flatten to 2d space

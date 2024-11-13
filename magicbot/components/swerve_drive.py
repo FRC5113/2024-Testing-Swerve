@@ -151,7 +151,6 @@ class SwerveDrive(Sendable):
 
     def reset_gyro(self) -> None:
         self.navX.reset()
-        self.navX.setAngleAdjustment(-90)
         self.navx_alert.enable()
 
     def add_vision_measurement(self, pose, timestamp):
@@ -179,7 +178,7 @@ class SwerveDrive(Sendable):
 
     def on_enable(self):
         self.navX.reset()
-        self.navX.setAngleAdjustment(-90)
+        self.navX.setAngleAdjustment(0)
 
     def execute(self) -> None:
         self.sendAdvantageScopeData()
@@ -212,7 +211,7 @@ class SwerveDrive(Sendable):
                     self.translationX,
                     self.translationY,
                     self.rotationX,
-                    Rotation2d(math.pi / 2),
+                    Rotation2d(),
                 )
             ),
             self.period,

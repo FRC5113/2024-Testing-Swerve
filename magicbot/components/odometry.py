@@ -2,7 +2,7 @@ from wpilib import Timer, Field2d, SmartDashboard
 from wpimath.geometry import Pose2d, Translation2d
 from navx import AHRS
 from robotpy_apriltag import AprilTagFieldLayout
-from magicbot import will_reset_to
+from magicbot import will_reset_to, feedback
 
 from components.swerve_drive import SwerveDrive
 from util.camera import LemonCamera
@@ -39,6 +39,7 @@ class Odometry:
 
     def execute(self):
         self.camera.update()
+        print(self.camera.get_pose())
         if self.camera.has_targets():
             self.swerve_drive.add_vision_measurement(
                 self.get_estimated_pose(), Timer.getFPGATimestamp()
@@ -59,3 +60,15 @@ class Odometry:
         else:
             self.tag_object.setPose(Pose2d())
         self.estimated_field.setRobotPose(self.swerve_drive.get_estimated_pose())
+
+    @feedback
+    def get_best_x(self):
+        if not self.camera.has_targets():
+            return 0
+        return self.camera.get_pose().translation().x
+    
+    @feedback
+    def get_best_y(self):
+        if not self.camera.has_targets():
+            return 0
+        return self.camera.get_pose().translation().y
