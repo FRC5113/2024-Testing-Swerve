@@ -8,13 +8,10 @@ from wpimath.kinematics import ChassisSpeeds, SwerveModulePosition
 from wpimath.estimator import SwerveDrive4PoseEstimator
 from wpiutil import Sendable, SendableBuilder
 from magicbot import will_reset_to, feedback
-from wpimath.controller import HolonomicDriveController, PIDController, ProfiledPIDControllerRadians
-from wpimath.trajectory import TrapezoidProfileRadians
 
 from components.swerve_wheel import SwerveWheel
 from util.alerts import Alert, AlertType
 from util.smart_preference import SmartProfile
-from components.drive_control import Holocontroller
 
 
 class SwerveDrive(Sendable):
@@ -75,7 +72,6 @@ class SwerveDrive(Sendable):
         self.navx_alert = Alert(
             "NavX heading has been reset.", AlertType.INFO, timeout=3.0
         )
-         # Initialize controllers for trajectory following
 
     def initSendable(self, builder: SendableBuilder) -> None:
         builder.setSmartDashboardType("SwerveDrive")
@@ -221,9 +217,8 @@ class SwerveDrive(Sendable):
             self.period,
         )
         self.swerve_module_states = self.kinematics.toSwerveModuleStates(
-            Holocontroller.adjustedSpeeds
+            self.chassis_speeds
         )
-        
         self.swerve_module_states = SwerveDrive4Kinematics.desaturateWheelSpeeds(
             self.swerve_module_states,
             self.max_speed,
