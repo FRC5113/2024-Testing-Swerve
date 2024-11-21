@@ -47,17 +47,17 @@ class MyRobot(magicbot.MagicRobot):
         """
 
         # swerve motors and cancoders
-        self.front_left_speed_motor = TalonFX(11)
-        self.front_left_direction_motor = TalonFX(12)
-        self.front_left_cancoder = CANcoder(13)
+        self.front_left_speed_motor = TalonFX(21)
+        self.front_left_direction_motor = TalonFX(22)
+        self.front_left_cancoder = CANcoder(23)
 
-        self.front_right_speed_motor = TalonFX(21)
-        self.front_right_direction_motor = TalonFX(22)
-        self.front_right_cancoder = CANcoder(23)
+        self.front_right_speed_motor = TalonFX(31)
+        self.front_right_direction_motor = TalonFX(32)
+        self.front_right_cancoder = CANcoder(33)
 
-        self.rear_left_speed_motor = TalonFX(31)
-        self.rear_left_direction_motor = TalonFX(32)
-        self.rear_left_cancoder = CANcoder(33)
+        self.rear_left_speed_motor = TalonFX(11)
+        self.rear_left_direction_motor = TalonFX(12)
+        self.rear_left_cancoder = CANcoder(13)
 
         self.rear_right_speed_motor = TalonFX(41)
         self.rear_right_direction_motor = TalonFX(42)
