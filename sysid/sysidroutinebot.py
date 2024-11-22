@@ -7,10 +7,8 @@
 from commands2 import Command
 from commands2.button import CommandXboxController
 from commands2.sysid import SysIdRoutine
-
-from subsystems.drive import Drive
-
 from constants import OIConstants
+from subsystems.drive import Drive
 
 
 class SysIdRoutineBot:

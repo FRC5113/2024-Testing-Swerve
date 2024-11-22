@@ -5,12 +5,13 @@
 #
 
 import math
+
 import navx
-from wpilib import Preferences, SmartDashboard
-from wpiutil import Sendable, SendableBuilder
+import swervemodule
 import wpimath.geometry
 import wpimath.kinematics
-import swervemodule
+from wpilib import Preferences, SmartDashboard
+from wpiutil import Sendable, SendableBuilder
 
 
 class Drivetrain(Sendable):

@@ -1,13 +1,13 @@
-from phoenix6.hardware import CANcoder, TalonFX
 import math
-from wpilib import SmartDashboard
-from phoenix6.signals import NeutralModeValue
-from phoenix6.configs import TalonFXConfiguration
-from wpimath.kinematics import SwerveModuleState, SwerveModulePosition
-from wpimath.geometry import Rotation2d
-from phoenix6 import controls
-from magicbot import will_reset_to
 
+from phoenix6 import controls
+from phoenix6.configs import TalonFXConfiguration
+from phoenix6.hardware import CANcoder, TalonFX
+from phoenix6.signals import NeutralModeValue
+from wpimath.geometry import Rotation2d
+from wpimath.kinematics import SwerveModulePosition, SwerveModuleState
+
+from magicbot import will_reset_to
 from util.smart_preference import SmartProfile
 
 

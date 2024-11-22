@@ -6,19 +6,11 @@
 
 from commands2 import Command, Subsystem
 from commands2.sysid import SysIdRoutine
-from wpilib.sysid import SysIdRoutineLog
-
-from wpilib import Encoder, PWMSparkMax, RobotController
-from wpilib.drive import DifferentialDrive
-
-from wpimath.kinematics import SwerveModuleState
-from wpimath.geometry import Rotation2d
-from wpimath.units import volts
-
-from constants import DriveConstants
 from subsystems import swervemodule
-
-from typing import Callable
+from wpilib.sysid import SysIdRoutineLog
+from wpimath.geometry import Rotation2d
+from wpimath.kinematics import SwerveModuleState
+from wpimath.units import volts
 
 
 class Drive(Subsystem):

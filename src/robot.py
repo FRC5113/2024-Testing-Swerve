@@ -1,13 +1,11 @@
-import wpilib
-from wpilib import Preferences
-import wpimath
-import wpilib.drive
-import wpimath.filter
-import wpimath.controller
-import navx
-
 import drivetrain
-from wpilib import SmartDashboard
+import navx
+import wpilib
+import wpilib.drive
+import wpimath
+import wpimath.controller
+import wpimath.filter
+from wpilib import Preferences, SmartDashboard
 
 
 class MyRobot(wpilib.TimedRobot):

@@ -1,6 +1,7 @@
-from wpilib import Timer
 from commands2.sysid import SysIdRoutine
-from wpilib.sysid import SysIdRoutineLog, State
+from wpilib import Timer
+from wpilib.sysid import State, SysIdRoutineLog
+
 from magicbot import will_reset_to
 
 

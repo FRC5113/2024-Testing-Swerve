@@ -6,7 +6,6 @@
 #
 
 from commands2 import CommandScheduler, TimedCommandRobot
-
 from sysidroutinebot import SysIdRoutineBot
 
 
@@ -29,7 +28,6 @@ class MyRobot(TimedCommandRobot):
 
     def disabledInit(self) -> None:
         """This function is called once each time the robot enters Disabled mode."""
-        pass
 
     def disabledPeriodic(self) -> None:
         pass
@@ -50,7 +48,6 @@ class MyRobot(TimedCommandRobot):
 
     def testPeriodic(self) -> None:
         """This function is called periodically during test mode."""
-        pass
 
     # def testInit(self) -> None:
     #     self.test_motor = swervemodule.WPI_TalonFX(12)

@@ -6,30 +6,29 @@ jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
-      matrix: 
+      matrix:
         python-version: ["3.12"]
-    
+
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Python ${{ matrix.python-version }}  
-        uses: actions/setup-python@v4  
-        with:  
-          python-version: ${{ matrix.python-version }}  
-      - name: Install dependencies  
-        run: |  
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
         continue-on-error: true
       - name: Test magicbot directory
         run: |
           cd magicbot
-          robotpy coverage test  
+          robotpy coverage test
       - name: Test src directory
         run: |
           cd src
-          robotpy coverage test  
+          robotpy coverage test
       - name: Test sysid directory
         run: |
           cd sysid
-          robotpy coverage test  
-      
+          robotpy coverage test

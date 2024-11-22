@@ -1,10 +1,10 @@
-from wpilib import Timer, Field2d, SmartDashboard
-from wpimath.geometry import Pose2d, Translation2d
 from navx import AHRS
 from robotpy_apriltag import AprilTagFieldLayout
-from magicbot import will_reset_to, feedback
+from wpilib import Field2d, SmartDashboard, Timer
+from wpimath.geometry import Pose2d, Translation2d
 
 from components.swerve_drive import SwerveDrive
+from magicbot import feedback, will_reset_to
 from util.camera import LemonCamera
 from util.smart_preference import SmartProfile
 
@@ -46,7 +46,7 @@ class Odometry:
             self.tag_object.setPose(
                 self.field_layout.getTagPose(self.camera.get_best_id()).toPose2d()
             )
-            """NOTE: all the theta_controller code should eventually 
+            """NOTE: all the theta_controller code should eventually
             be moved into a distinct drive_controller component"""
             tag_pose = self.camera.get_pose()
             tag_angle = tag_pose.translation().angle().degrees()

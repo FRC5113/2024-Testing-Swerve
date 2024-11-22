@@ -1,4 +1,4 @@
-from wpilib import DriverStation, RobotBase, XboxController, PS5Controller
+from wpilib import DriverStation, RobotBase
 from wpilib.interfaces import GenericHID
 
 

@@ -1,7 +1,6 @@
-import wpilib
-from wpilib import Preferences
-from wpilib.interfaces import MotorController
 import phoenix6
+import wpilib
+from wpilib.interfaces import MotorController
 
 
 class Controller:

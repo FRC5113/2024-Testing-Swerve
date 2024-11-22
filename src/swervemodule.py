@@ -5,12 +5,13 @@
 #
 
 import math
-from wpilib import Preferences
-import wpimath.kinematics
-import wpimath.geometry
-import wpimath.controller
-import wpimath.trajectory
+
 import phoenix6
+import wpimath.controller
+import wpimath.geometry
+import wpimath.kinematics
+import wpimath.trajectory
+from wpilib import Preferences
 
 from util import WPI_TalonFX
 

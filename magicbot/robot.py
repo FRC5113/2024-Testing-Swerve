@@ -1,25 +1,25 @@
 import math
 from pathlib import Path
 
-from phoenix6.hardware import TalonFX
-from phoenix6.hardware import CANcoder
-import magicbot
-from magicbot import feedback
 import navx
 import wpilib
+from phoenix6.hardware import CANcoder, TalonFX
+from robotpy_apriltag import AprilTagFieldLayout
+from wpilib import RobotController
 from wpimath import applyDeadband, units
 from wpimath.geometry import Transform3d
-from wpilib import RobotController, PS5Controller
-from robotpy_apriltag import AprilTagField, loadAprilTagLayoutField, AprilTagFieldLayout
 
+import magicbot
 from components.odometry import Odometry
 from components.swerve_drive import SwerveDrive
 from components.swerve_wheel import SwerveWheel
-from util.alerts import AlertType, AlertManager
-from util.smart_preference import SmartPreference, SmartProfile
+from magicbot import feedback
+from util.alerts import AlertManager, AlertType
 from util.camera import LemonCamera, LemonCameraSim
-from util.input import LemonInput
 from util.curve import curve
+from util.elastic import Elastic
+from util.input import LemonInput
+from util.smart_preference import SmartPreference, SmartProfile
 
 # from container import RobotContainer
 
@@ -112,6 +112,17 @@ class MyRobot(magicbot.MagicRobot):
                 "Low Bandwidth Mode is active! Tuning is disabled.", AlertType.WARNING
             )
 
+        # Create a notification with desired properties
+        self.notification = (
+            Elastic.ElasticNotification()
+            .with_level("INFO")
+            .with_title("Pressed")
+            .with_description("The A Button Was Pressed")
+            .with_display_seconds(10)
+            .with_width(400)
+            .with_automatic_height()
+        )
+
     def teleopPeriodic(self):
         controller = LemonInput(0)
         # print(controller.leftx(),controller.lefty(),controller.rightx(),controller.righty())
@@ -141,8 +152,8 @@ class MyRobot(magicbot.MagicRobot):
                 self.period,
             )
 
-        # if controller.abutton():
-        #     self.odometry.face_tag()
+        if controller.abutton():
+            Elastic.send_alert(self.notification)
 
         if controller.startbutton():
             self.swerve_drive.reset_gyro()

@@ -5,15 +5,13 @@
 #
 
 import math
-from wpilib import Preferences
-from wpilib.interfaces import MotorController
-import wpimath.kinematics
-from wpimath.kinematics import SwerveModuleState
-import wpimath.geometry
-from wpimath.geometry import Rotation2d
-import wpimath.controller
-import wpimath.trajectory
+
 import phoenix6
+import wpimath.controller
+import wpimath.geometry
+import wpimath.kinematics
+import wpimath.trajectory
+from wpilib.interfaces import MotorController
 
 kWheelRadius = 0.0508
 kModuleMaxAngularVelocity = 30

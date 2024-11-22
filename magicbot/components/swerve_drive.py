@@ -2,16 +2,18 @@ import math
 
 import navx
 from wpilib import SmartDashboard
-from wpimath.kinematics import SwerveDrive4Kinematics
-from wpimath.geometry import Translation2d, Rotation2d, Pose2d
-from wpimath.kinematics import ChassisSpeeds, SwerveModulePosition
 from wpimath.estimator import SwerveDrive4PoseEstimator
+from wpimath.geometry import Pose2d, Rotation2d, Translation2d
+from wpimath.kinematics import (
+    ChassisSpeeds,
+    SwerveDrive4Kinematics,
+    SwerveModulePosition,
+)
 from wpiutil import Sendable, SendableBuilder
-from magicbot import will_reset_to, feedback
 
 from components.swerve_wheel import SwerveWheel
+from magicbot import will_reset_to
 from util.alerts import Alert, AlertType
-from util.smart_preference import SmartProfile
 
 
 class SwerveDrive(Sendable):
@@ -128,7 +130,7 @@ class SwerveDrive(Sendable):
     """
     CONTROL METHODS
 
-    These essentially set up variables and info before execute is ran 
+    These essentially set up variables and info before execute is ran
     (like updating translationX from 0 -> 1)
     """
 
@@ -172,7 +174,7 @@ class SwerveDrive(Sendable):
 
     """
     EXECUTE
-    This is ran every "tick" of the robot. This is where we update all 
+    This is ran every "tick" of the robot. This is where we update all
     the wheels speed and direction.
     """
 

@@ -1,9 +1,9 @@
 from enum import Enum
-from typing import List
 from logging import Logger
+from typing import List
 
+from wpilib import SmartDashboard, Timer
 from wpiutil import Sendable, SendableBuilder
-from wpilib import Timer, SmartDashboard
 
 
 class AlertType(Enum):

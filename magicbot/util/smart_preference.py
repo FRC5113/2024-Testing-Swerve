@@ -1,6 +1,6 @@
 from wpilib import Preferences, SmartDashboard
-from wpimath.trajectory import TrapezoidProfile
 from wpimath.controller import ProfiledPIDController, SimpleMotorFeedforwardMeters
+from wpimath.trajectory import TrapezoidProfile
 from wpiutil import Sendable, SendableBuilder
 
 

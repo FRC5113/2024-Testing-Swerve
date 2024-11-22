@@ -1,9 +1,9 @@
 import math
 
+from phoenix6 import unmanaged
 from pyfrc.physics.core import PhysicsInterface
 from pyfrc.physics.drivetrains import four_motor_swerve_drivetrain
-from phoenix6 import unmanaged
-from wpilib import DriverStation, RobotController
+from wpilib import DriverStation
 from wpilib.simulation import DCMotorSim
 from wpimath.system.plant import DCMotor
 
