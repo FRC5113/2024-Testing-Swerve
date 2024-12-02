@@ -74,9 +74,19 @@ class MyRobot(magicbot.MagicRobot):
         self.max_speed = 4.7
 
         # swerve module profiles
-        self.speed_profile = SmartProfile("speed", low_bandwidth=self.low_bandwidth)
+        self.speed_profile = SmartProfile(
+            "speed", 
+            kS=0.17,
+            kV=0.104,
+            kMaxA=4000.0,
+            kMaxV=400.0,
+            low_bandwidth=self.low_bandwidth
+        )
         self.direction_profile = SmartProfile(
             "direction",
+            kS=0.14,
+            kP=18.0,
+            kV=0.375,
             continuous_range=(0, math.tau),
             low_bandwidth=self.low_bandwidth,
         )
@@ -97,7 +107,7 @@ class MyRobot(magicbot.MagicRobot):
                 120,
             )
         else:
-            self.camera = LemonCamera("USB_Camera", Transform3d())
+            self.camera = LemonCamera("Global_Shutter_Camera", Transform3d())
         self.theta_profile = SmartProfile(
             "theta",
             kP=0.05,
@@ -125,7 +135,7 @@ class MyRobot(magicbot.MagicRobot):
 
     def teleopPeriodic(self):
         controller = LemonInput(0)
-        # print(controller.leftx(),controller.lefty(),controller.rightx(),controller.righty())
+        print(controller.leftx(),controller.lefty(),controller.rightx(),controller.righty())
 
         mult = 1
         if controller.lefttrigger() >= 0.8:
