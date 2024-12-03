@@ -11,6 +11,7 @@ from wpimath.geometry import Transform3d
 from wpilib import RobotController
 from robotpy_apriltag import AprilTagField, loadAprilTagLayoutField
 
+from components.drive_control import DriveControl
 from components.odometry import Odometry
 from components.swerve_drive import SwerveDrive
 from components.swerve_wheel import SwerveWheel
@@ -23,6 +24,7 @@ from util.input import LemonInput
 
 
 class MyRobot(magicbot.MagicRobot):
+    drive_control: DriveControl
     odometry: Odometry
 
     swerve_drive: SwerveDrive
@@ -71,6 +73,7 @@ class MyRobot(magicbot.MagicRobot):
         self.wheel_radius = 0.0508
         self.max_speed = 4.7
 
+        # TODO: put gains in code
         # swerve module profiles
         self.speed_profile = SmartProfile("speed", low_bandwidth=self.low_bandwidth)
         self.direction_profile = SmartProfile(
@@ -78,8 +81,16 @@ class MyRobot(magicbot.MagicRobot):
             continuous_range=(0, math.tau),
             low_bandwidth=self.low_bandwidth,
         )
-        self.transx_profile = SmartProfile("TransX",low_bandwidth=self.low_bandwidth)
-        self.transy_profile = SmartProfile("TransY",low_bandwidth=self.low_bandwidth)
+
+        # holonomic controller profiles
+        self.holonomic_x_profile = SmartProfile("holonomic_x",low_bandwidth=self.low_bandwidth)
+        self.holonomic_y_profile = SmartProfile("holonomic_y",low_bandwidth=self.low_bandwidth)
+        self.holonomic_theta_profile = SmartProfile(
+            "holonomic_theta",
+            kP=0.05,
+            continuous_range=(-180, 180),
+            low_bandwidth=self.low_bandwidth,
+        )
 
         # odometry
         if self.isSimulation():
@@ -89,12 +100,6 @@ class MyRobot(magicbot.MagicRobot):
         else:
             self.camera = LemonCamera("USB_Camera", Transform3d())
         self.field_layout = loadAprilTagLayoutField(AprilTagField.k2024Crescendo)
-        self.theta_profile = SmartProfile(
-            "theta",
-            kP=0.05,
-            continuous_range=(-180, 180),
-            low_bandwidth=self.low_bandwidth,
-        )
 
         # initialize AlertManager with logger (kinda bad code)
         AlertManager(self.logger)

@@ -1,8 +1,6 @@
-from wpimath.controller import (
-   HolonomicDriveController,
-   PIDController,
-   ProfiledPIDControllerRadians
-)
+import math
+
+from wpimath.controller import HolonomicDriveController
 import wpimath
 from wpimath.trajectory import TrapezoidProfileRadians
 import wpimath.trajectory
@@ -10,31 +8,31 @@ from util.smart_preference import SmartProfile
 from wpimath.geometry import Rotation2d,Pose2d
 from components.odometry import Odometry
 from swerve_drive import SwerveDrive
-import math
 from components.swerve_wheel import SwerveWheel
 import navx
 from wpimath.kinematics import SwerveDrive4Kinematics
 from wpimath.kinematics import ChassisSpeeds
 
 
-class Holocontroller():
-    transx_profile = SmartProfile
-    transy_profile = SmartProfile
-    
+class DriveControl():
+    holonomic_x_profile: SmartProfile
+    holonomic_y_profile: SmartProfile
+    holonomic_theta_profile: SmartProfile
 
     def __init__(self) -> None:
-        self.transx_controller = self.transx_profile.create_controller(
-            "Transx"
+        self.x_controller = self.holonomic_x_profile.create_controller(
+            "holonomic_x"
         )
-        self.transy_controller = self.transy_profile.create_controller(
-            "TransY"
+        self.y_controller = self.holonomic_y_profile.create_controller(
+            "holonomic_y"
         )
-        self.controller = HolonomicDriveController(
-        self.transx_controller,
-        self.transy_controller,
-        ProfiledPIDControllerRadians(
-            1, 0, 0, TrapezoidProfileRadians.Constraints(6.28, 3.14)
-        ),
+        self.theta_controller = self.holonomic_theta_profile.create_controller(
+            "holonomic_theta"
+        )
+        self.holonomic_controller = HolonomicDriveController(
+            self.x_controller,
+            self.y_controller,
+            self.theta_controller
         )
 
     def adjustedSpeeds(self):
