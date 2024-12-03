@@ -48,6 +48,8 @@ class PhysicsEngine:
             robot.rear_left_cancoder,
             robot.rear_right_cancoder,
         )
+        for encoder in self.encoders:
+            encoder.sim_state.add_position(0.25)
 
     def update_sim(self, now, tm_diff):
         if DriverStation.isEnabled():
@@ -88,6 +90,8 @@ class PhysicsEngine:
             )
             # artificially soften simulated omega
             sim_speeds.omega_dps *= 0.4
+            # correct chassis speeds to match initial robot orientation
+            sim_speeds.vx, sim_speeds.vy = sim_speeds.vy, -sim_speeds.vx
             pose = self.physics_controller.drive(sim_speeds, tm_diff)
             self.robot.camera.set_robot_pose(pose)
             self.robot.navX.setAngleAdjustment(-pose.rotation().degrees())

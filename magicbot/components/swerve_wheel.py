@@ -67,9 +67,7 @@ class SwerveWheel:
             self.speed_motor.get_position().value
             / self.drive_gear_ratio
             * (self.wheel_radius * 2 * math.pi),
-            Rotation2d(
-                self.cancoder.get_absolute_position().value * math.tau + math.pi / 2
-            ),
+            Rotation2d(self.cancoder.get_absolute_position().value * math.tau),
         )
 
     """
