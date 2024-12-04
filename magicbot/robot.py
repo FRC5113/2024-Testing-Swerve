@@ -46,6 +46,9 @@ class MyRobot(magicbot.MagicRobot):
         components, such as the NavX, need only be created once.
         """
 
+        # period
+        self.period = 0.02
+
         # swerve motors and cancoders
         self.front_left_speed_motor = TalonFX(11)
         self.front_left_direction_motor = TalonFX(12)
@@ -83,8 +86,12 @@ class MyRobot(magicbot.MagicRobot):
         )
 
         # holonomic controller profiles
-        self.holonomic_x_profile = SmartProfile("holonomic_x",low_bandwidth=self.low_bandwidth)
-        self.holonomic_y_profile = SmartProfile("holonomic_y",low_bandwidth=self.low_bandwidth)
+        self.holonomic_x_profile = SmartProfile(
+            "holonomic_x", low_bandwidth=self.low_bandwidth
+        )
+        self.holonomic_y_profile = SmartProfile(
+            "holonomic_y", low_bandwidth=self.low_bandwidth
+        )
         self.holonomic_theta_profile = SmartProfile(
             "holonomic_theta",
             kP=0.05,
@@ -108,8 +115,6 @@ class MyRobot(magicbot.MagicRobot):
                 "Low Bandwidth Mode is active! Tuning is disabled.", AlertType.WARNING
             )
 
-    
-
     def teleopPeriodic(self):
         controller = LemonInput(0)
 
@@ -119,9 +124,11 @@ class MyRobot(magicbot.MagicRobot):
         if controller.righttrigger() >= 0.8:
             mult *= 0.5
 
+        self.drive_control.engage()
+
         if controller.pov() >= 0:
             # use pov inputs to steer if present
-            self.swerve_drive.drive(
+            self.drive_control.drive_manual(
                 controller.pov_y() * mult * self.top_speed,
                 -controller.pov_x() * mult * self.top_speed,
                 -applyDeadband(controller.rightx(), 0.1) * mult * self.top_omega,
@@ -130,16 +137,13 @@ class MyRobot(magicbot.MagicRobot):
             )
         else:
             # otherwise steer with joysticks
-            self.swerve_drive.drive(
+            self.drive_control.drive_manual(
                 -applyDeadband(controller.lefty(), 0.1) * mult * self.top_speed,
                 applyDeadband(controller.leftx(), 0.1) * mult * self.top_speed,
                 -applyDeadband(controller.rightx(), 0.1) * mult * self.top_omega,
                 not controller.leftbumper(),
                 self.period,
             )
-
-        if controller.abutton():
-            self.odometry.face_tag()
 
         if controller.startbutton():
             self.swerve_drive.reset_gyro()

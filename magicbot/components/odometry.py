@@ -6,6 +6,7 @@ from magicbot import will_reset_to, feedback
 
 from components.swerve_drive import SwerveDrive
 from util.camera import LemonCamera
+
 # from util.smart_preference import SmartProfile
 
 
@@ -46,7 +47,7 @@ class Odometry:
             self.tag_object.setPose(
                 self.field_layout.getTagPose(self.camera.get_best_id()).toPose2d()
             )
-            # """NOTE: all the theta_controller code should eventually 
+            # """NOTE: all the theta_controller code should eventually
             # be moved into a distinct drive_controller component"""
             # tag_pose = self.camera.get_pose()
             # tag_angle = tag_pose.translation().angle().degrees()

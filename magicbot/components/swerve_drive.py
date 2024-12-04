@@ -51,8 +51,8 @@ class SwerveDrive(Sendable):
             self.rear_right_pose,
         )
         self.chassis_speeds = ChassisSpeeds()
-        self.still_states = self.kinematics.toSwerveModuleStates(self.chassis_speeds)
-        self.swerve_module_states = self.still_states
+        self.idle_states = self.kinematics.toSwerveModuleStates(self.chassis_speeds)
+        self.swerve_module_states = self.idle_states
         SmartDashboard.putData("Swerve Drive", self)
 
         self.pose_estimator = SwerveDrive4PoseEstimator(
@@ -178,30 +178,10 @@ class SwerveDrive(Sendable):
             ),
         )
 
-        # if self.translationX == self.translationY == self.rotationX == 0:
-        #     # below line is only to keep NT updated
-        #     self.swerve_module_states = self.still_states
-        #     self.chassis_speeds = ChassisSpeeds()
-        #     return
+        if self.chassis_speeds == ChassisSpeeds():
+            self.swerve_module_states = self.idle_states
+            return
 
-        # self.chassis_speeds = ChassisSpeeds.discretize(
-        #     (
-        #         ChassisSpeeds.fromFieldRelativeSpeeds(
-        #             self.translationX,
-        #             self.translationY,
-        #             self.rotationX,
-        #             self.navX.getRotation2d(),
-        #         )
-        #         if self.field_relative
-        #         else ChassisSpeeds.fromFieldRelativeSpeeds(
-        #             self.translationX,
-        #             self.translationY,
-        #             self.rotationX,
-        #             Rotation2d(),
-        #         )
-        #     ),
-        #     self.period,
-        # )
         self.swerve_module_states = self.kinematics.toSwerveModuleStates(
             self.chassis_speeds
         )

@@ -1,18 +1,14 @@
-from phoenix6.hardware import CANcoder, TalonFX
 import math
-from wpilib import SmartDashboard
+
+from phoenix6.hardware import CANcoder, TalonFX
 from phoenix6.signals import NeutralModeValue
 from phoenix6.configs import TalonFXConfiguration
 from wpimath.kinematics import SwerveModuleState, SwerveModulePosition
-from wpimath.controller import HolonomicDriveController, PIDController, ProfiledPIDControllerRadians
-from wpimath.trajectory import TrapezoidProfileRadians
 from wpimath.geometry import Rotation2d
 from phoenix6 import controls
 from magicbot import will_reset_to
 
 from util.smart_preference import SmartProfile
-
-
 
 
 class SwerveWheel:
@@ -24,7 +20,6 @@ class SwerveWheel:
     direction_motor: TalonFX
     direction_profile: SmartProfile
     cancoder: CANcoder
-
 
     """Module must be explicitly told to move (via setDesiredState) each
     loop, otherwise it defaults to stopped for safety.
@@ -85,11 +80,14 @@ class SwerveWheel:
     def setDesiredState(self, state: SwerveModuleState):
         self.stopped = False
         self.desired_state = state
-    
 
     """
     EXECUTE
     """
+
+    def on_disable(self):
+        self.speed_motor.set_control(controls.coast_out.CoastOut())
+        self.direction_motor.set_control(controls.coast_out.CoastOut())
 
     def execute(self) -> None:
         if self.stopped:
