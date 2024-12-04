@@ -14,6 +14,7 @@ from wpiutil import Sendable, SendableBuilder
 from components.swerve_wheel import SwerveWheel
 from magicbot import will_reset_to
 from util.alerts import Alert, AlertType
+from util.elastic import Elastic
 
 
 class SwerveDrive(Sendable):
@@ -70,10 +71,19 @@ class SwerveDrive(Sendable):
         )
         self.period = 0.02
 
-        SmartDashboard.putData("Gyro", self.navX)
+        SmartDashboard.putNumber("Gyro", self.navX.getAngle())
         self.navx_alert = Alert(
             "NavX heading has been reset.", AlertType.INFO, timeout=3.0
         )
+        self.navx_noti = (Elastic.ElasticNotification()
+            .with_level("WARNING")
+            .with_title("Reset Gyro")
+            .with_description("NavX heading has been reset.")
+            .with_width(400)
+            .with_automatic_height()
+            .with_display_seconds(3.0)
+        )
+            
 
     def initSendable(self, builder: SendableBuilder) -> None:
         builder.setSmartDashboardType("SwerveDrive")
@@ -154,6 +164,7 @@ class SwerveDrive(Sendable):
     def reset_gyro(self) -> None:
         self.navX.reset()
         self.navx_alert.enable()
+        Elastic.send_alert(self.navx_noti)
 
     def add_vision_measurement(self, pose, timestamp):
         self.pose_estimator.addVisionMeasurement(pose, timestamp)

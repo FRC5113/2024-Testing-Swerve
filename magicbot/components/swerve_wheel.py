@@ -31,10 +31,11 @@ class SwerveWheel:
         """
 
         # apply configs
-        self.motor_configs = TalonFXConfiguration()
+        self.motor_configs = TalonFXConfiguration() 
         self.motor_configs.motor_output.neutral_mode = NeutralModeValue.COAST
         self.direction_motor.configurator.apply(self.motor_configs)
         self.speed_motor.configurator.apply(self.motor_configs)
+        
 
         self.speed_controller = self.speed_profile.create_controller(
             f"{self.speed_motor.device_id}_speed"

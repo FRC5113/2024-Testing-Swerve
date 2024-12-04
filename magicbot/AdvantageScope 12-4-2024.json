@@ -1,0 +1,165 @@
+{
+  "hubs": [
+    {
+      "x": -7,
+      "y": 0,
+      "width": 800,
+      "height": 727,
+      "state": {
+        "sidebar": {
+          "width": 271,
+          "expanded": [
+            "/NT/LiveWindow/.status",
+            "/NT/Shuffleboard/Main/Field/Robot",
+            "/NT/FMSInfo",
+            "/NT",
+            "/robot",
+            "/SmartDashboard/Field/Robot",
+            "/SmartDashboard/Heading PID",
+            "/Shuffleboard",
+            "/SmartDashboard/Reset Gyro",
+            "/PathPlanner",
+            "/ModuleStates",
+            "/RobotPose",
+            "/RobotPose/rotation",
+            "/ModuleTargets",
+            "/components",
+            "/components/chassis/module_states",
+            "/SmartDashboard/Field/Intended start pos",
+            "/components/shooter_component",
+            "/components/intake/state",
+            "/components/shooter",
+            "/components/chassis",
+            "/SmartDashboard/Field/fused_pose",
+            "/photonvision",
+            "/LiveWindow",
+            "/SmartDashboard",
+            "/SmartDashboard/Swerve Measurements",
+            "/SmartDashboard/Swerve Setpoints",
+            "/SmartDashboard/Field",
+            "/SmartDashboard/11 Speed Controller",
+            "/photonvision/Sim",
+            "/SmartDashboard/Estimated Field"
+          ]
+        },
+        "tabs": {
+          "selected": 2,
+          "tabs": [
+            {
+              "type": 0,
+              "path": "../docs/tabs/ODOMETRY.md"
+            },
+            {
+              "type": 9,
+              "uuid": "jd1r1xx3mf80jhbsez18c0a8efaxksq2",
+              "fields": [
+                {
+                  "key": "NT:/SmartDashboard/Swerve Measurements",
+                  "sourceTypeIndex": 0,
+                  "sourceType": 5
+                },
+                {
+                  "key": "NT:/SmartDashboard/Swerve Setpoints",
+                  "sourceTypeIndex": 0,
+                  "sourceType": 5
+                },
+                {
+                  "key": "NT:/SmartDashboard/Swerve Drive/Robot Angle",
+                  "sourceTypeIndex": 0,
+                  "sourceType": 2
+                }
+              ],
+              "listFields": [],
+              "options": {
+                "maxSpeed": 3,
+                "rotationUnits": "radians",
+                "arrangement": "0,1,2,3",
+                "sizeLeftRight": 0.65,
+                "sizeFrontBack": 0.65,
+                "forwardDirection": "up"
+              },
+              "configHidden": false,
+              "visualizer": null,
+              "title": "Swerve"
+            },
+            {
+              "type": 5,
+              "uuid": "az4x8dlsjkub4wpyyhnnmgkx6sj7pw9k",
+              "fields": [],
+              "listFields": [
+                [
+                  {
+                    "type": "Robot",
+                    "key": "NT:/SmartDashboard/Estimated Field/Robot",
+                    "sourceTypeIndex": 0,
+                    "sourceType": 5
+                  },
+                  {
+                    "type": "Vision Target",
+                    "key": "NT:/SmartDashboard/Estimated Field/tag",
+                    "sourceTypeIndex": 0,
+                    "sourceType": 5
+                  }
+                ]
+              ],
+              "options": {
+                "game": "Evergreen",
+                "unitDistance": "meters",
+                "unitRotation": "degrees",
+                "origin": "right",
+                "size": 0.75,
+                "allianceBumpers": "auto",
+                "allianceOrigin": "auto",
+                "orientation": "blue left, red right"
+              },
+              "configHidden": false,
+              "visualizer": null,
+              "title": "Odometry"
+            },
+            {
+              "type": 6,
+              "uuid": "ez202x3hi2s1as23hyhpn262pdvjn4fa",
+              "fields": [],
+              "listFields": [
+                [],
+                [
+                  {
+                    "type": "Robot",
+                    "key": "NT:/SmartDashboard/Field/Robot",
+                    "sourceTypeIndex": 0,
+                    "sourceType": 5
+                  }
+                ]
+              ],
+              "options": {
+                "field": "2024 Field",
+                "alliance": "red",
+                "robot": "",
+                "unitDistance": "meters",
+                "unitRotation": "degrees"
+              },
+              "configHidden": false,
+              "visualizer": {
+                "cameraIndex": -1,
+                "orbitFov": 50,
+                "cameraPosition": [
+                  -2.0521820311814256,
+                  18.56811870744777,
+                  26.454826662520095
+                ],
+                "cameraTarget": [
+                  -0.9640112942815288,
+                  3.0265786387865545,
+                  4.319962705894354
+                ]
+              },
+              "title": "3D Field"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "satellites": [],
+  "version": "3.2.1"
+}

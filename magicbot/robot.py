@@ -122,20 +122,18 @@ class MyRobot(magicbot.MagicRobot):
                 "Low Bandwidth Mode is active! Tuning is disabled.", AlertType.WARNING
             )
 
-        # Create a notification with desired properties
-        self.notification = (
-            Elastic.ElasticNotification()
-            .with_level("INFO")
-            .with_title("Pressed")
-            .with_description("The A Button Was Pressed")
-            .with_display_seconds(10)
+        
+            Elastic.send_alert(Elastic.ElasticNotification()
+            .with_level("WARNING")
+            .with_title("Low Bandwith")
+            .with_description("Low Bandwidth Mode is active! Tuning is disabled.")
             .with_width(400)
             .with_automatic_height()
-        )
+            .with_no_auto_dismiss()
+            )
 
     def teleopPeriodic(self):
         controller = LemonInput(0)
-        print(controller.leftx(),controller.lefty(),controller.rightx(),controller.righty())
 
         mult = 1
         if controller.lefttrigger() >= 0.8:
@@ -161,9 +159,6 @@ class MyRobot(magicbot.MagicRobot):
                 not controller.leftbumper(),
                 self.period,
             )
-
-        if controller.abutton():
-            Elastic.send_alert(self.notification)
 
         if controller.startbutton():
             self.swerve_drive.reset_gyro()
