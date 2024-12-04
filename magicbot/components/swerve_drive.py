@@ -132,22 +132,8 @@ class SwerveDrive(Sendable):
     (like updating translationX from 0 -> 1)
     """
 
-    def set_rotationX(self, value: float):
-        self.rotationX = value
-
-    def drive(
-        self,
-        translationX: float,
-        translationY: float,
-        rotationX: float,
-        field_relative: bool,
-        period: float,
-    ):
-        self.translationX = translationX
-        self.translationY = translationY
-        self.rotationX = rotationX
-        self.period = period
-        self.field_relative = field_relative
+    def set_speeds(self, speeds: ChassisSpeeds) -> None:
+        self.chassis_speeds = speeds
 
     def reset_gyro(self) -> None:
         self.navX.reset()
@@ -192,30 +178,30 @@ class SwerveDrive(Sendable):
             ),
         )
 
-        if self.translationX == self.translationY == self.rotationX == 0:
-            # below line is only to keep NT updated
-            self.swerve_module_states = self.still_states
-            self.chassis_speeds = ChassisSpeeds()
-            return
+        # if self.translationX == self.translationY == self.rotationX == 0:
+        #     # below line is only to keep NT updated
+        #     self.swerve_module_states = self.still_states
+        #     self.chassis_speeds = ChassisSpeeds()
+        #     return
 
-        self.chassis_speeds = ChassisSpeeds.discretize(
-            (
-                ChassisSpeeds.fromFieldRelativeSpeeds(
-                    self.translationX,
-                    self.translationY,
-                    self.rotationX,
-                    self.navX.getRotation2d(),
-                )
-                if self.field_relative
-                else ChassisSpeeds.fromFieldRelativeSpeeds(
-                    self.translationX,
-                    self.translationY,
-                    self.rotationX,
-                    Rotation2d(),
-                )
-            ),
-            self.period,
-        )
+        # self.chassis_speeds = ChassisSpeeds.discretize(
+        #     (
+        #         ChassisSpeeds.fromFieldRelativeSpeeds(
+        #             self.translationX,
+        #             self.translationY,
+        #             self.rotationX,
+        #             self.navX.getRotation2d(),
+        #         )
+        #         if self.field_relative
+        #         else ChassisSpeeds.fromFieldRelativeSpeeds(
+        #             self.translationX,
+        #             self.translationY,
+        #             self.rotationX,
+        #             Rotation2d(),
+        #         )
+        #     ),
+        #     self.period,
+        # )
         self.swerve_module_states = self.kinematics.toSwerveModuleStates(
             self.chassis_speeds
         )
