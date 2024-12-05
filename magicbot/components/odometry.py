@@ -1,4 +1,4 @@
-from navx import AHRS
+from phoenix6.hardware import Pigeon2
 from robotpy_apriltag import AprilTagFieldLayout
 from wpilib import Field2d, SmartDashboard, Timer
 from wpimath.geometry import Pose2d, Translation2d
@@ -11,10 +11,10 @@ from util.smart_preference import SmartProfile
 
 class Odometry:
     camera: LemonCamera
-    navX: AHRS
     field_layout: AprilTagFieldLayout
     swerve_drive: SwerveDrive
     theta_profile: SmartProfile
+    pigeon: Pigeon2
 
     request_face_tag = will_reset_to(False)
 
@@ -23,12 +23,13 @@ class Odometry:
         self.tag_object = self.estimated_field.getObject("tag")
         SmartDashboard.putData("Estimated Field", self.estimated_field)
         self.theta_controller = self.theta_profile.create_controller("theta")
+        
 
     def get_estimated_pose(self) -> None | Pose2d:
         if not self.camera.has_targets():
             return
         rt = self.camera.get_pose().translation()
-        theta = self.navX.getRotation2d()
+        theta = self.pigeon.getRotation2d()
         rt = rt.rotateBy(theta)
         tag_pose = self.field_layout.getTagPose(self.camera.get_best_id())
         ot = Translation2d(tag_pose.x, tag_pose.y)

@@ -1,6 +1,6 @@
 import math
 
-import navx
+
 from wpilib import SmartDashboard
 from wpimath.estimator import SwerveDrive4PoseEstimator
 from wpimath.geometry import Pose2d, Rotation2d, Translation2d
@@ -10,6 +10,7 @@ from wpimath.kinematics import (
     SwerveModulePosition,
 )
 from wpiutil import Sendable, SendableBuilder
+from phoenix6.hardware import Pigeon2
 
 from components.swerve_wheel import SwerveWheel
 from magicbot import will_reset_to
@@ -27,12 +28,14 @@ class SwerveDrive(Sendable):
     front_right: SwerveWheel
     rear_left: SwerveWheel
     rear_right: SwerveWheel
-    navX: navx.AHRS
+    pigeon: Pigeon2
+    
 
     translationX = will_reset_to(0)
     translationY = will_reset_to(0)
     rotationX = will_reset_to(0)
     field_relative = will_reset_to(True)
+    
 
     def __init__(self) -> None:
         Sendable.__init__(self)
@@ -71,14 +74,14 @@ class SwerveDrive(Sendable):
         )
         self.period = 0.02
 
-        SmartDashboard.putNumber("Gyro", self.navX.getAngle())
-        self.navx_alert = Alert(
-            "NavX heading has been reset.", AlertType.INFO, timeout=3.0
+        
+        self.pigeon_alert = Alert(
+            "Pigeon heading has been reset.", AlertType.INFO, timeout=3.0
         )
-        self.navx_noti = (Elastic.ElasticNotification()
+        self.pigeon_noti = (Elastic.ElasticNotification()
             .with_level("WARNING")
             .with_title("Reset Gyro")
-            .with_description("NavX heading has been reset.")
+            .with_description("Pigeon heading has been reset.")
             .with_width(400)
             .with_automatic_height()
             .with_display_seconds(3.0)
@@ -90,7 +93,7 @@ class SwerveDrive(Sendable):
         builder.addDoubleProperty(
             "Robot Angle",
             # Rotate to match field widget
-            lambda: self.navX.getRotation2d().degrees(),
+            lambda: self.pigeon.getRotation2d().degrees(),
             lambda _: None,
         )
         builder.addDoubleProperty(
@@ -162,9 +165,9 @@ class SwerveDrive(Sendable):
         self.field_relative = field_relative
 
     def reset_gyro(self) -> None:
-        self.navX.reset()
-        self.navx_alert.enable()
-        Elastic.send_alert(self.navx_noti)
+        self.pigeon.reset()
+        self.pigeon_alert.enable()
+        Elastic.send_alert(self.pigeon_noti)
 
     def add_vision_measurement(self, pose, timestamp):
         self.pose_estimator.addVisionMeasurement(pose, timestamp)
@@ -190,13 +193,12 @@ class SwerveDrive(Sendable):
     """
 
     def on_enable(self):
-        self.navX.reset()
-        self.navX.setAngleAdjustment(0)
+        self.pigeon.reset()
 
     def execute(self) -> None:
         self.sendAdvantageScopeData()
         self.pose_estimator.update(
-            Rotation2d(-self.navX.getAngle() / 180 * math.pi),
+            Rotation2d(-self.pigeon.get_yaw().value / 180 * math.pi),
             (
                 self.front_left.getPosition(),
                 self.front_right.getPosition(),
@@ -204,7 +206,7 @@ class SwerveDrive(Sendable):
                 self.rear_right.getPosition(),
             ),
         )
-
+        
         if self.translationX == self.translationY == self.rotationX == 0:
             # below line is only to keep NT updated
             self.swerve_module_states = self.still_states
@@ -217,7 +219,7 @@ class SwerveDrive(Sendable):
                     self.translationX,
                     self.translationY,
                     self.rotationX,
-                    self.navX.getRotation2d(),
+                    self.pigeon.getRotation2d(),
                 )
                 if self.field_relative
                 else ChassisSpeeds.fromFieldRelativeSpeeds(

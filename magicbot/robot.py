@@ -3,7 +3,7 @@ from pathlib import Path
 
 import navx
 import wpilib
-from phoenix6.hardware import CANcoder, TalonFX
+from phoenix6.hardware import CANcoder, TalonFX,Pigeon2
 from robotpy_apriltag import AprilTagFieldLayout
 from wpilib import RobotController
 from wpimath import applyDeadband, units
@@ -63,8 +63,7 @@ class MyRobot(magicbot.MagicRobot):
         self.rear_right_direction_motor = TalonFX(42)
         self.rear_right_cancoder = CANcoder(43)
 
-        # NavX IMU
-        self.navX = navx.AHRS.create_spi()
+        self.pigeon = Pigeon2(54)
 
         # swerve constants
         self.offset_x = 0.381
@@ -134,6 +133,7 @@ class MyRobot(magicbot.MagicRobot):
 
     def teleopPeriodic(self):
         controller = LemonInput(0)
+       
 
         mult = 1
         if controller.lefttrigger() >= 0.8:
