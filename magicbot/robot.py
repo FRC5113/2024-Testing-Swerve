@@ -14,7 +14,7 @@ from components.odometry import Odometry
 from components.swerve_drive import SwerveDrive
 from components.swerve_wheel import SwerveWheel
 from magicbot import feedback
-from util.alerts import AlertManager, AlertType
+from util.alerts import AlertManager, AlertType, Alert
 from util.camera import LemonCamera, LemonCameraSim
 from util.curve import curve
 from util.elastic import Elastic
@@ -130,6 +130,7 @@ class MyRobot(magicbot.MagicRobot):
                 .with_automatic_height()
                 .with_no_auto_dismiss()
             )
+        self.alert_test = Alert("It works fucker", AlertType.INFO, timeout=3.0)
 
     def teleopPeriodic(self):
         controller = LemonInput(0)
@@ -161,6 +162,8 @@ class MyRobot(magicbot.MagicRobot):
 
         if controller.startbutton():
             self.swerve_drive.reset_gyro()
+        if controller.backbutton():
+            self.alert_test.enable()
 
     @feedback
     def get_voltage(self) -> units.volts:
