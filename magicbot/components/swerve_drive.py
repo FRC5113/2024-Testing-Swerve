@@ -29,13 +29,11 @@ class SwerveDrive(Sendable):
     rear_left: SwerveWheel
     rear_right: SwerveWheel
     pigeon: Pigeon2
-    
 
     translationX = will_reset_to(0)
     translationY = will_reset_to(0)
     rotationX = will_reset_to(0)
     field_relative = will_reset_to(True)
-    
 
     def __init__(self) -> None:
         Sendable.__init__(self)
@@ -74,11 +72,11 @@ class SwerveDrive(Sendable):
         )
         self.period = 0.02
 
-        
         self.pigeon_alert = Alert(
             "Pigeon heading has been reset.", AlertType.INFO, timeout=3.0
         )
-        self.pigeon_noti = (Elastic.ElasticNotification()
+        self.pigeon_noti = (
+            Elastic.ElasticNotification()
             .with_level("WARNING")
             .with_title("Reset Gyro")
             .with_description("Pigeon heading has been reset.")
@@ -86,7 +84,6 @@ class SwerveDrive(Sendable):
             .with_automatic_height()
             .with_display_seconds(3.0)
         )
-            
 
     def initSendable(self, builder: SendableBuilder) -> None:
         builder.setSmartDashboardType("SwerveDrive")
@@ -198,7 +195,7 @@ class SwerveDrive(Sendable):
     def execute(self) -> None:
         self.sendAdvantageScopeData()
         self.pose_estimator.update(
-            Rotation2d(-self.pigeon.get_yaw().value / 180 * math.pi),
+            Rotation2d(self.pigeon.get_yaw().value / 180 * math.pi),
             (
                 self.front_left.getPosition(),
                 self.front_right.getPosition(),
@@ -206,7 +203,7 @@ class SwerveDrive(Sendable):
                 self.rear_right.getPosition(),
             ),
         )
-        
+
         if self.translationX == self.translationY == self.rotationX == 0:
             # below line is only to keep NT updated
             self.swerve_module_states = self.still_states

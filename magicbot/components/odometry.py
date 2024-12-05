@@ -23,7 +23,6 @@ class Odometry:
         self.tag_object = self.estimated_field.getObject("tag")
         SmartDashboard.putData("Estimated Field", self.estimated_field)
         self.theta_controller = self.theta_profile.create_controller("theta")
-        
 
     def get_estimated_pose(self) -> None | Pose2d:
         if not self.camera.has_targets():

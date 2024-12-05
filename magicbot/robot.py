@@ -3,7 +3,7 @@ from pathlib import Path
 
 import navx
 import wpilib
-from phoenix6.hardware import CANcoder, TalonFX,Pigeon2
+from phoenix6.hardware import CANcoder, TalonFX, Pigeon2
 from robotpy_apriltag import AprilTagFieldLayout
 from wpilib import RobotController
 from wpimath import applyDeadband, units
@@ -74,12 +74,12 @@ class MyRobot(magicbot.MagicRobot):
 
         # swerve module profiles
         self.speed_profile = SmartProfile(
-            "speed", 
+            "speed",
             kS=0.17,
             kV=0.104,
             kMaxA=4000.0,
             kMaxV=400.0,
-            low_bandwidth=self.low_bandwidth
+            low_bandwidth=self.low_bandwidth,
         )
         self.direction_profile = SmartProfile(
             "direction",
@@ -121,19 +121,18 @@ class MyRobot(magicbot.MagicRobot):
                 "Low Bandwidth Mode is active! Tuning is disabled.", AlertType.WARNING
             )
 
-        
-            Elastic.send_alert(Elastic.ElasticNotification()
-            .with_level("WARNING")
-            .with_title("Low Bandwith")
-            .with_description("Low Bandwidth Mode is active! Tuning is disabled.")
-            .with_width(400)
-            .with_automatic_height()
-            .with_no_auto_dismiss()
+            Elastic.send_alert(
+                Elastic.ElasticNotification()
+                .with_level("WARNING")
+                .with_title("Low Bandwith")
+                .with_description("Low Bandwidth Mode is active! Tuning is disabled.")
+                .with_width(400)
+                .with_automatic_height()
+                .with_no_auto_dismiss()
             )
 
     def teleopPeriodic(self):
         controller = LemonInput(0)
-       
 
         mult = 1
         if controller.lefttrigger() >= 0.8:
