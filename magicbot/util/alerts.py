@@ -24,7 +24,7 @@ class Alert:
     Alerts can be activated, deactivated, or updated with new text.
     """
 
-    def __init__(self, text: str, type: AlertType, timeout: float = 0.0):
+    def __init__(self, text: str, type: AlertType, timeout: float = 0.0, elasticnoti: bool = True):
         """
         Initialize an alert instance.
 
@@ -32,6 +32,7 @@ class Alert:
             text (str): The message text for the alert.
             type (AlertType): The severity level of the alert.
             timeout (float): Duration in seconds after which the alert auto-deactivates.
+            elasticnoti (bool): Whether to send the alert to the Elastic dashboard. defaults to True.
         """
         self.text = text
         self.type = type
@@ -40,6 +41,7 @@ class Alert:
         self.active_start_time = 0.0
         self.last_log = 0.0
         AlertManager.alerts.append(self)
+        self.elasticnoti = elasticnoti
 
     def set(self, active: bool):
         """
@@ -59,6 +61,7 @@ class Alert:
                     AlertManager.logger.warning(self.text)
                 case AlertType.INFO:
                     AlertManager.logger.info(self.text)
+        
 
             # Send notification to Elastic dashboard.
             notification = ElasticNotification(
@@ -67,7 +70,8 @@ class Alert:
                 description=self.text,
                 display_time=int(self.timeout * 1000) if self.timeout > 0 else 3000,
             )
-            Elastic.send_alert(notification)
+            if self.elasticnoti:
+                Elastic.send_alert(notification)
 
         self.active = active
 

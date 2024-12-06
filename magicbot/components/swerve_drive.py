@@ -15,7 +15,6 @@ from phoenix6.hardware import Pigeon2
 from components.swerve_wheel import SwerveWheel
 from magicbot import will_reset_to
 from util.alerts import Alert, AlertType
-from util.elastic import Elastic
 
 
 class SwerveDrive(Sendable):
@@ -74,15 +73,6 @@ class SwerveDrive(Sendable):
 
         self.pigeon_alert = Alert(
             "Pigeon heading has been reset.", AlertType.INFO, timeout=3.0
-        )
-        self.pigeon_noti = (
-            Elastic.ElasticNotification()
-            .with_level("WARNING")
-            .with_title("Reset Gyro")
-            .with_description("Pigeon heading has been reset.")
-            .with_width(400)
-            .with_automatic_height()
-            .with_display_seconds(3.0)
         )
 
     def initSendable(self, builder: SendableBuilder) -> None:
@@ -164,7 +154,6 @@ class SwerveDrive(Sendable):
     def reset_gyro(self) -> None:
         self.pigeon.reset()
         self.pigeon_alert.enable()
-        Elastic.send_alert(self.pigeon_noti)
 
     def add_vision_measurement(self, pose, timestamp):
         self.pose_estimator.addVisionMeasurement(pose, timestamp)

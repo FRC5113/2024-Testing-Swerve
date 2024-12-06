@@ -49,9 +49,12 @@ class LemonInput:
 
     def __init__(self, port_number: int):
         self.con = GenericHID(port_number)
-        if DriverStation.getJoystickIsXbox(port_number) or RobotBase.isSimulation():
+        if DriverStation.getJoystickIsXbox(port_number):
             self.button_map = self.xbox_buttons
             self.contype = "Xbox"
+        elif RobotBase.isSimulation():
+            self.button_map = self.xbox_buttons
+            self.contype = "Sim/Xbox"
         else:
             self.button_map = self.ps5_buttons
             self.contype = "PS5"

@@ -5,7 +5,7 @@ import navx
 import wpilib
 from phoenix6.hardware import CANcoder, TalonFX, Pigeon2
 from robotpy_apriltag import AprilTagFieldLayout
-from wpilib import RobotController
+from wpilib import RobotController,SmartDashboard
 from wpimath import applyDeadband, units
 from wpimath.geometry import Transform3d
 
@@ -17,7 +17,6 @@ from magicbot import feedback
 from util.alerts import AlertManager, AlertType, Alert
 from util.camera import LemonCamera, LemonCameraSim
 from util.curve import curve
-from util.elastic import Elastic
 from util.input import LemonInput
 from util.smart_preference import SmartPreference, SmartProfile
 
@@ -63,7 +62,7 @@ class MyRobot(magicbot.MagicRobot):
         self.rear_right_direction_motor = TalonFX(42)
         self.rear_right_cancoder = CANcoder(43)
 
-        self.pigeon = Pigeon2(54)
+        self.pigeon = Pigeon2(30)
 
         # swerve constants
         self.offset_x = 0.381
@@ -121,16 +120,7 @@ class MyRobot(magicbot.MagicRobot):
                 "Low Bandwidth Mode is active! Tuning is disabled.", AlertType.WARNING
             )
 
-            Elastic.send_alert(
-                Elastic.ElasticNotification()
-                .with_level("WARNING")
-                .with_title("Low Bandwith")
-                .with_description("Low Bandwidth Mode is active! Tuning is disabled.")
-                .with_width(400)
-                .with_automatic_height()
-                .with_no_auto_dismiss()
-            )
-        self.alert_test = Alert("It works fucker", AlertType.INFO, timeout=3.0)
+        self.alert_test = Alert("It works fucker", AlertType.INFO, timeout=3.0,elasticnoti=True)
 
     def teleopPeriodic(self):
         controller = LemonInput(0)
@@ -159,16 +149,19 @@ class MyRobot(magicbot.MagicRobot):
                 not controller.leftbumper(),
                 self.period,
             )
+        SmartDashboard.putData("gyro", self.pigeon)
+
 
         if controller.startbutton():
             self.swerve_drive.reset_gyro()
         if controller.backbutton():
             self.alert_test.enable()
+        
 
     @feedback
     def get_voltage(self) -> units.volts:
         return RobotController.getBatteryVoltage()
-
+    
     # override _do_periodics() to access watchdog
     # DON'T DO ANYTHING ELSE HERE UNLESS YOU KNOW WHAT YOU'RE DOING
     def _do_periodics(self):

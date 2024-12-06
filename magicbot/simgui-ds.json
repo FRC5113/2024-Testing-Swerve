@@ -1,0 +1,107 @@
+{
+  "Keyboard 0 Settings": {
+    "window": {
+      "visible": true
+    }
+  },
+  "keyboardJoysticks": [
+    {
+      "axisConfig": [
+        {
+          "decKey": 65,
+          "decayRate": 1.0,
+          "incKey": 68,
+          "keyRate": 1.0
+        },
+        {
+          "decKey": 87,
+          "decayRate": 1.0,
+          "incKey": 83,
+          "keyRate": 1.0
+        },
+        {
+          "decayRate": 1.0,
+          "incKey": 49,
+          "keyRate": 1.0
+        },
+        {
+          "incKey": 51
+        },
+        {
+          "decKey": 81,
+          "incKey": 69
+        }
+      ],
+      "axisCount": 5,
+      "buttonCount": 10,
+      "buttonKeys": [
+        321,
+        322,
+        323,
+        324,
+        325,
+        326,
+        327,
+        328,
+        329,
+        320
+      ],
+      "povConfig": [
+        {
+          "key0": 265,
+          "key180": 264,
+          "key45": 263,
+          "key90": 262
+        }
+      ],
+      "povCount": 1
+    },
+    {
+      "axisConfig": [
+        {
+          "decKey": 74,
+          "incKey": 76
+        },
+        {
+          "decKey": 73,
+          "incKey": 75
+        }
+      ],
+      "axisCount": 2,
+      "buttonCount": 4,
+      "buttonKeys": [
+        77,
+        44,
+        46,
+        47
+      ],
+      "povCount": 0
+    },
+    {
+      "axisCount": 2,
+      "buttonCount": 6,
+      "buttonKeys": [
+        260,
+        268,
+        266,
+        261,
+        269,
+        267
+      ],
+      "povCount": 0
+    },
+    {
+      "axisCount": 0,
+      "buttonCount": 0,
+      "povCount": 0
+    }
+  ],
+  "robotJoysticks": [
+    {
+      "guid": "Keyboard0"
+    },
+    {
+      "useGamepad": true
+    }
+  ]
+}
