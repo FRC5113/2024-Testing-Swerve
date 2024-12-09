@@ -24,7 +24,9 @@ class Alert:
     Alerts can be activated, deactivated, or updated with new text.
     """
 
-    def __init__(self, text: str, type: AlertType, timeout: float = 0.0, elasticnoti: bool = True):
+    def __init__(
+        self, text: str, type: AlertType, timeout: float = 0.0, elasticnoti: bool = True
+    ):
         """
         Initialize an alert instance.
 
@@ -61,7 +63,6 @@ class Alert:
                     AlertManager.logger.warning(self.text)
                 case AlertType.INFO:
                     AlertManager.logger.info(self.text)
-        
 
             # Send notification to Elastic dashboard.
             notification = ElasticNotification(

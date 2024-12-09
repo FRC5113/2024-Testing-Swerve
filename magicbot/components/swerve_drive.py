@@ -15,6 +15,7 @@ from phoenix6.hardware import Pigeon2
 from components.swerve_wheel import SwerveWheel
 from magicbot import will_reset_to
 from util.alerts import Alert, AlertType
+from util.pigeon import LemonPigeon
 
 
 class SwerveDrive(Sendable):
@@ -27,7 +28,7 @@ class SwerveDrive(Sendable):
     front_right: SwerveWheel
     rear_left: SwerveWheel
     rear_right: SwerveWheel
-    pigeon: Pigeon2
+    pigeon: LemonPigeon
 
     translationX = will_reset_to(0)
     translationY = will_reset_to(0)
