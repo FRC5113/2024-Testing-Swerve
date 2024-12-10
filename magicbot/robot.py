@@ -64,7 +64,7 @@ class MyRobot(magicbot.MagicRobot):
         self.rear_right_cancoder = CANcoder(43)
 
         self.pigeon = LemonPigeon(30)
-
+       
         # swerve constants
         self.offset_x = 0.381
         self.offset_y = 0.381
@@ -127,7 +127,7 @@ class MyRobot(magicbot.MagicRobot):
 
     def teleopPeriodic(self):
         controller = LemonInput(0)
-
+        
         mult = 1
         if controller.lefttrigger() >= 0.8:
             mult *= 0.5
