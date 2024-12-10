@@ -6,9 +6,10 @@ from phoenix6.hardware import CANcoder, TalonFX
 from phoenix6.signals import NeutralModeValue
 from wpimath.geometry import Rotation2d
 from wpimath.kinematics import SwerveModulePosition, SwerveModuleState
+from wpimath import applyDeadband
 
 from magicbot import will_reset_to
-from util.smart_preference import SmartProfile
+from util.smart_preference import SmartProfile, SmartPreference
 
 
 class SwerveWheel:
@@ -24,7 +25,7 @@ class SwerveWheel:
     loop, otherwise it defaults to stopped for safety.
     """
     stopped = will_reset_to(True)
-
+    angle_deadband = SmartPreference(0.0349) 
     def setup(self) -> None:
         """
         This function is automatically called after the motors and encoders have been injected.
@@ -45,6 +46,9 @@ class SwerveWheel:
 
         self.desired_state = None
 
+        
+      
+
     """
     INFORMATIONAL METHODS
     """
@@ -53,8 +57,7 @@ class SwerveWheel:
         """Retrieve list of measured angle and velocity
         (used for AdvantageScope)
         """
-        if self.stopped:
-            return [0, 0]
+        
         return [
             self.cancoder.get_absolute_position().value * 360,
             self.speed_motor.get_velocity().value
@@ -100,8 +103,16 @@ class SwerveWheel:
             self.speed_motor.get_velocity().value, state.speed
         )
         self.speed_motor.set_control(controls.VoltageOut(speed_output))
-        direction_output = self.direction_controller.calculate(
-            encoder_rotation.radians(),
-            state.angle.radians(),
-        )
-        self.direction_motor.set_control(controls.VoltageOut(-direction_output))
+
+        angle_error = state.angle - encoder_rotation
+
+        deadbanded_error = applyDeadband(angle_error.radians(), self.angle_deadband)
+
+        if deadbanded_error == 0:
+            self.direction_motor.set_control(controls.coast_out.CoastOut())
+        else:
+            direction_output = self.direction_controller.calculate(
+                encoder_rotation.radians(),
+                state.angle.radians(),
+            )
+            self.direction_motor.set_control(controls.VoltageOut(-direction_output))
