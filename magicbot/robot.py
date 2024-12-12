@@ -108,7 +108,7 @@ class MyRobot(magicbot.MagicRobot):
         else:
             self.camera = LemonCamera(
                 "Global_Shutter_Camera",
-                Transform3d(0.2921, 0.384175, 0.26035, Rotation3d(0, -0.523599, 0)),
+                Transform3d(0.0,0.0,0.0,Rotation3d(0,0.523599,0.0)) #Transform3d(0.2921, 0.384175, 0.26035, Rotation3d(0, -0.523599, 0)),
             )
         self.theta_profile = SmartProfile(
             "theta",

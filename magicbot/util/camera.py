@@ -34,12 +34,18 @@ class LemonCamera(PhotonCamera):
             for target in targets:
                 self.tag_ambiguities[target.getFiducialId()] = target.getPoseAmbiguity()
                 # this probably won't work
+                print("bctt", target.getBestCameraToTarget())
+                print("bruh", Pose3d()
+                    # transform origin in tag space to camera space
+                    .transformBy(target.getBestCameraToTarget())
+                    # transform tag pose in camera space to robot space
+                    .relativeTo(Pose3d().transformBy(self.camera_to_bot)))
                 self.tag_poses[target.getFiducialId()] = (
                     Pose3d()
                     # transform origin in tag space to camera space
                     .transformBy(target.getBestCameraToTarget())
                     # transform tag pose in camera space to robot space
-                    .transformBy(self.camera_to_bot)
+                    .relativeTo(Pose3d().transformBy(self.camera_to_bot))
                     # flatten to 2d space
                     .toPose2d()
                 )
