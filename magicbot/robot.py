@@ -77,8 +77,6 @@ class MyRobot(magicbot.MagicRobot):
             "speed",
             kS=0.17,
             kV=0.104,
-            kMaxA=4000.0,
-            kMaxV=400.0,
             low_bandwidth=self.low_bandwidth,
         )
         self.direction_profile = SmartProfile(
