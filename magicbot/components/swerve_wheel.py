@@ -25,7 +25,8 @@ class SwerveWheel:
     loop, otherwise it defaults to stopped for safety.
     """
     stopped = will_reset_to(True)
-    angle_deadband = SmartPreference(0.0349) 
+    angle_deadband = SmartPreference(0.0349)
+
     def setup(self) -> None:
         """
         This function is automatically called after the motors and encoders have been injected.
@@ -46,9 +47,6 @@ class SwerveWheel:
 
         self.desired_state = None
 
-        
-      
-
     """
     INFORMATIONAL METHODS
     """
@@ -57,7 +55,7 @@ class SwerveWheel:
         """Retrieve list of measured angle and velocity
         (used for AdvantageScope)
         """
-        
+
         return [
             self.cancoder.get_absolute_position().value * 360,
             self.speed_motor.get_velocity().value

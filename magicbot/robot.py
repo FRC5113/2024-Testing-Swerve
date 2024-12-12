@@ -7,7 +7,7 @@ from phoenix6.hardware import CANcoder, TalonFX, Pigeon2
 from robotpy_apriltag import AprilTagFieldLayout
 from wpilib import RobotController, SmartDashboard
 from wpimath import applyDeadband, units
-from wpimath.geometry import Transform3d
+from wpimath.geometry import Transform3d, Rotation3d,Pose2d,Transform2d,Rotation2d
 
 import magicbot
 from components.odometry import Odometry
@@ -64,7 +64,7 @@ class MyRobot(magicbot.MagicRobot):
         self.rear_right_cancoder = CANcoder(43)
 
         self.pigeon = LemonPigeon(30)
-       
+
         # swerve constants
         self.offset_x = 0.381
         self.offset_y = 0.381
@@ -103,10 +103,13 @@ class MyRobot(magicbot.MagicRobot):
             self.camera = LemonCameraSim(
                 # loadAprilTagLayoutField(AprilTagField.k2024Crescendo), 120
                 self.field_layout,
-                120,
+                120, Transform2d(0.2921, 0.384175, Rotation2d(0)),
             )
         else:
-            self.camera = LemonCamera("Global_Shutter_Camera", Transform3d())
+            self.camera = LemonCamera(
+                "Global_Shutter_Camera",
+                Transform3d(0.2921, 0.384175, 0.26035, Rotation3d(0, -0.523599, 0)),
+            )
         self.theta_profile = SmartProfile(
             "theta",
             kP=0.05,
@@ -127,7 +130,7 @@ class MyRobot(magicbot.MagicRobot):
 
     def teleopPeriodic(self):
         controller = LemonInput(0)
-        
+
         mult = 1
         if controller.lefttrigger() >= 0.8:
             mult *= 0.5

@@ -172,7 +172,6 @@ class SwerveDrive(Sendable):
         swerve_measurements += self.rear_left.getMeasuredState()
         swerve_measurements += self.rear_right.getMeasuredState()
         SmartDashboard.putNumberArray("Swerve Measurements", swerve_measurements)
-       
 
     """
     EXECUTE

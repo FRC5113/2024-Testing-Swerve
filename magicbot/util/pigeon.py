@@ -75,10 +75,9 @@ class LemonPigeon(Pigeon2):
         pitch_degrees = self.get_pitch()
         roll_degrees = self.get_roll()
         return Rotation3d.fromDegrees(yaw_degrees, pitch_degrees, roll_degrees)
-    
+
     def sim_states_add_yaw(self, angle):
         return self.pigeon.sim_state.set_raw_yaw(angle)
-    
-    
+
     def sim_states_voltage(self, voltage):
         return self.pigeon.sim_state.set_supply_voltage(voltage)

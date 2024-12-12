@@ -50,7 +50,7 @@ class PhysicsEngine:
         )
         for encoder in self.encoders:
             encoder.sim_state.add_position(0.25)
-        
+
         self.robot.pigeon.sim_states_voltage(5.0)
 
     def update_sim(self, now, tm_diff):
