@@ -49,7 +49,6 @@ class Odometry:
             """NOTE: all the theta_controller code should eventually
             be moved into a distinct drive_controller component"""
             tag_pose = self.camera.get_pose()
-            print("tp", tag_pose)
             tag_angle = tag_pose.translation().angle().degrees()
             robot_angle = self.get_estimated_pose().rotation().degrees()
             output = self.theta_controller.calculate(

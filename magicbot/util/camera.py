@@ -34,12 +34,6 @@ class LemonCamera(PhotonCamera):
             for target in targets:
                 self.tag_ambiguities[target.getFiducialId()] = target.getPoseAmbiguity()
                 # this probably won't work
-                print("bctt", target.getBestCameraToTarget())
-                print("bruh", Pose3d()
-                    # transform origin in tag space to camera space
-                    .transformBy(target.getBestCameraToTarget())
-                    # transform tag pose in camera space to robot space
-                    .relativeTo(Pose3d().transformBy(self.camera_to_bot)))
                 self.tag_poses[target.getFiducialId()] = (
                     Pose3d()
                     # transform origin in tag space to camera space
@@ -71,7 +65,7 @@ class LemonCamera(PhotonCamera):
             return self.tag_ambiguities[id] if self.has_tag(id) else None
         return self.tag_ambiguities[self.get_best_id()] if self.has_targets() else None
 
-    def get_pose(self, id: int | None = None, robot_pose: Pose3d = None) -> Pose3d:
+    def get_pose(self, id: int | None = None, robot_pose: Pose2d = None) -> Pose2d:
         """Return pose of tag with given id. If id is not specified,
         uses tag with least ambiguity. If `robot_pose` is specified,
         pose will be field-relative. Otherwise, it will be
@@ -103,7 +97,7 @@ class LemonCameraSim(LemonCamera):
         self,
         field_layout: AprilTagFieldLayout,
         fov: float,
-        camera_to_bot: Pose2d,
+        camera_to_bot: Transform3d,
     ):
         """Args:
         field_layout (AprilTagFieldLayout): layout of the tags on the field, such as
@@ -143,4 +137,3 @@ class LemonCameraSim(LemonCamera):
             ):
                 self.tag_ambiguities[tag.ID] = ambiguity
                 self.tag_poses[tag.ID] = relative_pose
-        print(tag_pose)
