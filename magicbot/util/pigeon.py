@@ -1,8 +1,10 @@
 from phoenix6.hardware import Pigeon2
 from wpimath.geometry import Rotation2d, Rotation3d
+from wpilib import SmartDashboard
+from wpiutil import SendableBuilder, Sendable
 
 
-class LemonPigeon(Pigeon2):
+class LemonPigeon(Pigeon2, Sendable):
     """
     Wrapper for the Pigeon2 that makes it easier to use and some fetures in
     beta and back ports them.
@@ -16,45 +18,16 @@ class LemonPigeon(Pigeon2):
         :param device_id: The CAN ID of the Pigeon device.
         :param can_bus: The CAN bus name (default is "rio").
         """
-        self.pigeon = Pigeon2(device_id, can_bus)
-
-    def get_yaw(self):
-        """
-        Get the yaw angle of the robot.
-
-        :return: The yaw in degrees.
-        """
-        return self.pigeon.get_yaw()
-
-    def set_yaw(self, angle):
-        """
-        Set the yaw angle of the robot.
-
-        :param angle: The angle in degrees to set the yaw to.
-        """
-        self.pigeon.set_yaw(angle)
-
-    def get_pitch(self):
-        """
-        Get the pitch angle of the robot.
-
-        :return: The pitch in degrees.
-        """
-        return self.pigeon.get_pitch()
-
-    def get_roll(self):
-        """
-        Get the roll angle of the robot.
-
-        :return: The roll in degrees.
-        """
-        return self.pigeon.get_roll()
+        super().__init__(device_id, can_bus)
+        Sendable.__init__(self)
+        SmartDashboard.putData("Pigeon", self)
+       
 
     def reset(self):
         """
         Reset the yaw angle to zero.
         """
-        self.pigeon.set_yaw(0)
+        self.set_yaw(0)
 
     def getRotation2d(self) -> Rotation2d:
         """
@@ -77,7 +50,22 @@ class LemonPigeon(Pigeon2):
         return Rotation3d.fromDegrees(yaw_degrees, pitch_degrees, roll_degrees)
 
     def sim_states_add_yaw(self, angle):
-        return self.pigeon.sim_state.set_raw_yaw(angle)
+        return self.sim_state.set_raw_yaw(angle)
 
     def sim_states_voltage(self, voltage):
-        return self.pigeon.sim_state.set_supply_voltage(voltage)
+        return self.sim_state.set_supply_voltage(voltage)
+    
+    def initSendable(self, builder: SendableBuilder):
+        """
+        Initialize the sendable builder to connect with the Gyro widget.
+
+        :param builder: The SendableBuilder instance.
+        """
+        
+        builder.setSmartDashboardType("Gyro")
+        builder.addDoubleProperty(
+            "Value",
+            lambda: self.get_yaw().value_as_double,
+            lambda _: None,
+        )
+

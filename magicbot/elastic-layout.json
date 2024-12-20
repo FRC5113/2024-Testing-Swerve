@@ -40,19 +40,6 @@
             }
           },
           {
-            "title": "gyro",
-            "x": 384.0,
-            "y": 0.0,
-            "width": 256.0,
-            "height": 256.0,
-            "type": "Gyro",
-            "properties": {
-              "topic": "/SmartDashboard/gyro",
-              "period": 0.06,
-              "counter_clockwise_positive": true
-            }
-          },
-          {
             "title": "voltage",
             "x": 0.0,
             "y": 384.0,
@@ -155,6 +142,19 @@
               "max_value": 5.0,
               "color": 4278238420,
               "line_width": 1.0
+            }
+          },
+          {
+            "title": "Pigeon",
+            "x": 384.0,
+            "y": 0.0,
+            "width": 256.0,
+            "height": 256.0,
+            "type": "Gyro",
+            "properties": {
+              "topic": "/SmartDashboard/Pigeon",
+              "period": 0.06,
+              "counter_clockwise_positive": true
             }
           }
         ]
@@ -702,19 +702,6 @@
             }
           },
           {
-            "title": "gyro",
-            "x": 768.0,
-            "y": 0.0,
-            "width": 256.0,
-            "height": 256.0,
-            "type": "Gyro",
-            "properties": {
-              "topic": "/SmartDashboard/gyro",
-              "period": 0.06,
-              "counter_clockwise_positive": true
-            }
-          },
-          {
             "title": "Autonomous Mode",
             "x": 768.0,
             "y": 512.0,
@@ -725,6 +712,19 @@
               "topic": "/SmartDashboard/Autonomous Mode",
               "period": 0.06,
               "sort_options": false
+            }
+          },
+          {
+            "title": "Pigeon",
+            "x": 768.0,
+            "y": 0.0,
+            "width": 256.0,
+            "height": 256.0,
+            "type": "Gyro",
+            "properties": {
+              "topic": "/SmartDashboard/Pigeon",
+              "period": 0.06,
+              "counter_clockwise_positive": true
             }
           }
         ]
